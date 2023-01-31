@@ -1,0 +1,23 @@
+Package: tardis
+Title: tardis is a Table Analysis Results Data Interchange Structure: a traceability focused tool created to simplify the data manipulation necessary to create clinical summaries.
+Version: 0.0.0.9000
+Authors@R: 
+    c(
+    person(given = "Eli",
+           family = "Miller",
+           role = "aut",
+           email = "Eli.Miller@AtorusResearch.com",
+           comment = c(ORCID = "0000-0002-2127-9456")),
+    person(given = "Mike",
+           family = "Stackhouse",
+           role = c("aut", "cre"),
+           email = "mike.stackhouse@atorusresearch.com",
+           comment = c(ORCID = "0000-0001-6030-723X")),
+    person(given = "Atorus Research LLC",
+           role = "cph")
+    )
+Description: What the package does (one paragraph).
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
