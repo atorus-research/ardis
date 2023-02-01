@@ -19,7 +19,7 @@ build(x, layer = NULL, where = TRUE, ...)
 Numeric data from the tardis layer
 }
 \description{
-\code{get_numeric_data} provides access to the un-formatted numeric data for
+\code{build} provides access to the un-formatted numeric data for
 each of the layers within a \code{tardis_table}, with options to allow you to
 extract distinct layers and filter as desired.
 }
@@ -36,8 +36,6 @@ extracted and subset. This is most clear when layers are given text names
 instead of using a layer index, but a numeric index works as well.
 }
 \examples{
-# Load in pipe
-library(magrittr)
 
 t <- tardis_table(mtcars, gear) \%>\%
  add_layer(name='drat',

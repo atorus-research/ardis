@@ -41,8 +41,7 @@ different objects. These layers can then be attached into the \code{tardis_table
 once.
 
 \code{add_layer} and \code{add_layers} both additionally allow you to name the layers as you
-attach them. This is helpful when using functions like \code{\link{get_numeric_data}} or
-\code{\link{get_stats_data}} when you can access information from a layer directly.
+attach them. This is helpful to access information from a layer directly.
 \code{add_layer} has a name parameter, and layers can be named in \code{add_layers} by
 submitting the layer as a named argument.
 }
