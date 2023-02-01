@@ -53,9 +53,17 @@ set_summaries.tardis_layer <- function(e, ...) {
 
   env_bind(e,
            summary_grps = summaries,
-           summary_vars = vars(!!!summary_vars),
-           using_f_strs = FALSE
+           summary_vars = vars(!!!summary_vars)
   )
 
   e
+}
+
+#' Check if summaries have been set on a tardis layer
+#'
+#' @param e A layer environment
+#'
+#' @return Boolean
+has_summaries <- function(e) {
+  all(c("summary_grps", "summary_vars") %in% ls(e))
 }
