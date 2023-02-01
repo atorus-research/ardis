@@ -2,59 +2,61 @@
 % Please edit documentation in R/build.R
 \name{build}
 \alias{build}
-\title{Trigger the execution of the \code{tardis_table}}
+\title{Retrieve the numeric data from a tardis objects}
 \usage{
-build(x, metadata = FALSE)
+build(x, layer = NULL, where = TRUE, ...)
 }
 \arguments{
-\item{x}{A \code{tardis_table} object}
+\item{x}{A tardis_table or tardis_layer object}
 
-\item{metadata}{Trigger to build metadata. Defaults to FALSE}
+\item{layer}{Layer name or index to select out specifically}
+
+\item{where}{Subset criteria passed to dplyr::filter}
+
+\item{...}{Additional arguments to pass forward}
 }
 \value{
-An executed \code{tardis_table}
+Numeric data from the tardis layer
 }
 \description{
-The functions used to assemble a \code{tardis_table} object and
-each of the layers do not trigger the processing of any data. Rather, a lazy
-execution style is used to allow you to construct your table and then
-explicitly state when the data processing should happen. \code{build}
-triggers this event.
+\code{build} provides access to the un-formatted numeric data for
+each of the layers within a \code{tardis_table}, with options to allow you to
+extract distinct layers and filter as desired.
 }
 \details{
-When the \code{build} command is executed, all of the data
-processing commences. Any pre-processing necessary within the table
-environment takes place first. Next, each of the layers begins executing.
-Once the layers complete executing, the output of each layer is stacked into
-the resulting data frame.
+When used on a \code{tardis_table} object, this method will aggregate the
+numeric data from all tardis layers. The data will be returned to the user in
+a list of data frames. If the data has already been processed (i.e.
+\code{build} has been run), the numeric data is already available and will be
+returned without reprocessing. Otherwise, the numeric portion of the layer
+will be processed.
 
-Once this process is complete, any post-processing necessary within the table
-environment takes place, and the final output can be delivered. Metadata and
-traceability information are kept within each of the layer environments,
-which allows an investigation into the source of the resulting datapoints.
-For example, numeric data from any summaries performed is maintained and
-accessible within a layer using \code{\link{get_numeric_data}}.
-
-The `metadata` option of build will trigger the construction of traceability
-metadata for the constructed data frame. Essentially, for every "result" that
-tardis produces, tardis can also generate the steps necessary to obtain the
-source data which produced that result from the input. For more information,
-see vignette("metadata").
+Using the layer and where parameters, data for a specific layer can be
+extracted and subset. This is most clear when layers are given text names
+instead of using a layer index, but a numeric index works as well.
 }
 \examples{
-# Load in Pipe
-library(magrittr)
 
-tardis_table(iris, Species) \%>\%
-  add_layer(
-    group_desc(Sepal.Length, by = "Sepal Length")
-  ) \%>\%
-  add_layer(
-    group_desc(Sepal.Width, by = "Sepal Width")
-  ) \%>\%
-  build()
+t <- tardis_table(mtcars, gear) \%>\%
+ add_layer(name='drat',
+           group_desc(drat)
+ ) \%>\%
+ add_layer(name='cyl',
+           group_count(cyl)
+ )
 
-}
-\seealso{
-tardis_table, tardis_layer, add_layer, add_layers, layer_constructors
+ # Return a list of the numeric data frames
+ build(t)
+
+ # Get the data from a specific layer
+ build(t, layer='drat')
+ build(t, layer=1)
+
+ # Choose multiple layers by name or index
+ build(t, layer=c('cyl', 'drat'))
+ build(t, layer=c(2, 1))
+
+ # Get the data and filter it
+ build(t, layer='drat', where = gear==3)
+
 }

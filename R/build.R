@@ -1,123 +1,146 @@
-### Build/Render Functions
-
-#' Trigger the execution of the \code{tardis_table}
+#' Retrieve the numeric data from a tardis objects
 #'
-#' @description The functions used to assemble a \code{tardis_table} object and
-#' each of the layers do not trigger the processing of any data. Rather, a lazy
-#' execution style is used to allow you to construct your table and then
-#' explicitly state when the data processing should happen. \code{build}
-#' triggers this event.
+#' \code{build} provides access to the un-formatted numeric data for
+#' each of the layers within a \code{tardis_table}, with options to allow you to
+#' extract distinct layers and filter as desired.
 #'
-#' @details When the \code{build} command is executed, all of the data
-#' processing commences. Any pre-processing necessary within the table
-#' environment takes place first. Next, each of the layers begins executing.
-#' Once the layers complete executing, the output of each layer is stacked into
-#' the resulting data frame.
+#' When used on a \code{tardis_table} object, this method will aggregate the
+#' numeric data from all tardis layers. The data will be returned to the user in
+#' a list of data frames. If the data has already been processed (i.e.
+#' \code{build} has been run), the numeric data is already available and will be
+#' returned without reprocessing. Otherwise, the numeric portion of the layer
+#' will be processed.
 #'
-#' Once this process is complete, any post-processing necessary within the table
-#' environment takes place, and the final output can be delivered. Metadata and
-#' traceability information are kept within each of the layer environments,
-#' which allows an investigation into the source of the resulting datapoints.
-#' For example, numeric data from any summaries performed is maintained and
-#' accessible within a layer using \code{\link{get_numeric_data}}.
+#' Using the layer and where parameters, data for a specific layer can be
+#' extracted and subset. This is most clear when layers are given text names
+#' instead of using a layer index, but a numeric index works as well.
 #'
-#' The `metadata` option of build will trigger the construction of traceability
-#' metadata for the constructed data frame. Essentially, for every "result" that
-#' tardis produces, tardis can also generate the steps necessary to obtain the
-#' source data which produced that result from the input. For more information,
-#' see vignette("metadata").
+#' @param x A tardis_table or tardis_layer object
+#' @param layer Layer name or index to select out specifically
+#' @param where Subset criteria passed to dplyr::filter
+#' @param ... Additional arguments to pass forward
 #'
-#' @param x A \code{tardis_table} object
-#' @param metadata  Trigger to build metadata. Defaults to FALSE
-#'
-#' @return An executed \code{tardis_table}
+#' @return Numeric data from the tardis layer
 #' @export
 #'
 #' @examples
-#' # Load in Pipe
-#' library(magrittr)
 #'
-#' tardis_table(iris, Species) %>%
-#'   add_layer(
-#'     group_desc(Sepal.Length, by = "Sepal Length")
-#'   ) %>%
-#'   add_layer(
-#'     group_desc(Sepal.Width, by = "Sepal Width")
-#'   ) %>%
-#'   build()
+#' t <- tardis_table(mtcars, gear) %>%
+#'  add_layer(name='drat',
+#'            group_desc(drat)
+#'  ) %>%
+#'  add_layer(name='cyl',
+#'            group_count(cyl)
+#'  )
 #'
-#' @seealso tardis_table, tardis_layer, add_layer, add_layers, layer_constructors
-build <- function(x, metadata=FALSE) {
-    UseMethod("build")
+#'  # Return a list of the numeric data frames
+#'  build(t)
+#'
+#'  # Get the data from a specific layer
+#'  build(t, layer='drat')
+#'  build(t, layer=1)
+#'
+#'  # Choose multiple layers by name or index
+#'  build(t, layer=c('cyl', 'drat'))
+#'  build(t, layer=c(2, 1))
+#'
+#'  # Get the data and filter it
+#'  build(t, layer='drat', where = gear==3)
+#'
+build <- function(x, layer=NULL, where=TRUE, ...) {
+  UseMethod("build")
 }
 
-#' tardis_table S3 method
-#' @noRd
+
+#' Get numeric data from a tardis_table object
 #' @export
-build.tardis_table <- function(x, metadata=FALSE) {
+#' @noRd
+build.tardis_table <- function(x, layer=NULL, where=TRUE, ...) {
 
-  op <- options()
+  where <- enquo(where)
 
-  tryCatch({
-    # Override scipen with Typlr option
-    options('scipen' = getOption('tardis.scipen')) # Override scipen
+  # If where is provided then a layer must be specified
+  assert_that(!(quo_get_expr(where) != TRUE && (is.null(layer) || length(layer)!=1)),
+              msg="If `where` is provided, a single `layer` value must be specified")
 
-    # Table Pre build
+  # If layer is a numeric value then it must be in range
+  if (is.numeric(layer)) {
+    assert_that(all(between(layer, 1, length(x$layers))), msg="Provided layer index is out of range")
+  } else if (!is.null(layer) && !is.null(names(x$layers))) {
+    # The provided name must exist
+    missing_layers <- layer %in% names(x$layers)
+    assert_that(all(missing_layers), msg=paste0("Layer(s) ", paste0(layer[!missing_layers], collapse=", "), " do(es) not exist"))
+  }
+
+  # If the pre-build wasn't executed then execute it
+  if (!'built_target' %in% ls(x)) {
     treatment_group_build(x)
-
     x <- build_header_n(x)
+  }
 
-    # Process Layer summaries
-    map(x$layers, process_summaries)
+  # If not picking a specific layer, then get all the numeric data
+  if (is.null(layer)) {
+    df_ls <- map(x$layers, build)
+    layer_type <- map(x$layers, ~class(.)[[2]])
 
-    # Get table formatting info
-    formatting_meta <- fetch_formatting_info(x)
+    out <- map2_dfr(df_ls, layer_type, function(data, type){
+      if(type == "desc_layer"){
+        max_label <- names(data)[str_detect(names(data), "row_label")] %>%
+          str_remove_all("row_label") %>%
+          as.numeric() %>%
+          max() %>%
+          paste0("row_label", .)
+        data <- data %>%
+          select(-row_label1,
+                 row_label1 = max_label)
+      }
+      data %>%
+        mutate(across(starts_with("row_label"), str_trim))
+    })
+    return(out)
+  } else if (length(layer) > 1) {
+    # If the layer variable was multiple elements then grap all of them
+    df_ls <-map(x$layers[layer], build)
+    layer_type <- map(x$layers[layer], ~class(.)[[2]])
 
-    # Format layers/table and pivot. process_formatting should return the built table!
-    output_list <- purrr::map(x$layers, process_formatting)
-
-    output <- output_list %>%
-      map2_dfr(seq_along(output_list), add_layer_index) %>%
-      ungroup() %>%
-      select(starts_with('row_label'), starts_with('var'), "ord_layer_index", everything())
-
-    # Process metadata if triggered
-    if (metadata) {
-      metadata_list <- purrr::map(x$layers, process_metadata)
-
-      # Prepare metadata like the output
-      metadata <- metadata_list %>%
-        map2_dfr(seq_along(metadata_list), add_layer_index) %>%
-        ungroup() %>%
-        mutate(
-          row_id = paste0(row_id, '_', ord_layer_index)
-        ) %>%
-        select(row_id, starts_with('row_label'), starts_with('var'), everything(), -starts_with('ord'))
-
-      # Finish off the row_id with the layer indicator and put row_id up front
-      output <- output %>%
-        mutate(
-          row_id = paste0(row_id, '_', ord_layer_index)
-        ) %>%
-        select(row_id, everything())
-
-      # Write the metadata to the environment
-      env_bind(x, metadata=metadata)
-    } else {
-      # Drop row_id if metadata isn't built
-      output <- output %>%
-        select(-row_id)
-    }
-
-
-
-  }, finally = {
-    # Set options back to defaults
-    options(op)
-  })
-
-  output
+    map2_dfr(df_ls, layer_type, function(data, type){
+      if(type == "desc_layer"){
+        max_label <- names(data)[str_detect(names(data), "row_label")] %>%
+          str_remove_all("row_label") %>%
+          as.numeric() %>%
+          max() %>%
+          paste0("row_label", .)
+        data <- data %>%
+          select(-row_label1,
+                 row_label1 = max_label)
+      }
+      data %>%
+        mutate(across(starts_with("row_label"), str_trim))
+    })
+    return(out)
+  } else {
+    # Otherwise, pick it out and filter
+    build(x$layers[[layer]]) %>%
+      filter(!!where) %>%
+      select(starts_with('row_label'), everything())
+  }
 }
+
+
+#' Get numeric data from a tardis_layer object
+#' @export
+#' @noRd
+build.tardis_layer <- function(x, layer=NULL, where=TRUE, ...) {
+
+  # If the numeric data doesn't exist in the layer then process it
+  if (!'numeric_data' %in% ls(x)) {
+    process_summaries(x)
+  }
+
+  # Return the object
+  env_get(x, 'numeric_data')
+}
+
 
 #' Process layers to get numeric results of layer
 #'
@@ -130,52 +153,4 @@ build.tardis_table <- function(x, metadata=FALSE) {
 #' @keywords internal
 process_summaries <- function(x, ...) {
   UseMethod("process_summaries")
-}
-
-#' Process layers to get formatted and pivoted tables.
-#'
-#' This is an internal method, but is exported to support S3 dispatch. Not intended for direct use by a user.
-#' @param x A tardis_layer object
-#' @param ... arguments passed to dispatch
-#'
-#' @return The formatted_table object that is bound to the layer
-#' @export
-#' @keywords internal
-process_formatting <- function(x, ...) {
-  UseMethod("process_formatting")
-}
-
-#' @noRd
-prepare_format_metadata <- function(x) {
-  UseMethod("prepare_format_metadata")
-}
-
-#' Process layers to get metadata tables
-#'
-#' This is an internal method, but is exported to support S3 dispatch. Not intended for direct use by a user.
-#' @param x A tardis_layer object
-#' @param ... arguments passed to dispatch
-#'
-#' @return The formatted_meta object that is bound to the layer
-#' @export
-#' @keywords internal
-process_metadata <- function(x, ...) {
-  UseMethod("process_metadata")
-}
-
-#' Fetch table formatting info from layers
-#'
-#' @param x A tardis_table object
-#'
-#' @return The data used to format layers. Structure currently TBD
-#' @noRd
-fetch_formatting_info <- function(x) {
-
-  # Get the max length of f_str objects in sub_layers
-  max_layer_length <- max(map_int(x$layers, ~ env_get(.x, "max_length")), inherit = TRUE)
-  # Get the max length of n counts only, not including f_str formatting
-  max_n_width <- max(map_dbl(x$layers, ~ ifelse(inherits(.x, 'count_layer'), .x$n_width, 0L)))
-
-  env_bind(x, max_layer_length = max_layer_length)
-  env_bind(x, max_n_width = max_n_width)
 }

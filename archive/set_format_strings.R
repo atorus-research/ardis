@@ -227,37 +227,6 @@ has_format_strings <- function(e) {
   !using_format_strings(e) || ('format_strings' %in% ls(envir=e))
 }
 
-#' Extract a translation vector for f_str or summary object
-#'
-#' This provides the row labels in preparation for the numeric data output
-#'
-#' @param x The format strings list or a list of summaries
-#'
-#' @return A named character vector with the flipping applied
-#' @noRd
-name_translator_numeric <- function(x) {
-
-  # Handle f_str translating
-  if (any(map_lgl(x, ~ inherits(., 'f_str')))){
-    x <- imap(x, ~ .$vars)
-  }
-
-  # This needs to be a for loop for clarity because a map
-  # function would be too unreadable and overly complex
-  out <- character(length(flatten(x)))
-  i <- 1
-  # Loop the labels
-  for (l in names(x)) {
-    # Loop the variable names
-    for (n in x[[l]]) {
-      out[i] <- l
-      names(out)[i] <- as_name(n)
-      i <- i + 1
-    }
-  }
-
-  out
-}
 
 #' Trigger to see if formats have explicitly been turned off
 #'

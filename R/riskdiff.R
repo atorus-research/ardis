@@ -114,6 +114,7 @@
 #' add_layers(t, l3) %>% build()
 add_risk_diff <- function(layer, ..., args=list(), distinct=TRUE) {
 
+  stop("Uh oh! Risk difference isn't ready yet for tardis!", call.=FALSE)
   # grab the ellipsis args into a list
   comps <- list(...)
 

@@ -38,19 +38,17 @@ get_custom_summaries <- function(e) {
 #' @details An important, yet not immediately obvious, part of using
 #' \code{set_custom_summaries} is to understand the link between the named
 #' parameters you set in \code{set_custom_summaries} and the names called in
-#' \code{\link{f_str}} objects within \code{\link{set_format_strings}}. In
-#' \code{\link{f_str}}, after you supply the string format you'd like your
-#' numbers to take, you specify the summaries that fill those strings.
+#' within \code{\link{set_summaries}}.
 #'
-#' When you go to set your format strings, the name you use to declare a summary
+#' When you go to set your summaries, the name you use to declare a summary
 #' in \code{set_custom_summaries} is the same name that you use in your
-#' \code{\link{f_str}} call. This is necessary because
-#' \code{\link{set_format_strings}} needs some means of putting two summaries in
-#' the same value, and setting a row label for the summary being performed.
+#' \code{\link{set_summaries}} call. This is necessary because
+#' \code{\link{set_summaries}} needs some setting a row label for the summary
+#' being performed, where multiple summaries may share a label
 #'
 #' Review the examples to see this put into practice. Note the relationship
 #' between the name created in \code{set_custom_summaries} and the name used in
-#' \code{\link{set_format_strings}} within the \code{\link{f_str}} call
+#' \code{\link{set_summaries}} call.
 #'
 #' @param e \code{desc} layer on which the summaries should be bound
 #' @param ... Named parameters containing syntax to be used in a call to
@@ -70,8 +68,8 @@ get_custom_summaries <- function(e) {
 #'         geometric_mean = exp(sum(log(.var[.var > 0]),
 #'                                      na.rm=TRUE) / length(.var))
 #'       ) %>%
-#'       set_format_strings(
-#'         'Geometric Mean' = f_str('xx.xx', geometric_mean)
+#'       set_summaries(
+#'         'Geometric Mean' = geometric_mean
 #'       )
 #'   ) %>%
 #'   build()
@@ -100,47 +98,3 @@ set_custom_summaries <- function(e, ...){
   e
 }
 
-#' Set descriptive statistics as columns
-#'
-#' In many cases, treatment groups are represented as columns within a table.
-#' But some tables call for a transposed presentation, where the treatment
-#' groups displayed by row, and the descriptive statistics are represented as
-#' columns. \code{set_stats_as_columns()} allows tardis to output a built table
-#' using this transposed format and deviate away from the standard
-#' representation of treatment groups as columns.
-#'
-#' This function leaves all specified by variables intact. The only switch that
-#' happens during the build process is that the provided descriptive statistics
-#' are transposed as columns and the treatment variable is left as rows. Column
-#' variables will remain represented as columns, and multiple target variables
-#' will also be respected properly.
-#'
-#' @param e \code{desc_layer} on descriptive statistics summaries should be represented as columns
-#' @param stats_as_columns Boolean to set stats as columns
-#'
-#' @return The input tardis_layer
-#' @export
-#'
-#' @examples
-#'
-#' dat <- tardis_table(mtcars, gear) %>%
-#'   add_layer(
-#'     group_desc(wt, by = vs) %>%
-#'       set_format_strings(
-#'         "n"        = f_str("xx", n),
-#'         "sd"       = f_str("xx.x", sd, empty = c(.overall = "BLAH")),
-#'         "Median"   = f_str("xx.x", median),
-#'         "Q1, Q3"   = f_str("xx, xx", q1, q3),
-#'         "Min, Max" = f_str("xx, xx", min, max),
-#'         "Missing"  = f_str("xx", missing)
-#'       ) %>%
-#'       set_stats_as_columns()
-#'   ) %>%
-#'   build()
-#'
-set_stats_as_columns <- function(e, stats_as_columns=TRUE) {
-  assert_inherits_class(e, 'desc_layer')
-  assert_has_class(stats_as_columns, 'logical')
-  env_bind(e, stats_as_columns = stats_as_columns)
-  e
-}

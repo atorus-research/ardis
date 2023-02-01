@@ -128,32 +128,26 @@ NULL
 tardis_default_options <- list(
 
   # Count layer defaults
-  tardis.count_layer_default_formats =
-    list(n_counts = f_str("a (xxx.x%)", distinct_n, distinct_pct),
-         riskdiff = f_str('xx.xxx (xx.xxx, xx.xxx)', dif, low, high)
+  tardis.count_layer_default_summaries =
+    list(n_counts = list("n (%)" = vars(n, pct)),
+         riskdiff = list("Diff (low, high)" = vars(dif, low, high))
          ),
 
   # Desc layer defaults
-  tardis.desc_layer_default_formats =
-    list("n"         = f_str("xxx", n),
-         "Mean (SD)" = f_str("a.a+1 (a.a+2)", mean, sd),
-         "Median"    = f_str("a.a+1", median),
-         "Q1, Q3"    = f_str("a.a+1, a.a+1", q1, q3),
-         "Min, Max"  = f_str("a.a, a.a", min, max),
-         "Missing"   = f_str("xxx", missing)
+  tardis.desc_layer_default_summaries =
+    list("n"        = vars(n),
+         "Mean (SD)"= vars(mean, sd),
+         "Median"   = vars(median),
+         "Q1, Q3"   = vars(q1, q3),
+         "Min, Max" = vars(min, max),
+         "Missing"  = vars(missing)
          ),
 
   # Shift layer defaults
-  tardis.shift_layer_default_formats = list(f_str("a", n)),
-
-  # Precision caps for decimal and integer precision
-  tardis.precision_cap = c('int' = 99, 'dec' = 99),
+  tardis.shift_layer_default_formats = list("n" = n),
 
   # Custom summaries
   tardis.custom_summaries = NULL,
-
-  # Set to avoid printing in scientific notation
-  tardis.scipen = 1000,
 
   # Quantile algorithm setting
   tardis.quantile_type = 7,

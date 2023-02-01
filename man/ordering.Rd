@@ -66,8 +66,8 @@ The sorting of a table can greatly vary depending on the
 
   Ordering of results is where things start to differ. Different situations
   call for different methods. Descriptive statistics layers keep it simple -
-  the order in which you input your formats using
-  \code{\link{set_format_strings}} is the order in which the results will
+  the order in which you input your row labels using
+  \code{\link{set_summaries}} is the order in which the results will
   appear (with an order variable added). For count layers, tardis offers three
   solutions: If there is a <VAR>N version of your target variable, use that.
   If not, if the target variable is a factor, use the factor orders. Finally,

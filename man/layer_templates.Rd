@@ -77,7 +77,7 @@ op <- options()
 new_layer_template(
   "example_template",
   group_count(...) \%>\%
-    set_format_strings(f_str('xx (xx\%)', n, pct))
+    set_summaries("n (\%)" = vars(n, pct))
 )
 
 get_layer_templates()
@@ -87,28 +87,6 @@ get_layer_template("example_template")
 tardis_table(mtcars, vs) \%>\%
   add_layer(
     use_template("example_template", gear)
-  ) \%>\%
-  build()
-
-remove_layer_template("example_template")
-
-new_layer_template(
-  "example_template",
-  group_count(...) \%>\%
-    set_format_strings(f_str('xx (xx\%)', n, pct)) \%>\%
-    set_order_count_method({sort_meth}) \%>\%
-    set_ordering_cols({sort_cols})
-)
-
-get_layer_template("example_template")
-
-tardis_table(mtcars, vs) \%>\%
-  add_layer(
-    use_template("example_template", gear, add_params =
-                   list(
-                     sort_meth = "bycount",
-                     sort_cols = `1`
-                   ))
   ) \%>\%
   build()
 
