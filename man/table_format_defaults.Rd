@@ -3,8 +3,8 @@
 \name{get_desc_layer_summaries}
 \alias{get_desc_layer_summaries}
 \alias{set_desc_layer_summaries}
-\alias{get_count_layer_formats}
-\alias{set_count_layer_formats}
+\alias{get_count_layer_summaries}
+\alias{set_count_layer_summaries}
 \alias{get_shift_layer_formats}
 \alias{set_shift_layer_formats}
 \title{Get or set the default format strings for descriptive statistics layers}
@@ -13,9 +13,9 @@ get_desc_layer_summaries(obj)
 
 set_desc_layer_summaries(obj, ...)
 
-get_count_layer_formats(obj)
+get_count_layer_summaries(obj)
 
-set_count_layer_formats(obj, ...)
+set_count_layer_summaries(obj, ...)
 
 get_shift_layer_formats(obj)
 
@@ -28,25 +28,21 @@ set_shift_layer_formats(obj, ...)
 }
 \description{
 tardis provides you with the ability to set table-wide defaults of format
-strings. You may wish to reuse the same format strings across numerous
-layers. \code{set_desc_layer_summaries} and \code{set_count_layer_formats}
+strings. You may wish to reuse the same summaries across numerous
+layers. \code{set_desc_layer_summaries} and \code{set_count_layer_summaries}
 allow you to apply your desired format strings within the entire scope of the
 table.
 }
 \details{
-For descriptive statistic layers, you can also use \code{set_format_strings}
+For descriptive statistic layers, you can also use \code{set_summaries}
 and \code{set_desc_layer_summaries} together within a table, but not within the
-same layer. In the absence of specified format strings, first the table will
+same layer. In the absence of specified summaries, first the table will
 be checked for any available defaults, and otherwise the
 \code{tardis.desc_layer_default_formats} option will be used.
-\code{set_format_strings} will always take precedence over either. Defaults
-cannot be combined between \code{set_format_strings},
+\code{set_summaries} will always take precedence over either. Defaults
+cannot be combined between \code{set_summaries},
 \code{set_desc_layer_summaries}, and the
-\code{tardis.desc_layer_default_formats} because the order of presentation of
+\code{tardis.desc_layer_default_summaries} because the order of presentation of
 results is controlled by the format strings, so relying on combinations of
 these setting would not be intuitive.
-
-For count layers, you can override the \code{n_counts} or \code{riskdiff}
-format strings separately, and the narrowest scope available will be used
-from layer, to table, to default options.
 }

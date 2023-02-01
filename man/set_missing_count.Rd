@@ -4,12 +4,10 @@
 \alias{set_missing_count}
 \title{Set the display for missing strings}
 \usage{
-set_missing_count(e, fmt = NULL, sort_value = NULL, denom_ignore = FALSE, ...)
+set_missing_count(e, sort_value = NULL, denom_ignore = FALSE, ...)
 }
 \arguments{
 \item{e}{A \code{count_layer} object}
-
-\item{fmt}{An f_str object to change the display of the missing counts}
 
 \item{sort_value}{A numeric value that will be used in the ordering column.
 This should be numeric. If it is not supplied the ordering column will be

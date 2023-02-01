@@ -31,19 +31,17 @@ declared.
 An important, yet not immediately obvious, part of using
 \code{set_custom_summaries} is to understand the link between the named
 parameters you set in \code{set_custom_summaries} and the names called in
-\code{\link{f_str}} objects within \code{\link{set_format_strings}}. In
-\code{\link{f_str}}, after you supply the string format you'd like your
-numbers to take, you specify the summaries that fill those strings.
+within \code{\link{set_summaries}}.
 
-When you go to set your format strings, the name you use to declare a summary
+When you go to set your summaries, the name you use to declare a summary
 in \code{set_custom_summaries} is the same name that you use in your
-\code{\link{f_str}} call. This is necessary because
-\code{\link{set_format_strings}} needs some means of putting two summaries in
-the same value, and setting a row label for the summary being performed.
+\code{\link{set_summaries}} call. This is necessary because
+\code{\link{set_summaries}} needs some setting a row label for the summary
+being performed, where multiple summaries may share a label
 
 Review the examples to see this put into practice. Note the relationship
 between the name created in \code{set_custom_summaries} and the name used in
-\code{\link{set_format_strings}} within the \code{\link{f_str}} call
+\code{\link{set_summaries}} call.
 }
 \examples{
 #Load in pipe
@@ -56,8 +54,8 @@ tardis_table(iris, Species) \%>\%
         geometric_mean = exp(sum(log(.var[.var > 0]),
                                      na.rm=TRUE) / length(.var))
       ) \%>\%
-      set_format_strings(
-        'Geometric Mean' = f_str('xx.xx', geometric_mean)
+      set_summaries(
+        'Geometric Mean' = geometric_mean
       )
   ) \%>\%
   build()

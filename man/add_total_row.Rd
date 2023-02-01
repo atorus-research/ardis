@@ -4,13 +4,10 @@
 \alias{add_total_row}
 \title{Add a Total row into a count summary.}
 \usage{
-add_total_row(e, fmt = NULL, count_missings = TRUE, sort_value = NULL)
+add_total_row(e, count_missings = TRUE, sort_value = NULL)
 }
 \arguments{
 \item{e}{A \code{count_layer} object}
-
-\item{fmt}{An f_str object used to format the total row. If none is provided,
-display is based on the layer formatting.}
 
 \item{count_missings}{Whether or not to ignore the named arguments passed in
 `set_count_missing()` when calculating counts total row. This is useful if
@@ -22,9 +19,7 @@ rows. This must be a numeric value.}
 }
 \description{
 Adding a total row creates an additional observation in the count summary
-that presents the total counts (i.e. the n's that are summarized). The format
-of the total row will be formatted in the same way as the other count
-strings.
+that presents the total counts (i.e. the n's that are summarized).
 }
 \details{
 Totals are calculated using all grouping variables, including treat_var and
@@ -41,7 +36,7 @@ library(magrittr)
 tardis_table(mtcars, gear) \%>\%
   add_layer(
     group_count(cyl) \%>\%
-      add_total_row(f_str("xxxx", n))
+      add_total_row()
    ) \%>\%
    build()
 }
