@@ -1,5 +1,5 @@
 Package: tardis
-Title: tardis is a Table Analysis Results Data Interchange Structure: a traceability focused tool created to simplify the data manipulation necessary to create clinical summaries.
+Title: tardis is a Table Analysis Results Data Interchange Structure
 Version: 0.0.0.9000
 Authors@R: 
     c(
@@ -16,8 +16,36 @@ Authors@R:
     person(given = "Atorus Research LLC",
            role = "cph")
     )
-Description: What the package does (one paragraph).
+Description: A traceability focused tool created to simplify the data manipulation necessary to create clinical summaries.
 License: MIT + file LICENSE
+URL: https://github.com/atorus-research/tardis
+BugReports: https://github.com/atorus-research/tardis/issues
 Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
+Depends: R (>= 3.5.0)
+Imports:
+    rlang (>= 0.4.6),
+    assertthat (>= 0.2.1),
+    magrittr (>= 1.5),
+    dplyr (>= 1.0.0),
+    purrr (>= 0.3.3),
+    stringr (>= 1.4.0),
+    tidyr (>= 1.0.2),
+    tidyselect (>= 1.1.0),
+    tibble (>= 3.0.1),
+    lifecycle,
+    forcats (>= 0.4.0)
+Suggests: 
+    testthat (>= 2.1.0),
+    haven (>= 2.2.0),
+    knitr,
+    rmarkdown,
+    huxtable,
+    tidyverse,
+    readr,
+    kableExtra,
+    pharmaRTF,
+    withr
 RoxygenNote: 7.2.3
+VignetteBuilder: knitr
+RdMacros: lifecycle
+Config/testthat/edition: 3
