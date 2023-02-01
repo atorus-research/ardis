@@ -24,8 +24,6 @@
 #' @export
 #'
 #' @examples
-#' # Load in pipe
-#' library(magrittr)
 #'
 #' t <- tardis_table(mtcars, gear) %>%
 #'  add_layer(name='drat',
@@ -36,28 +34,28 @@
 #'  )
 #'
 #'  # Return a list of the numeric data frames
-#'  get_numeric_data(t)
+#'  build(t)
 #'
 #'  # Get the data from a specific layer
-#'  get_numeric_data(t, layer='drat')
-#'  get_numeric_data(t, layer=1)
+#'  build(t, layer='drat')
+#'  build(t, layer=1)
 #'
 #'  # Choose multiple layers by name or index
-#'  get_numeric_data(t, layer=c('cyl', 'drat'))
-#'  get_numeric_data(t, layer=c(2, 1))
+#'  build(t, layer=c('cyl', 'drat'))
+#'  build(t, layer=c(2, 1))
 #'
 #'  # Get the data and filter it
-#'  get_numeric_data(t, layer='drat', where = gear==3)
+#'  build(t, layer='drat', where = gear==3)
 #'
-get_numeric_data <- function(x, layer=NULL, where=TRUE, ...) {
-  UseMethod("get_numeric_data")
+build <- function(x, layer=NULL, where=TRUE, ...) {
+  UseMethod("build")
 }
 
 
 #' Get numeric data from a tardis_table object
 #' @export
 #' @noRd
-get_numeric_data.tardis_table <- function(x, layer=NULL, where=TRUE, ...) {
+build.tardis_table <- function(x, layer=NULL, where=TRUE, ...) {
 
   where <- enquo(where)
 
@@ -77,7 +75,7 @@ get_numeric_data.tardis_table <- function(x, layer=NULL, where=TRUE, ...) {
   # If the pre-build wasn't executed then execute it
   if (!'built_target' %in% ls(x)) {
     treatment_group_build(x)
-    build_header_n(x)
+    x <- build_header_n(x)
   }
 
   # If not picking a specific layer, then get all the numeric data
@@ -125,16 +123,13 @@ get_numeric_data.tardis_table <- function(x, layer=NULL, where=TRUE, ...) {
     get_numeric_data(x$layers[[layer]]) %>%
       filter(!!where)
   }
-
-
-
 }
 
 
 #' Get numeric data from a tardis_layer object
 #' @export
 #' @noRd
-get_numeric_data.tardis_layer <- function(x, layer=NULL, where=TRUE, ...) {
+build.tardis_layer <- function(x, layer=NULL, where=TRUE, ...) {
 
   # If the numeric data doesn't exist in the layer then process it
   if (!'numeric_data' %in% ls(x)) {
