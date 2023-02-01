@@ -18,6 +18,7 @@ gather_defaults <- function(x) {
 #' @return The default format strings
 #' @noRd
 gather_defaults.desc_layer <- function(x) {
+
   # Get the defaults set within options
   opt_settings <- getOption('tardis.desc_layer_default_summaries')
   # Get the table defaults if they're available

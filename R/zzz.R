@@ -134,7 +134,7 @@ tardis_default_options <- list(
          ),
 
   # Desc layer defaults
-  tardis.desc_layer_default_formats =
+  tardis.desc_layer_default_summaries =
     list("n"        = vars(n),
          "Mean (SD)"= vars(mean, sd),
          "Median"   = vars(median),

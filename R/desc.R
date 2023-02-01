@@ -12,7 +12,7 @@ process_summaries.desc_layer <- function(x, ...) {
     # Grab the defaults available at the table or option level
     params <- gather_defaults(x)
     # Place the formats
-    x <- do.call('set_format_summaries', append(x, params))
+    x <- do.call('set_summaries', append(x, params))
   }
 
   # Execute in the layer environment
