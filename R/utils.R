@@ -12,7 +12,7 @@
 modify_nested_call <- function(c, examine_only=FALSE, ...) {
 
   # Get exports from Tplyr
-  allowable_calls = getNamespaceExports("Tplyr")
+  allowable_calls = getNamespaceExports("tardis")
 
   # Only allow the user to use `Tplyr` functions
   assert_that(
@@ -105,8 +105,6 @@ depth_from_table <- function(layer, i){
 #'   pivot_longer(cols = match_exact(vars(mean, median)))
 #'
 match_exact <- function(var_list) {
-  # Should have been a list of quosures on input
-  assert_inherits_class(var_list, "quosures")
   # Return the variable names as a character string in appropriate tidyselect format
   out <- map_chr(var_list, as_label) # as_label is needed here vs as_name
   unname(out[out != 'NULL']) # Exclude NULL quosures and remove names

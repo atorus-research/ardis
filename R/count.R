@@ -1,7 +1,7 @@
 
 #' @noRd
 #' @export
-process_summaries.count_layer <- function(x, ...) {
+process_summaries.count_layer <- function(x, prepare_numeric = TRUE, ...) {
 
   if (env_get(x, "is_built_nest", default = FALSE)) {
     refresh_nest(x)

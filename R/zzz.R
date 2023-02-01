@@ -125,57 +125,57 @@ NULL
 "_PACKAGE"
 
 # Default options ----
-tplyr_default_options <- list(
-
-  # Count layer defaults
-  tplyr.count_layer_default_formats =
-    list(n_counts = f_str("a (xxx.x%)", distinct_n, distinct_pct),
-         riskdiff = f_str('xx.xxx (xx.xxx, xx.xxx)', dif, low, high)
-         ),
-
-  # Desc layer defaults
-  tplyr.desc_layer_default_formats =
-    list("n"         = f_str("xxx", n),
-         "Mean (SD)" = f_str("a.a+1 (a.a+2)", mean, sd),
-         "Median"    = f_str("a.a+1", median),
-         "Q1, Q3"    = f_str("a.a+1, a.a+1", q1, q3),
-         "Min, Max"  = f_str("a.a, a.a", min, max),
-         "Missing"   = f_str("xxx", missing)
-         ),
-
-  # Shift layer defaults
-  tplyr.shift_layer_default_formats = list(f_str("a", n)),
-
-  # Precision caps for decimal and integer precision
-  tplyr.precision_cap = c('int' = 99, 'dec' = 99),
-
-  # Custom summaries
-  tplyr.custom_summaries = NULL,
-
-  # Set to avoid printing in scientific notation
-  tplyr.scipen = 1000,
-
-  # Quantile algorithm setting
-  tplyr.quantile_type = 7,
-
-  # Rounding option default
-  tplyr.IBMRounding = FALSE,
-
-  # Layer templates
-  tplyr.layer_templates = list()
-)
+# tplyr_default_options <- list(
+#
+#   # Count layer defaults
+#   tplyr.count_layer_default_formats =
+#     list(n_counts = f_str("a (xxx.x%)", distinct_n, distinct_pct),
+#          riskdiff = f_str('xx.xxx (xx.xxx, xx.xxx)', dif, low, high)
+#          ),
+#
+#   # Desc layer defaults
+#   tplyr.desc_layer_default_formats =
+#     list("n"         = f_str("xxx", n),
+#          "Mean (SD)" = f_str("a.a+1 (a.a+2)", mean, sd),
+#          "Median"    = f_str("a.a+1", median),
+#          "Q1, Q3"    = f_str("a.a+1, a.a+1", q1, q3),
+#          "Min, Max"  = f_str("a.a, a.a", min, max),
+#          "Missing"   = f_str("xxx", missing)
+#          ),
+#
+#   # Shift layer defaults
+#   tplyr.shift_layer_default_formats = list(f_str("a", n)),
+#
+#   # Precision caps for decimal and integer precision
+#   tplyr.precision_cap = c('int' = 99, 'dec' = 99),
+#
+#   # Custom summaries
+#   tplyr.custom_summaries = NULL,
+#
+#   # Set to avoid printing in scientific notation
+#   tplyr.scipen = 1000,
+#
+#   # Quantile algorithm setting
+#   tplyr.quantile_type = 7,
+#
+#   # Rounding option default
+#   tplyr.IBMRounding = FALSE,
+#
+#   # Layer templates
+#   tplyr.layer_templates = list()
+# )
 
 # Carry out process on load ----
-.onLoad <- function(libname, pkgname) {
-  # store existing options
-  op <- options()
-
-  # Set any options that haven't been set
-  toset <- !(names(tplyr_default_options) %in% names(op))
-  if (any(toset)) options(tplyr_default_options[toset])
-
-  invisible()
-}
+# .onLoad <- function(libname, pkgname) {
+#   # store existing options
+#   op <- options()
+#
+#   # Set any options that haven't been set
+#   toset <- !(names(tplyr_default_options) %in% names(op))
+#   if (any(toset)) options(tplyr_default_options[toset])
+#
+#   invisible()
+# }
 
 i <- NULL
 target_var <- NULL

@@ -55,7 +55,7 @@ process_summaries.desc_layer <- function(x, ...) {
       summaries <- get_summaries()[match_exact(summary_vars)]
 
       # Create the numeric summary data
-      num_sums_raw[[i]] <- built_target %>%
+      num_sums[[i]] <- built_target %>%
         # Rename the current variable to make each iteration use a generic name
         rename(.var = !!cur_var) %>%
         # Group by treatment, provided by variable, and provided column variables
