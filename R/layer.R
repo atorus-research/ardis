@@ -1,26 +1,26 @@
 ### Layer Constructor
 
 
-#' Create a \code{tplyr_layer} object
+#' Create a \code{tardis_layer} object
 #'
-#' @description This object is the workhorse of the \code{tplyr} package. A
-#' \code{tplyr_layer} can be thought of as a block, or "layer" of a table.
+#' @description This object is the workhorse of the \code{tardis} package. A
+#' \code{tardis_layer} can be thought of as a block, or "layer" of a table.
 #' Summary tables typically consist of different sections that require different
 #' summaries. When programming these section, your code will create different
-#' layers that need to be stacked or merged together. A \code{tplyr_layer} is
+#' layers that need to be stacked or merged together. A \code{tardis_layer} is
 #' the container for those isolated building blocks.
 #'
-#' When building the \code{tplyr_table}, each layer will execute independently.
+#' When building the \code{tardis_table}, each layer will execute independently.
 #' When all of the data processing has completed, the layers are brought
 #' together to construct the output.
 #'
-#' \code{tplyr_layer} objects are not created directly, but are rather created
+#' \code{tardis_layer} objects are not created directly, but are rather created
 #' using the layer constructor functions \code{\link{group_count}},
 #' \code{\link{group_desc}}, and \code{\link{group_shift}}.
 #'
-#' @param parent \code{tplyr_table} or \code{tplyr_layer}. Required. The parent
-#'   environment of the layer. This must be either the \code{tplyr_table} object
-#'   that the layer is contained within, or another \code{tplyr_layer} object of
+#' @param parent \code{tardis_table} or \code{tardis_layer}. Required. The parent
+#'   environment of the layer. This must be either the \code{tardis_table} object
+#'   that the layer is contained within, or another \code{tardis_layer} object of
 #'   which the layer is a subgroup.
 #' @param type "count", "desc", or "shift". Required. The category of layer -
 #'   either "counts" for categorical counts, "desc" for descriptive statistics,
@@ -34,10 +34,10 @@
 #'   performing a summary.
 #' @param ... Additional arguments
 #'
-#' @return A \code{tplyr_layer} environment that is a child of the specified
+#' @return A \code{tardis_layer} environment that is a child of the specified
 #'   parent. The environment contains the object as listed below.
 #'
-#' @section \code{tplyr_layer} Core Object Structure: \describe{
+#' @section \code{tardis_layer} Core Object Structure: \describe{
 #'   \item{\code{type}}{This is an attribute. A string indicating the layer
 #'   type, which controls the summary that will be performed.}
 #'   \item{\code{target_var}}{A quosure of a name, which is the variable on
@@ -49,8 +49,8 @@
 #'   columns.} \item{\code{where}}{A quosure of a call that containers the
 #'   filter logic used to subset the target dataset. This filtering is in
 #'   addition to any subsetting done based on \code{where} criteria specified in
-#'   \code{\link{tplyr_table}}} \item{\code{layers}}{A list with class
-#'   \code{tplyr_layer_container}. Initialized as empty, but serves as the
+#'   \code{\link{tardis_table}}} \item{\code{layers}}{A list with class
+#'   \code{tardis_layer_container}. Initialized as empty, but serves as the
 #'   container for any sublayers of the current layer. Used internally.} }
 #'
 #'   Different layer types will have some different bindings specific to that
@@ -61,65 +61,65 @@
 #' @export
 #'
 #' @examples
-#' tab <- tplyr_table(iris, Sepal.Width)
+#' tab <- tardis_table(iris, Sepal.Width)
 #'
 #' l <- group_count(tab, by=vars('Label Text', Species),
 #'                  target_var=Species, where= Sepal.Width < 5.5,
 #'                  cols = Species)
 #'
 #'
-#' @seealso \link{tplyr_table}
-tplyr_layer <- function(parent, target_var, by, where, type, ...) {
+#' @seealso \link{tardis_table}
+tardis_layer <- function(parent, target_var, by, where, type, ...) {
 
   # Return a null object if the parent is missing
   if(missing(parent)) abort("The `parent` argument must be provided.")
 
   # If necessary variables provided then build the layer
-  as_tplyr_layer(parent, type=type, by=by, target_var=target_var, where=where, ...)
+  as_tardis_layer(parent, type=type, by=by, target_var=target_var, where=where, ...)
 }
 
 # Method dispatch
-#' Create a tplyr layer
+#' Create a tardis layer
 #'
-#' @inheritParams tplyr_layer
+#' @inheritParams tardis_layer
 #' @noRd
-as_tplyr_layer <- function(parent, target_var, by, where, type, ...) {
-  UseMethod("as_tplyr_layer")
+as_tardis_layer <- function(parent, target_var, by, where, type, ...) {
+  UseMethod("as_tardis_layer")
 }
 
-#' S3 method for tplyr layer creation of \code{tplyr_table} object as parent
+#' S3 method for tardis layer creation of \code{tardis_table} object as parent
 #' @noRd
-as_tplyr_layer.tplyr_table <- function(parent, target_var, by, where, type, ...) {
-  new_tplyr_layer(parent, target_var, by, where, type, ...)
+as_tardis_layer.tardis_table <- function(parent, target_var, by, where, type, ...) {
+  new_tardis_layer(parent, target_var, by, where, type, ...)
 }
 
-#' S3 method for tplyr layer creation of \code{tplyr_layer}  object as parent
+#' S3 method for tardis layer creation of \code{tardis_layer}  object as parent
 #' @noRd
-as_tplyr_layer.tplyr_layer <- function(parent, target_var, by, where, type, ...) {
-  layer <- new_tplyr_layer(parent, target_var, by, where, type, ...)
-  class(layer) <- append('tplyr_subgroup_layer', class(layer))
+as_tardis_layer.tardis_layer <- function(parent, target_var, by, where, type, ...) {
+  layer <- new_tardis_layer(parent, target_var, by, where, type, ...)
+  class(layer) <- append('tardis_subgroup_layer', class(layer))
   layer
 }
 
-#' S3 method for tplyr layer creation of \code{tplyr_subgroup_layer}  object as parent
+#' S3 method for tardis layer creation of \code{tardis_subgroup_layer}  object as parent
 #' @noRd
-as_tplyr_layer.tplyr_subgroup_layer <- function(parent, target_var, by, where, type, ...) {
-  layer <- new_tplyr_layer(parent, target_var, by, where, type, ...)
-  class(layer) <- unique(append('tplyr_subgroup_layer', class(layer)))
+as_tardis_layer.tardis_subgroup_layer <- function(parent, target_var, by, where, type, ...) {
+  layer <- new_tardis_layer(parent, target_var, by, where, type, ...)
+  class(layer) <- unique(append('tardis_subgroup_layer', class(layer)))
   layer
 }
 
 #' S3 method to produce error for unsupported objects as parent
 #' @noRd
-as_tplyr_layer.default <- function(parent, target_var, by, where, type, ...) {
-  stop('Must provide `tplyr_table`, `tplyr_layer`, or `tplyr_subgroup_layer` object from the `tplyr` package.')
+as_tardis_layer.default <- function(parent, target_var, by, where, type, ...) {
+  stop('Must provide `tardis_table`, `tardis_layer`, or `tardis_subgroup_layer` object from the `tardis` package.')
 }
 
-#' Create a new tplyr layer
+#' Create a new tardis layer
 #'
-#' @inheritParams tplyr_layer
+#' @inheritParams tardis_layer
 #' @noRd
-new_tplyr_layer <- function(parent, target_var, by, where, type, ...) {
+new_tardis_layer <- function(parent, target_var, by, where, type, ...) {
 
   # Pull out the arguments from the function call that aren't quosures (and exclude parent)
   # Specifically excluding the function call, parent, and type
@@ -139,14 +139,14 @@ new_tplyr_layer <- function(parent, target_var, by, where, type, ...) {
   arg_list$target_var <- target_var
 
   # Run validation
-  validate_tplyr_layer(parent, target_var, by, cols, where, type)
+  validate_tardis_layer(parent, target_var, by, cols, where, type)
 
   # Create the new environment by contructing the env call
   e <- do.call('env', arg_list)
 
   # Add non-parameter specified defaults into the environment.
   evalq({
-    layers <- structure(list(), class=append("tplyr_layer_container", "list"))
+    layers <- structure(list(), class=append("tardis_layer_container", "list"))
     precision_by <- by
     precision_on <- target_var[[1]]
     stats <- list()
@@ -154,23 +154,23 @@ new_tplyr_layer <- function(parent, target_var, by, where, type, ...) {
 
   # Create the object
   structure(e,
-            class=append(c('tplyr_layer', paste0(type,'_layer')), class(e))) %>%
+            class=append(c('tardis_layer', paste0(type,'_layer')), class(e))) %>%
     set_where(!!where)
 }
 
-#' Validate a tplyr layer
+#' Validate a tardis layer
 #'
-#' @inheritParams tplyr_layer
+#' @inheritParams tardis_layer
 #' @noRd
-validate_tplyr_layer <- function(parent, target_var, by, cols, where, type, ...) {
+validate_tardis_layer <- function(parent, target_var, by, cols, where, type, ...) {
 
   # Make sure type is valid
   assert_that(!is.null(type) && length(type) == 1 && type %in% c('count', 'desc', 'shift'),
               msg = '`type` must be one of "count", "desc", or "shift"')
 
   # Check that the parent environment is valid
-  assert_that(is.environment(parent) && inherits(parent, c('tplyr_table', 'tplyr_layer', 'tplyr_subgroup_layer')),
-              msg="Parent environment must be a `tplyr_table` or `tplyr_layer")
+  assert_that(is.environment(parent) && inherits(parent, c('tardis_table', 'tardis_layer', 'tardis_subgroup_layer')),
+              msg="Parent environment must be a `tardis_table` or `tardis_layer")
 
   # Make sure `target_var` exists in the target data.frame
   target <- NULL # Mask global definitions check

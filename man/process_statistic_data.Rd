@@ -2,17 +2,17 @@
 % Please edit documentation in R/stats.R
 \name{process_statistic_data}
 \alias{process_statistic_data}
-\title{Process a tplyr_statistic object}
+\title{Process a tardis_statistic object}
 \usage{
 process_statistic_data(x, ...)
 }
 \arguments{
-\item{x}{A tplyr_statistic environment}
+\item{x}{A tardis_statistic environment}
 
 \item{...}{Additional pass through parameters}
 }
 \value{
-Numeric statistc data from a tplyr statistc
+Numeric statistc data from a tardis statistc
 }
 \description{
 This is an internal function that is not meant for use externally, but must be exported.

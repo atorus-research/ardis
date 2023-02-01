@@ -2,7 +2,7 @@
 % Please edit documentation in R/column_headers.R
 \name{add_column_headers}
 \alias{add_column_headers}
-\title{Attach column headers to a Tplyr output}
+\title{Attach column headers to a tardis output}
 \usage{
 add_column_headers(.data, s, header_n = NULL)
 }
@@ -24,7 +24,7 @@ When working with 'huxtable' tables, column headers can be controlled as if they
 \details{
 Headers are created by providing a single string. Columns are specified by delimitting each header with a '|' symbol.
 Instead of specifying the destination of each header, \code{add_column_headers} assumes that you have organized the columns
-of your data frame before hand. This means that after you use \code{Tplyr::build()}, if you'd like to reorganize the
+of your data frame before hand. This means that after you use \code{tardis::build()}, if you'd like to reorganize the
 default column order (which is simply alphabetical), simply pass the build output to a \code{dplyr::select} or \code{dplyr::relocate}
 statement before passing into \code{add_column_headers}.
 
@@ -58,7 +58,7 @@ but based on feedback it could be determined that less common characters may be 
 
 \section{Token Replacement}{
 
-This function has support for reading values from the header_n object in a Tplyr table
+This function has support for reading values from the header_n object in a tardis table
 and adding them in the column headers. Note: The order of the parameters
 passed in the token is important. They should be first the treatment variable
 then any \code{cols} variables in the order they were passed in the table construction.
@@ -89,7 +89,7 @@ iris2 \%>\% add_column_headers(header_string)
 mtcars2 <- mtcars \%>\%
   mutate_all(as.character)
 
-t <- tplyr_table(mtcars2, vs, cols = am) \%>\%
+t <- tardis_table(mtcars2, vs, cols = am) \%>\%
   add_layer(
     group_count(cyl)
   )

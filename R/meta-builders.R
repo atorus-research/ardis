@@ -1,14 +1,14 @@
-#' Use available metadata to build the tplyr_meta object
+#' Use available metadata to build the tardis_meta object
 #'
 #' This is the main driver function, and layer specific variants
 #' adapt on top of this function
 #'
 #' @param table_where Table level where filter
 #' @param layer_where Layer level where filter
-#' @param treat_grps Treatment groups from the tplyr_table parent environment
+#' @param treat_grps Treatment groups from the tardis_table parent environment
 #' @param ... All grouping variables
 #'
-#' @return tplyr_meta object
+#' @return tardis_meta object
 #' @noRd
 build_meta <- function(table_where, layer_where, treat_grps, variables, values) {
 
@@ -17,7 +17,7 @@ build_meta <- function(table_where, layer_where, treat_grps, variables, values) 
 
   filters <- make_parsed_strings(variables, values)
 
-  meta <- new_tplyr_meta(
+  meta <- new_tardis_meta(
     names = variables,
     filters = filters
   )
@@ -36,10 +36,10 @@ build_meta <- function(table_where, layer_where, treat_grps, variables, values) 
 #' @param target Target variable currently being summarized
 #' @param table_where Table level where filter
 #' @param layer_where Layer level where filter
-#' @param treat_grps Treatment groups from the tplyr_table parent environment
+#' @param treat_grps Treatment groups from the tardis_table parent environment
 #' @param ... All grouping variables
 #'
-#' @return tplyr_meta object
+#' @return tardis_meta object
 #' @noRd
 build_desc_meta <- function(target, table_where, layer_where, treat_grps, ...) {
 
@@ -61,7 +61,7 @@ build_desc_meta <- function(target, table_where, layer_where, treat_grps, ...) {
   for (i in seq_along(values[[1]])) {
     # Pull out the current row's values
     cur_values <- map(values, ~ .x[i])
-    # Build the tplyr_meta object
+    # Build the tardis_meta object
     meta[[i]] <- build_meta(table_where, layer_where, treat_grps, variables, cur_values) %>%
       add_variables_(target)
   }
@@ -74,10 +74,10 @@ build_desc_meta <- function(target, table_where, layer_where, treat_grps, ...) {
 #' @param target Target variable currently being summarized
 #' @param table_where Table level where filter
 #' @param layer_where Layer level where filter
-#' @param treat_grps Treatment groups from the tplyr_table parent environment
+#' @param treat_grps Treatment groups from the tardis_table parent environment
 #' @param ... All grouping variables
 #'
-#' @return tplyr_meta object
+#' @return tardis_meta object
 #' @noRd
 build_count_meta <- function(layer, table_where, layer_where, treat_grps, summary_var, ...) {
 
@@ -185,11 +185,11 @@ build_count_meta <- function(layer, table_where, layer_where, treat_grps, summar
 
 #' Build metadata for risk difference comparisons
 #'
-#' @param meta A tplyr_metadata object
+#' @param meta A tardis_metadata object
 #' @param treat_var the treatment variable
 #' @param comp The current rdiff comparison
 #'
-#' @return tplyr_meta object
+#' @return tardis_meta object
 #' @noRd
 build_rdiff_meta <- function(meta, treat_var, comp){
 
@@ -209,10 +209,10 @@ build_rdiff_meta <- function(meta, treat_var, comp){
 #' @param target Target variable currently being summarized
 #' @param table_where Table level where filter
 #' @param layer_where Layer level where filter
-#' @param treat_grps Treatment groups from the tplyr_table parent environment
+#' @param treat_grps Treatment groups from the tardis_table parent environment
 #' @param ... All grouping variables
 #'
-#' @return tplyr_meta object
+#' @return tardis_meta object
 #' @noRd
 build_shift_meta <- function(layer, table_where, layer_where, treat_grps, summary_var, ...) {
 

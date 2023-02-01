@@ -10,20 +10,20 @@ treat_var(table)
 set_treat_var(table, treat_var)
 }
 \arguments{
-\item{table}{A \code{tplyr_table} object to set or return treatment variable
+\item{table}{A \code{tardis_table} object to set or return treatment variable
 the table is split by.}
 
 \item{treat_var}{Variable containing treatment group assignments. Supply unquoted.}
 }
 \value{
-For \code{tplyr_treat_var} the treat_var binding of the \code{tplyr_table}
-  object. For \code{set_tplyr_treat_var} the modified object.
+For \code{tardis_treat_var} the treat_var binding of the \code{tardis_table}
+  object. For \code{set_tardis_treat_var} the modified object.
 }
 \description{
 Return or set the treatment variable binding
 }
 \examples{
-tab <- tplyr_table(mtcars, cyl)
+tab <- tardis_table(mtcars, cyl)
 
 set_treat_var(tab, gear)
 

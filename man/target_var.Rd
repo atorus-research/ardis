@@ -10,7 +10,7 @@ get_target_var(layer)
 set_target_var(layer, target_var)
 }
 \arguments{
-\item{layer}{A \code{tplyr_layer} object}
+\item{layer}{A \code{tardis_layer} object}
 
 \item{target_var}{A symbol to perform the analysis on}
 }
@@ -25,7 +25,7 @@ Set or return treat_var binding
 # Load in pipe
 library(magrittr)
 iris$Species2 <- iris$Species
-lay <- tplyr_table(iris, Species) \%>\%
+lay <- tardis_table(iris, Species) \%>\%
   group_count(Species) \%>\%
   set_target_var(Species2)
 }

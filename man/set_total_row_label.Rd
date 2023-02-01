@@ -22,7 +22,7 @@ overriden using this function.
 # Load in pipe
 library(magrittr)
 
-t <- tplyr_table(mtcars, gear) \%>\%
+t <- tardis_table(mtcars, gear) \%>\%
   add_layer(
     group_count(cyl) \%>\%
       add_total_row() \%>\%

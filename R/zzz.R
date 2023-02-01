@@ -26,44 +26,44 @@ NULL
 #'
 #' `r lifecycle::badge("experimental")`
 #'
-#' 'Tplyr' is a package dedicated to simplifying the data manipulation necessary
+#' 'tardis' is a package dedicated to simplifying the data manipulation necessary
 #' to create clinical reports. Clinical data summaries can often be broken down
 #' into two factors - counting discrete variables (or counting shifts in state),
 #' and descriptive statistics around a continuous variable. Many of the reports
 #' that go into a clinical report are made up of these two scenarios. By
-#' abstracting this process away, 'Tplyr' allows you to rapidly build these
+#' abstracting this process away, 'tardis' allows you to rapidly build these
 #' tables without worrying about the underlying data manipulation.
 #'
-#' 'Tplyr' takes this process a few steps further by abstracting away most of
+#' 'tardis' takes this process a few steps further by abstracting away most of
 #' the programming that goes into proper presentation, which is where a great
-#' deal of programming time is spent. For example, 'Tplyr' allows you to easily
+#' deal of programming time is spent. For example, 'tardis' allows you to easily
 #' control:
 #'
 #' \describe{ \item{\strong{String formatting}}{Different reports warrant
 #' different presentation of your strings. Programming this can get tedious, as
-#' you typically want to make sure that your decimals properly align. 'Tplyr'
+#' you typically want to make sure that your decimals properly align. 'tardis'
 #' abstracts this process away and provides you with a simple interface to
 #' specify how you want your data presented} \item{\strong{Treatment
 #' groups}}{Need a total column? Need to group summaries of multiple treatments?
-#' 'Tplyr' makes it simple to add additional treatment groups into your report}
+#' 'tardis' makes it simple to add additional treatment groups into your report}
 #' \item{\strong{Denominators}}{n (\%) counts often vary based on the summary
-#' being performed. 'Tplyr' allows you to easily control what denominators are
+#' being performed. 'tardis' allows you to easily control what denominators are
 #' used based on a few common scenarios} \item{\strong{Sorting}}{Summarizing
-#' data is one thing, but ordering it for presentation. Tplyr automatically
+#' data is one thing, but ordering it for presentation. tardis automatically
 #' derives sorting variable to give you the data you need to order your table
 #' properly. This process is flexible so you can easily get what you want by
 #' leveraging your data or characteristics of R.} }
 #'
-#' Another powerful aspect of 'Tplyr' are the objects themselves. 'Tplyr' does
+#' Another powerful aspect of 'tardis' are the objects themselves. 'tardis' does
 #' more than format your data. Metadata about your table is kept under the hood,
 #' and functions allow you to access information that you need. For example,
-#' 'Tplyr' allows you to calculate and access the raw numeric data of
+#' 'tardis' allows you to calculate and access the raw numeric data of
 #' calculations as well, and easily pick out just the pieces of information that
 #' you need.
 #'
-#' Lastly, 'Tplyr' was built to be flexible, yet intuitive. A common pitfall of
+#' Lastly, 'tardis' was built to be flexible, yet intuitive. A common pitfall of
 #' building tools like this is over automation. By doing to much, you end up not
-#' doing enough. 'Tplyr' aims to hit the sweet spot in between. Additionally, we
+#' doing enough. 'tardis' aims to hit the sweet spot in between. Additionally, we
 #' designed our function interfaces to be clean. Modifier functions offer you
 #' flexibility when you need it, but defaults can be set to keep the code
 #' concise. This allows you to quickly assemble your table, and easily make
@@ -74,7 +74,7 @@ NULL
 #' library(magrittr)
 #'
 #' # Use just the defaults
-#' tplyr_table(mtcars, gear) %>%
+#' tardis_table(mtcars, gear) %>%
 #'   add_layer(
 #'     group_desc(mpg, by=cyl)
 #'   ) %>%
@@ -84,7 +84,7 @@ NULL
 #'   build()
 #'
 #' # Customize and modify
-#' tplyr_table(mtcars, gear) %>%
+#' tardis_table(mtcars, gear) %>%
 #'   add_layer(
 #'     group_desc(mpg, by=cyl) %>%
 #'       set_format_strings(
@@ -113,7 +113,7 @@ NULL
 #'   build()
 #'
 #' # A Shift Table
-#' tplyr_table(mtcars, am) %>%
+#' tardis_table(mtcars, am) %>%
 #'   add_layer(
 #'     group_shift(vars(row=gear, column=carb), by=cyl) %>%
 #'     set_format_strings(f_str("xxx (xx.xx%)", n, pct))
@@ -121,61 +121,61 @@ NULL
 #'   build()
 #'
 #' @docType package
-#' @name Tplyr
+#' @name tardis
 "_PACKAGE"
 
 # Default options ----
-# tplyr_default_options <- list(
-#
-#   # Count layer defaults
-#   tplyr.count_layer_default_formats =
-#     list(n_counts = f_str("a (xxx.x%)", distinct_n, distinct_pct),
-#          riskdiff = f_str('xx.xxx (xx.xxx, xx.xxx)', dif, low, high)
-#          ),
-#
-#   # Desc layer defaults
-#   tplyr.desc_layer_default_formats =
-#     list("n"         = f_str("xxx", n),
-#          "Mean (SD)" = f_str("a.a+1 (a.a+2)", mean, sd),
-#          "Median"    = f_str("a.a+1", median),
-#          "Q1, Q3"    = f_str("a.a+1, a.a+1", q1, q3),
-#          "Min, Max"  = f_str("a.a, a.a", min, max),
-#          "Missing"   = f_str("xxx", missing)
-#          ),
-#
-#   # Shift layer defaults
-#   tplyr.shift_layer_default_formats = list(f_str("a", n)),
-#
-#   # Precision caps for decimal and integer precision
-#   tplyr.precision_cap = c('int' = 99, 'dec' = 99),
-#
-#   # Custom summaries
-#   tplyr.custom_summaries = NULL,
-#
-#   # Set to avoid printing in scientific notation
-#   tplyr.scipen = 1000,
-#
-#   # Quantile algorithm setting
-#   tplyr.quantile_type = 7,
-#
-#   # Rounding option default
-#   tplyr.IBMRounding = FALSE,
-#
-#   # Layer templates
-#   tplyr.layer_templates = list()
-# )
+tardis_default_options <- list(
+
+  # Count layer defaults
+  tardis.count_layer_default_formats =
+    list(n_counts = f_str("a (xxx.x%)", distinct_n, distinct_pct),
+         riskdiff = f_str('xx.xxx (xx.xxx, xx.xxx)', dif, low, high)
+         ),
+
+  # Desc layer defaults
+  tardis.desc_layer_default_formats =
+    list("n"         = f_str("xxx", n),
+         "Mean (SD)" = f_str("a.a+1 (a.a+2)", mean, sd),
+         "Median"    = f_str("a.a+1", median),
+         "Q1, Q3"    = f_str("a.a+1, a.a+1", q1, q3),
+         "Min, Max"  = f_str("a.a, a.a", min, max),
+         "Missing"   = f_str("xxx", missing)
+         ),
+
+  # Shift layer defaults
+  tardis.shift_layer_default_formats = list(f_str("a", n)),
+
+  # Precision caps for decimal and integer precision
+  tardis.precision_cap = c('int' = 99, 'dec' = 99),
+
+  # Custom summaries
+  tardis.custom_summaries = NULL,
+
+  # Set to avoid printing in scientific notation
+  tardis.scipen = 1000,
+
+  # Quantile algorithm setting
+  tardis.quantile_type = 7,
+
+  # Rounding option default
+  tardis.IBMRounding = FALSE,
+
+  # Layer templates
+  tardis.layer_templates = list()
+)
 
 # Carry out process on load ----
-# .onLoad <- function(libname, pkgname) {
-#   # store existing options
-#   op <- options()
-#
-#   # Set any options that haven't been set
-#   toset <- !(names(tplyr_default_options) %in% names(op))
-#   if (any(toset)) options(tplyr_default_options[toset])
-#
-#   invisible()
-# }
+.onLoad <- function(libname, pkgname) {
+  # store existing options
+  op <- options()
+
+  # Set any options that haven't been set
+  toset <- !(names(tardis_default_options) %in% names(op))
+  if (any(toset)) options(tardis_default_options[toset])
+
+  invisible()
+}
 
 i <- NULL
 target_var <- NULL

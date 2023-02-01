@@ -2,39 +2,39 @@
 % Please edit documentation in R/meta.R
 \name{append_metadata}
 \alias{append_metadata}
-\title{Append the Tplyr table metadata dataframe}
+\title{Append the tardis table metadata dataframe}
 \usage{
 append_metadata(t, meta)
 }
 \arguments{
-\item{t}{A tplyr_table object}
+\item{t}{A tardis_table object}
 
 \item{meta}{A dataframe fitting the specifications of the details section of
 this function}
 }
 \value{
-A tplyr_table object
+A tardis_table object
 }
 \description{
-\code{append_metadata()} allows a user to extend the Tplyr metadata data frame
-with user provided data. In some tables, Tplyr may be able to provided most
+\code{append_metadata()} allows a user to extend the tardis metadata data frame
+with user provided data. In some tables, tardis may be able to provided most
 of the data, but a user may have to extend the table with other summaries,
-statistics, etc. This function allows the user to extend the tplyr_table's
+statistics, etc. This function allows the user to extend the tardis_table's
 metadata with their own metadata content using custom data frames created
-using the \code{tplyr_meta} object.
+using the \code{tardis_meta} object.
 }
 \details{
-As this is an advanced feature of Tplyr, ownership is on the user to make
+As this is an advanced feature of tardis, ownership is on the user to make
 sure the metadata data frame is assembled properly. The only restrictions
 applied by \code{append_metadata()} are that \code{meta} must have a column named
 \code{row_id}, and the values in \code{row_id} cannot be duplicates of any \code{row_id}
-value already present in the Tplyr metadata dataframe. \code{tplyr_meta()} objects
+value already present in the tardis metadata dataframe. \code{tardis_meta()} objects
 align with constructed dataframes using the \code{row_id} and output dataset
-column name. As such, \code{tplyr_meta()} objects should be inserted into a data
+column name. As such, \code{tardis_meta()} objects should be inserted into a data
 frame using a list column.
 }
 \examples{
-t <- tplyr_table(mtcars, gear) \%>\%
+t <- tardis_table(mtcars, gear) \%>\%
   add_layer(
     group_desc(wt)
   )
@@ -44,7 +44,7 @@ t \%>\%
 
 m <- tibble::tibble(
   row_id = c('x1_1'),
-  var1_3 = list(tplyr_meta(rlang::quos(a, b, c), rlang::quos(a==1, b==2, c==3)))
+  var1_3 = list(tardis_meta(rlang::quos(a, b, c), rlang::quos(a==1, b==2, c==3)))
 )
 
 append_metadata(t, m)

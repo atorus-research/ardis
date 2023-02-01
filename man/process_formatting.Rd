@@ -7,7 +7,7 @@
 process_formatting(x, ...)
 }
 \arguments{
-\item{x}{A tplyr_layer object}
+\item{x}{A tardis_layer object}
 
 \item{...}{arguments passed to dispatch}
 }

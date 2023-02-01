@@ -33,21 +33,21 @@ variables provided in \code{...} control which data points are used to populate
 the string formatted output.
 }
 \details{
-Format strings are one of the most powerful components of 'Tplyr'.
+Format strings are one of the most powerful components of 'tardis'.
 Traditionally, converting numeric values into strings for presentation can
 consume a good deal of time. Values and decimals need to align between
 rows, rounding before trimming is sometimes forgotten - it can become a
 tedious mess that is realistically not an important part of the analysis
-being performed. 'Tplyr' makes this process as simple as we can, while
+being performed. 'tardis' makes this process as simple as we can, while
 still allowing flexibility to the user.
 
-Tplyr provides both manual and automatic decimal precision formatting. The
+tardis provides both manual and automatic decimal precision formatting. The
 display of the numbers in the resulting data frame is controlled by the
 \code{format_string} parameter. For manual precision, just like dummy values may
 be presented on your mocks, integer and decimal precision is specified by
 the user providing a string of 'x's for how you'd like your numbers
 formatted. If you'd like 2 integers with 3 decimal places, you specify your
-string as 'xx.xxx'. 'Tplyr' does the work to get the numbers in the right
+string as 'xx.xxx'. 'tardis' does the work to get the numbers in the right
 place.
 
 To take this a step further, automatic decimal precision can also be
@@ -98,7 +98,7 @@ either by built in defaults, or custom summaries declared using
 \code{\link[=set_custom_summaries]{set_custom_summaries()}}. See \code{\link[=set_format_strings]{set_format_strings()}} for some more notes
 about layers specific implementation.
 
-An \code{f_str()} may also be used outside of a Tplyr table. The function
+An \code{f_str()} may also be used outside of a tardis table. The function
 \code{\link[=apply_formats]{apply_formats()}} allows you to apply an \code{f_str} within the context of
 \code{\link[dplyr:mutate]{dplyr::mutate()}} or more generally a vectorized function.
 }

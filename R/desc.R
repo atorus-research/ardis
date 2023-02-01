@@ -227,9 +227,9 @@ get_summaries <- function(e = caller_env()) {
     var     = var(.var, na.rm=TRUE),
     min     = min(.var, na.rm=TRUE),
     max     = max(.var, na.rm=TRUE),
-    iqr     = IQR(.var, na.rm=TRUE, type=getOption('tplyr.quantile_type')),
-    q1      = quantile(.var, na.rm=TRUE, type=getOption('tplyr.quantile_type'))[[2]],
-    q3      = quantile(.var, na.rm=TRUE, type=getOption('tplyr.quantile_type'))[[4]],
+    iqr     = IQR(.var, na.rm=TRUE, type=getOption('tardis.quantile_type')),
+    q1      = quantile(.var, na.rm=TRUE, type=getOption('tardis.quantile_type'))[[2]],
+    q3      = quantile(.var, na.rm=TRUE, type=getOption('tardis.quantile_type'))[[4]],
     missing = sum(is.na(.var))
   )
 

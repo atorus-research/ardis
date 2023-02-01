@@ -1,15 +1,15 @@
 #' Set the format strings and associated summaries to be performed in a layer
 #'
-#' 'Tplyr' gives you extensive control over how strings are presented.
+#' 'tardis' gives you extensive control over how strings are presented.
 #' \code{set_format_strings} allows you to apply these string formats to your
 #' layer. This behaves slightly differently between layers.
 #'
-#' @details Format strings are one of the most powerful components of 'Tplyr'.
+#' @details Format strings are one of the most powerful components of 'tardis'.
 #'   Traditionally, converting numeric values into strings for presentation can
 #'   consume a good deal of time. Values and decimals need to align between
 #'   rows, rounding before trimming is sometimes forgotten - it can become a
 #'   tedious mess that, in the grand scheme of things, is not an important part
-#'   of the analysis being performed. 'Tplyr' makes this process as simple as we
+#'   of the analysis being performed. 'tardis' makes this process as simple as we
 #'   can, while still allowing flexibility to the user.
 #'
 #'   In a count layer, you can simply provide a single \code{\link{f_str}}
@@ -56,7 +56,7 @@
 #' library(magrittr)
 #'
 #' # In a count layer
-#' tplyr_table(mtcars, gear) %>%
+#' tardis_table(mtcars, gear) %>%
 #'   add_layer(
 #'     group_count(cyl) %>%
 #'       set_format_strings(f_str('xx (xx%)', n, pct))
@@ -64,7 +64,7 @@
 #'   build()
 #'
 #' # In a descriptive statistics layer
-#' tplyr_table(mtcars, gear) %>%
+#' tardis_table(mtcars, gear) %>%
 #'   add_layer(
 #'     group_desc(mpg) %>%
 #'       set_format_strings(
@@ -80,7 +80,7 @@
 #'   build()
 #'
 #' # In a shift layer
-#' tplyr_table(mtcars, am) %>%
+#' tardis_table(mtcars, am) %>%
 #'   add_layer(
 #'     group_shift(vars(row=gear, column=carb), by=cyl) %>%
 #'     set_format_strings(f_str("xxx (xx.xx%)", n, pct))
@@ -100,11 +100,11 @@ set_format_strings <- function(e, ...) {
 #' @param cap A named character vector containing an 'int' element for the cap
 #'   on integer precision, and a 'dec' element for the cap on decimal precision.
 #'
-#' @return tplyr_layer object with formats attached
+#' @return tardis_layer object with formats attached
 #' @export
 #'
 #' @rdname set_format_strings
-set_format_strings.desc_layer <- function(e, ..., cap=getOption('tplyr.precision_cap')) {
+set_format_strings.desc_layer <- function(e, ..., cap=getOption('tardis.precision_cap')) {
 
   # Catch the arguments from the function call so useful errors can be thrown
   check <- enquos(...)
@@ -152,8 +152,8 @@ set_format_strings.desc_layer <- function(e, ..., cap=getOption('tplyr.precision
   need_prec_table <- any(map_lgl(format_strings, ~ .x$auto_precision))
 
   # Fill in defaults if cap hasn't fully been provided
-  if (!('int' %in% names(cap))) cap['int'] <- getOption('tplyr.precision_cap')['int']
-  if (!('dec' %in% names(cap))) cap['dec'] <- getOption('tplyr.precision_cap')['dec']
+  if (!('int' %in% names(cap))) cap['int'] <- getOption('tardis.precision_cap')['int']
+  if (!('dec' %in% names(cap))) cap['dec'] <- getOption('tardis.precision_cap')['dec']
 
   env_bind(e,
            format_strings = format_strings,
@@ -264,7 +264,7 @@ name_translator_numeric <- function(x) {
 #' set_summaries will set using_f_strs to false, and set_format_strings will set
 #' it to true, so this finds and returns that value, and assumes true if not found
 #'
-#' @param e tplyr_layer environment
+#' @param e tardis_layer environment
 #'
 #' @return Boolean
 #' @noRd

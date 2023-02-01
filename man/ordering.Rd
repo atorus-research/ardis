@@ -43,37 +43,37 @@ The sorting of a table can greatly vary depending on the
   event summaries, you may wish to order the table by descending occurrence
   within a particular treatment group. But in other situations, such as AEs
   of special interest, or subject disposition, there may be a specific order
-  you wish to display values. Tplyr offers solutions to each of these
+  you wish to display values. tardis offers solutions to each of these
   situations.
 
-  Instead of allowing you to specify a custom sort order, Tplyr instead
+  Instead of allowing you to specify a custom sort order, tardis instead
   provides you with order variables that can be used to sort your table after
-  the data are summarized. Tplyr has a default order in which the table will
+  the data are summarized. tardis has a default order in which the table will
   be returned, but the order variables will always persist. This allows you
   to use powerful sorting functions like \code{\link[dplyr]{arrange}}
   to get your desired order, and in double programming situations, helps your
   validator understand the how you achieved a particular sort order and where
   discrepancies may be coming from.
 
-  When creating order variables for a layer, for each 'by' variable Tplyr
+  When creating order variables for a layer, for each 'by' variable tardis
   will search for a <VAR>N version of that variable (i.e. VISIT <-> VISITN,
   PARAM <-> PARAMN). If available, this variable will be used for sorting. If
-  not available, Tplyr will created a new ordered factor version of that
+  not available, tardis will created a new ordered factor version of that
   variable to use in alphanumeric sorting. This allows the user to control a
   custom sorting order by leaving an existing <VAR>N variable in your dataset
   if it exists, or create one based on the order in which you wish to sort -
-  no custom functions in Tplyr required.
+  no custom functions in tardis required.
 
   Ordering of results is where things start to differ. Different situations
   call for different methods. Descriptive statistics layers keep it simple -
   the order in which you input your formats using
   \code{\link{set_format_strings}} is the order in which the results will
-  appear (with an order variable added). For count layers, Tplyr offers three
+  appear (with an order variable added). For count layers, tardis offers three
   solutions: If there is a <VAR>N version of your target variable, use that.
   If not, if the target variable is a factor, use the factor orders. Finally,
   you can use a specific data point from your results columns. The result
   column can often have multiple data points, between the n counts, percent,
-  distinct n, and distinct percent. Tplyr allows you to choose which of these
+  distinct n, and distinct percent. tardis allows you to choose which of these
   values will be used when creating the order columns for a specified result
   column (i.e. based on the \code{treat_var} and \code{cols} arguments). See
   the 'Sorting a Table' section for more information.
@@ -102,7 +102,7 @@ The sorting of a table can greatly vary depending on the
 
 \section{Ordering a Count Layer}{
  There are many ways to order a count layer
-  depending on the preferences of the table programmer. \code{Tplyr} supports
+  depending on the preferences of the table programmer. \code{tardis} supports
   sorting by a descending amount in a column in the table, sorting by a
   <VAR>N variable, and sorting by a custom order. These can be set using the
   `set_order_count_method` function. \describe{ \item{Sorting by a numeric
@@ -134,7 +134,7 @@ The sorting of a table can greatly vary depending on the
 library(dplyr)
 
 # Default sorting by factor
-t <- tplyr_table(mtcars, gear) \%>\%
+t <- tardis_table(mtcars, gear) \%>\%
   add_layer(
     group_count(cyl)
   )
@@ -142,14 +142,14 @@ build(t)
 
 # Sorting by <VAR>N
 mtcars$cylN <- mtcars$cyl
-t <- tplyr_table(mtcars, gear) \%>\%
+t <- tardis_table(mtcars, gear) \%>\%
   add_layer(
     group_count(cyl) \%>\%
       set_order_count_method("byvarn")
   )
 
 # Sorting by row count
-t <- tplyr_table(mtcars, gear) \%>\%
+t <- tardis_table(mtcars, gear) \%>\%
   add_layer(
     group_count(cyl) \%>\%
       set_order_count_method("bycount") \%>\%
@@ -158,7 +158,7 @@ t <- tplyr_table(mtcars, gear) \%>\%
   )
 
 # Sorting by row count by percentages
-t <- tplyr_table(mtcars, gear) \%>\%
+t <- tardis_table(mtcars, gear) \%>\%
   add_layer(
     group_count(cyl) \%>\%
       set_order_count_method("bycount") \%>\%
@@ -166,7 +166,7 @@ t <- tplyr_table(mtcars, gear) \%>\%
   )
 
 # Sorting when you have column arguments in the table
-t <- tplyr_table(mtcars, gear, cols = vs) \%>\%
+t <- tardis_table(mtcars, gear, cols = vs) \%>\%
   add_layer(
     group_count(cyl) \%>\%
       # Uses the fourth gear group and the 0 vs group in ordering
@@ -175,7 +175,7 @@ t <- tplyr_table(mtcars, gear, cols = vs) \%>\%
 
 # Using a custom factor to order
 mtcars$cyl <- factor(mtcars$cyl, c(6, 4, 8))
-t <- tplyr_table(mtcars, gear) \%>\%
+t <- tardis_table(mtcars, gear) \%>\%
   add_layer(
     group_count(cyl) \%>\%
       # This is the default but can be used to change the setting if it is
