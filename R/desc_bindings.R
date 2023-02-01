@@ -1,6 +1,6 @@
 #' Get custom user summaries added to the layer environment via \code{set_custom_summaries}
 #'
-#' This method is an internal intended to be called within the \code{tplyr_layer} environment
+#' This method is an internal intended to be called within the \code{tardis_layer} environment
 #'
 #' @param e Environment to extract custom summaries from
 #'
@@ -9,7 +9,7 @@
 get_custom_summaries <- function(e) {
 
   # Grab any custom summaries set within an option
-  cust_sums <- append(list(), as.list(getOption('tplyr.custom_summaries')))
+  cust_sums <- append(list(), as.list(getOption('tardis.custom_summaries')))
 
   # If the custom_summaries object exists in the layer environment then grab it
   if (exists("custom_summaries", envir=e)){
@@ -27,7 +27,7 @@ get_custom_summaries <- function(e) {
 #' This function allows a user to define custom summaries to be performed in a
 #' call to \code{dplyr::summarize()}. A custom summary by the same name as a
 #' default summary will override the default. This allows the user to override
-#' the default behavior of summaries built into 'Tplyr', while also adding new
+#' the default behavior of summaries built into 'tardis', while also adding new
 #' desired summary functions.
 #'
 #' When programming the logic of the summary function, use the variable name
@@ -63,7 +63,7 @@ get_custom_summaries <- function(e) {
 #' #Load in pipe
 #' library(magrittr)
 #'
-#' tplyr_table(iris, Species) %>%
+#' tardis_table(iris, Species) %>%
 #'   add_layer(
 #'     group_desc(Sepal.Length, by = "Sepal Length") %>%
 #'       set_custom_summaries(
@@ -76,7 +76,7 @@ get_custom_summaries <- function(e) {
 #'   ) %>%
 #'   build()
 set_custom_summaries <- function(e, ...){
-  # Make sure you're modifying a tplyr_layer
+  # Make sure you're modifying a tardis_layer
   assert_inherits_class(e, 'desc_layer')
 
   # Convert the ellipsis to a named list
@@ -105,7 +105,7 @@ set_custom_summaries <- function(e, ...){
 #' In many cases, treatment groups are represented as columns within a table.
 #' But some tables call for a transposed presentation, where the treatment
 #' groups displayed by row, and the descriptive statistics are represented as
-#' columns. \code{set_stats_as_columns()} allows Tplyr to output a built table
+#' columns. \code{set_stats_as_columns()} allows tardis to output a built table
 #' using this transposed format and deviate away from the standard
 #' representation of treatment groups as columns.
 #'
@@ -118,12 +118,12 @@ set_custom_summaries <- function(e, ...){
 #' @param e \code{desc_layer} on descriptive statistics summaries should be represented as columns
 #' @param stats_as_columns Boolean to set stats as columns
 #'
-#' @return The input tplyr_layer
+#' @return The input tardis_layer
 #' @export
 #'
 #' @examples
 #'
-#' dat <- tplyr_table(mtcars, gear) %>%
+#' dat <- tardis_table(mtcars, gear) %>%
 #'   add_layer(
 #'     group_desc(wt, by = vs) %>%
 #'       set_format_strings(

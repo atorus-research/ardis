@@ -1,7 +1,7 @@
 
 #' Set or return treat_var binding
 #'
-#' @param layer A \code{tplyr_layer} object
+#' @param layer A \code{tardis_layer} object
 #'
 #' @return For \code{treat_var}, the treatment variable binding of the layer
 #'   object. For \code{set_treat_var}, the modified layer environment.
@@ -12,7 +12,7 @@
 #' # Load in pipe
 #' library(magrittr)
 #' iris$Species2 <- iris$Species
-#' lay <- tplyr_table(iris, Species) %>%
+#' lay <- tardis_table(iris, Species) %>%
 #'   group_count(Species) %>%
 #'   set_target_var(Species2)
 get_target_var <- function(layer) {
@@ -37,7 +37,7 @@ set_target_var <- function(layer, target_var) {
 
 #' Set or return by layer binding
 #'
-#' @param layer A \code{tplyr_layer} object
+#' @param layer A \code{tardis_layer} object
 #'
 #' @return For \code{get_by}, the \code{by} binding of the supplied layer. For
 #'   \code{set_by} the modified layer environment.
@@ -48,7 +48,7 @@ set_target_var <- function(layer, target_var) {
 #' # Load in pipe
 #' library(magrittr)
 #' iris$Species2 <- iris$Species
-#' lay <- tplyr_table(iris, Species) %>%
+#' lay <- tardis_table(iris, Species) %>%
 #'   group_count(Species) %>%
 #'   set_by(vars(Species2, Sepal.Width))
 get_by <- function(layer) {
@@ -74,13 +74,13 @@ set_by <- function(layer, by) {
 
 #' @export
 #' @rdname where
-get_where.tplyr_layer <- function(obj) {
+get_where.tardis_layer <- function(obj) {
   env_get(obj, "where")
 }
 
 #' @export
 #' @rdname where
-set_where.tplyr_layer <- function(obj, where) {
+set_where.tardis_layer <- function(obj, where) {
   where <- enquo(where)
 
   assert_that(is_logical_or_call(where),
@@ -99,7 +99,7 @@ set_where.tplyr_layer <- function(obj, where) {
 #' dataset for each by group. The precision_by variables must be a subset of the
 #' by variables
 #'
-#' @param layer A \code{tplyr_layer} object
+#' @param layer A \code{tardis_layer} object
 #'
 #' @return For \code{get_precision_by}, the precision_by binding of the supplied
 #'   layer. For \code{set_precision_by} the modified layer environment.
@@ -109,7 +109,7 @@ set_where.tplyr_layer <- function(obj, where) {
 #' @examples
 #' # Load in pipe
 #' library(magrittr)
-#' lay <- tplyr_table(mtcars, gear) %>%
+#' lay <- tardis_table(mtcars, gear) %>%
 #'   add_layer(
 #'     group_desc(mpg, by=vars(carb, am)) %>%
 #'     set_precision_by(carb)
@@ -143,7 +143,7 @@ set_precision_by <- function(layer, precision_by) {
 #' precision. This variable must be included in the list of \code{target_var}
 #' variables.
 #'
-#' @param layer A \code{tplyr_layer} object
+#' @param layer A \code{tardis_layer} object
 #'
 #' @return For \code{get_precision_on}, the precision_on binding of the supplied
 #'   layer. For \code{set_precision_on} the modified layer environment.
@@ -153,7 +153,7 @@ set_precision_by <- function(layer, precision_by) {
 #' @examples
 #' # Load in pipe
 #' library(magrittr)
-#' lay <- tplyr_table(mtcars, gear) %>%
+#' lay <- tardis_table(mtcars, gear) %>%
 #'   add_layer(
 #'     group_desc(vars(mpg, disp), by=vars(carb, am)) %>%
 #'     set_precision_on(disp)
@@ -190,11 +190,11 @@ set_precision_on <- function(layer, precision_on) {
 #' At a minimum, the precision dataset must contain the integer variables `max_int` and `max_dec`. If by variables
 #' are provided, those variables must be available in the layer by variables.
 #'
-#' When the table is built, by default Tplyr will error if the precision dataset is missing by variable groupings
+#' When the table is built, by default tardis will error if the precision dataset is missing by variable groupings
 #' that exist in the target dataset. This can be overriden using the `default` parameter. If `default` is set to
 #' "auto", any missing values will be automatically inferred from the source data.
 #'
-#' @param layer A \code{tplyr_layer} object
+#' @param layer A \code{tardis_layer} object
 #' @param prec A dataframe following the structure specified in the function details
 #' @param default Handling of unspecified by variable groupings. Defaults to 'error'. Set to 'auto' to automatically infer any missing groups.
 #'
@@ -209,7 +209,7 @@ set_precision_on <- function(layer, precision_on) {
 #'   1,        2,        2
 #' )
 #'
-#' tplyr_table(mtcars, gear) %>%
+#' tardis_table(mtcars, gear) %>%
 #'   add_layer(
 #'     group_desc(wt, by = vs) %>%
 #'       set_format_strings(

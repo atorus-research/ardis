@@ -132,7 +132,7 @@ process_metadata.count_layer <- function(x, ...) {
 #' @return Nothing
 #' @export
 #' @noRd
-process_metadata.tplyr_riskdiff <- function(x, ...) {
+process_metadata.tardis_riskdiff <- function(x, ...) {
 
   evalq({
     stats_meta <- vector('list', length(comparisons))

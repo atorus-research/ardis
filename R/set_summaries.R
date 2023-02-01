@@ -1,6 +1,6 @@
 #' Set Summaries
 #'
-#' If Tplyr on only being used to summarize numeric data, then layer formatting
+#' If tardis on only being used to summarize numeric data, then layer formatting
 #' components of the settings become unnecessary. As such, a second interface is
 #' necessary to specify which summaries should actually be performed. the
 #' `set_summaries()` function provided an interface to each layer type to
@@ -17,7 +17,7 @@
 #'
 #' @examples
 #' # This is the desired API for count layers
-#' t <- tplyr_table(adsl, TRT01P) %>%
+#' t <- tardis_table(adsl, TRT01P) %>%
 #'   add_layer(
 #'     group_desc(AGE, by = "Age (years)", where= SAFFL=="Y") %>%
 #'       set_summaries(
@@ -39,7 +39,7 @@ set_summaries  <- function(e, ...) {
 #' @export
 #' @rdname set_summaries
 #'
-set_summaries.tplyr_layer <- function(e, ...) {
+set_summaries.tardis_layer <- function(e, ...) {
 
   # Must be named to create row labels
   # Element must all be lists of quosures

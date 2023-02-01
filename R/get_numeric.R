@@ -1,11 +1,11 @@
-#' Retrieve the numeric data from a tplyr objects
+#' Retrieve the numeric data from a tardis objects
 #'
 #' \code{get_numeric_data} provides access to the un-formatted numeric data for
-#' each of the layers within a \code{tplyr_table}, with options to allow you to
+#' each of the layers within a \code{tardis_table}, with options to allow you to
 #' extract distinct layers and filter as desired.
 #'
-#' When used on a \code{tplyr_table} object, this method will aggregate the
-#' numeric data from all Tplyr layers. The data will be returned to the user in
+#' When used on a \code{tardis_table} object, this method will aggregate the
+#' numeric data from all tardis layers. The data will be returned to the user in
 #' a list of data frames. If the data has already been processed (i.e.
 #' \code{build} has been run), the numeric data is already available and will be
 #' returned without reprocessing. Otherwise, the numeric portion of the layer
@@ -15,19 +15,19 @@
 #' extracted and subset. This is most clear when layers are given text names
 #' instead of using a layer index, but a numeric index works as well.
 #'
-#' @param x A tplyr_table or tplyr_layer object
+#' @param x A tardis_table or tardis_layer object
 #' @param layer Layer name or index to select out specifically
 #' @param where Subset criteria passed to dplyr::filter
 #' @param ... Additional arguments to pass forward
 #'
-#' @return Numeric data from the Tplyr layer
+#' @return Numeric data from the tardis layer
 #' @export
 #'
 #' @examples
 #' # Load in pipe
 #' library(magrittr)
 #'
-#' t <- tplyr_table(mtcars, gear) %>%
+#' t <- tardis_table(mtcars, gear) %>%
 #'  add_layer(name='drat',
 #'            group_desc(drat)
 #'  ) %>%
@@ -54,10 +54,10 @@ get_numeric_data <- function(x, layer=NULL, where=TRUE, ...) {
 }
 
 
-#' Get numeric data from a tplyr_table object
+#' Get numeric data from a tardis_table object
 #' @export
 #' @noRd
-get_numeric_data.tplyr_table <- function(x, layer=NULL, where=TRUE, ...) {
+get_numeric_data.tardis_table <- function(x, layer=NULL, where=TRUE, ...) {
 
   where <- enquo(where)
 
@@ -131,10 +131,10 @@ get_numeric_data.tplyr_table <- function(x, layer=NULL, where=TRUE, ...) {
 }
 
 
-#' Get numeric data from a tplyr_layer object
+#' Get numeric data from a tardis_layer object
 #' @export
 #' @noRd
-get_numeric_data.tplyr_layer <- function(x, layer=NULL, where=TRUE, ...) {
+get_numeric_data.tardis_layer <- function(x, layer=NULL, where=TRUE, ...) {
 
   # If the numeric data doesn't exist in the layer then process it
   if (!'numeric_data' %in% ls(x)) {
@@ -149,12 +149,12 @@ get_numeric_data.tplyr_layer <- function(x, layer=NULL, where=TRUE, ...) {
 
 #' Get statistics data
 #'
-#' Like the layer numeric data, Tplyr also stores the numeric data produced from
+#' Like the layer numeric data, tardis also stores the numeric data produced from
 #' statistics like risk difference. This helper function gives you access to
 #' obtain that data from the environment
 #'
-#' When used on a \code{tplyr_table} object, this method will aggregate the
-#' numeric data from all Tplyr layers and calculate all statistics. The data
+#' When used on a \code{tardis_table} object, this method will aggregate the
+#' numeric data from all tardis layers and calculate all statistics. The data
 #' will be returned to the user in a list of data frames. If the data has
 #' already been processed (i.e. \code{build} has been run), the numeric data is
 #' already available and the statistic data will simply be returned. Otherwise,
@@ -168,7 +168,7 @@ get_numeric_data.tplyr_layer <- function(x, layer=NULL, where=TRUE, ...) {
 #' frames, allowing you to grab, for example, just the risk difference
 #' statistics across all layers.
 #'
-#' @param x A tplyr_table or tplyr_layer object
+#' @param x A tardis_table or tardis_layer object
 #' @param layer Layer name or index to select out specifically
 #' @param statistic Statistic name or index to select
 #' @param where Subset criteria passed to dplyr::filter
@@ -180,7 +180,7 @@ get_numeric_data.tplyr_layer <- function(x, layer=NULL, where=TRUE, ...) {
 #' @examples
 #' library(magrittr)
 #'
-#' t <- tplyr_table(mtcars, gear) %>%
+#' t <- tardis_table(mtcars, gear) %>%
 #'   add_layer(name='drat',
 #'             group_desc(drat)
 #'   ) %>%
@@ -228,10 +228,10 @@ get_stats_data <- function(x, layer=NULL, statistic=NULL, where=TRUE, ...) {
 }
 
 
-#' Get numeric data from a tplyr_table object
+#' Get numeric data from a tardis_table object
 #' @export
 #' @noRd
-get_stats_data.tplyr_table <- function(x, layer=NULL, statistic=NULL, where=TRUE, ...) {
+get_stats_data.tardis_table <- function(x, layer=NULL, statistic=NULL, where=TRUE, ...) {
 
   where <- enquo(where)
 
@@ -274,10 +274,10 @@ get_stats_data.tplyr_table <- function(x, layer=NULL, statistic=NULL, where=TRUE
 }
 
 
-#' Get numeric data from a tplyr_layer object
+#' Get numeric data from a tardis_layer object
 #' @export
 #' @noRd
-get_stats_data.tplyr_layer <- function(x, layer=NULL, statistic=NULL, where=TRUE, ...) {
+get_stats_data.tardis_layer <- function(x, layer=NULL, statistic=NULL, where=TRUE, ...) {
 
   # If the numeric data doesn't exist in the layer then process it
   if (!'numeric_data' %in% ls(x)) {

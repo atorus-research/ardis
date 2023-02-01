@@ -52,9 +52,9 @@ build_header_n <- function(table) {
 #' groups within the population dataset.
 #'
 #' The function \code{treat_grps} allows you to see the custom treatment groups available
-#' in your \code{tplyr_table} object
+#' in your \code{tardis_table} object
 #'
-#' @param table A \code{tplyr_table} object
+#' @param table A \code{tardis_table} object
 #' @param ... A named vector where names will become the new treatment group names,
 #' and values will be used to construct those treatment groups
 #'
@@ -63,7 +63,7 @@ build_header_n <- function(table) {
 #' @rdname treat_grps
 #'
 #' @examples
-#' tab <- tplyr_table(iris, Species)
+#' tab <- tardis_table(iris, Species)
 #'
 #' # A custom group
 #' add_treat_grps(tab, "Not Setosa" = c("versicolor", "virginica"))
@@ -83,8 +83,8 @@ add_treat_grps <- function(table, ...) {
 
   assert_that(is_named(list(...)), msg="Treatment group arguments must have names")
 
-  assert_that(inherits(table, "tplyr_table"),
-                   msg = "Treatment groups can only be added to `tplyr_table` objects")
+  assert_that(inherits(table, "tardis_table"),
+                   msg = "Treatment groups can only be added to `tardis_table` objects")
 
   # Check parameters
   fargs <- list(...)

@@ -10,7 +10,7 @@
 #' \code{add_risk_diff} can only be attached to a count layer, so the count layer must be constructed
 #' first. \code{add_risk_diff} allows you to compare the difference between treatment group, so all
 #' comparisons should be based upon the values within the specified \code{treat_var} in your
-#' \code{tplyr_table} object.
+#' \code{tardis_table} object.
 #'
 #' Comparisons are specified by providing two-element character vectors. You can provide as many of
 #' these groups as you want. You can also use groups that have been constructed using
@@ -19,7 +19,7 @@
 #' the 'comparison'. So if you'd like to see the risk difference of 'T1 - Placebo', you would specify
 #' this as \code{c('T1', 'Placebo')}.
 #'
-#' Tplyr forms your two-way table in the background, and then runs \code{\link{prop.test}} appropriately.
+#' tardis forms your two-way table in the background, and then runs \code{\link{prop.test}} appropriately.
 #' Similar to way that the display of layers are specified, the exact values and format of how you'd like
 #' the risk difference display are set using \code{\link{set_format_strings}}. This controls both the values
 #' and the format of how the risk difference is displayed. Risk difference formats are set within
@@ -39,12 +39,12 @@
 #'
 #'   \code{f_str('xx.xxx (xx.xxx, xx.xxx)', dif, low, high)}
 #'
-#' Note - within Tplyr, you can account for negatives by allowing an extra space within your integer
+#' Note - within tardis, you can account for negatives by allowing an extra space within your integer
 #' side settings. This will help with your alignment.
 #'
-#' If columns are specified on a Tplyr table, risk difference comparisons still only take place between
+#' If columns are specified on a tardis table, risk difference comparisons still only take place between
 #' groups within the \code{treat_var} variable - but they are instead calculated treating the \code{cols}
-#' variables as by variables. Just like the tplyr layers themselves, the risk difference will then be transposed
+#' variables as by variables. Just like the tardis layers themselves, the risk difference will then be transposed
 #' and display each risk difference as separate variables by each of the \code{cols} variables.
 #'
 #' If \code{distinct} is TRUE (the default), all calculations will take place on the distinct counts, if
@@ -67,7 +67,7 @@
 #' library(magrittr)
 #'
 #' ## Two group comparisons with default options applied
-#' t <- tplyr_table(mtcars, gear)
+#' t <- tardis_table(mtcars, gear)
 #'
 #' # Basic risk diff for two groups, using defaults
 #' l1 <- group_count(t, carb) %>%
@@ -81,7 +81,7 @@
 #' add_layers(t, l1) %>% build()
 #'
 #' ## Specify custom formats and display variables
-#' t <- tplyr_table(mtcars, gear)
+#' t <- tardis_table(mtcars, gear)
 #'
 #' # Create the layer with custom formatting
 #' l2 <- group_count(t, carb) %>%
@@ -99,7 +99,7 @@
 #' add_layers(t, l2) %>% build()
 #'
 #' ## Passing arguments to prop.test
-#' t <- tplyr_table(mtcars, gear)
+#' t <- tardis_table(mtcars, gear)
 #'
 #' # Create the layer with args option
 #' l3 <- group_count(t, carb) %>%
@@ -144,7 +144,7 @@ add_risk_diff <- function(layer, ..., args=list(), distinct=TRUE) {
         args = args,
         comp_distinct = distinct
       ),
-      class=c("tplyr_statistic", "tplyr_riskdiff")
+      class=c("tardis_statistic", "tardis_riskdiff")
     )
 
   # Add to the stats container
@@ -163,9 +163,9 @@ add_risk_diff <- function(layer, ..., args=list(), distinct=TRUE) {
 #' @noRd
 prep_two_way <- function(comp) {
 
-  # Make sure the function is executing in a Tplyr statistic environment
-  # assert_that(inherits(env_parent(), "tplyr_statistic"),
-  #             msg = paste("This function is only intended to run on `tplyr_statistic` environments.",
+  # Make sure the function is executing in a tardis statistic environment
+  # assert_that(inherits(env_parent(), "tardis_statistic"),
+  #             msg = paste("This function is only intended to run on `tardis_statistic` environments.",
   #                         "Do not use in other contexts."))
 
   evalq({

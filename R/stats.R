@@ -1,12 +1,12 @@
-#' Process a tplyr_statistic object
+#' Process a tardis_statistic object
 #'
 #' This is an internal function that is not meant for use externally, but must be exported.
 #' Use with caution.
 #'
-#' @param x A tplyr_statistic environment
+#' @param x A tardis_statistic environment
 #' @param ... Additional pass through parameters
 #'
-#' @return Numeric statistc data from a tplyr statistc
+#' @return Numeric statistc data from a tardis statistc
 #' @export
 #' @keywords internal
 process_statistic_data <- function(x, ...) {
@@ -15,13 +15,13 @@ process_statistic_data <- function(x, ...) {
 
 #' Risk difference numeric processing
 #'
-#' @param x a tplyr_statistic object
+#' @param x a tardis_statistic object
 #' @param ... pass through parameters
 #'
 #' @return numeric risk difference data
 #' @noRd
 #' @export
-process_statistic_data.tplyr_riskdiff <- function(x, ...) {
+process_statistic_data.tardis_riskdiff <- function(x, ...) {
 
   evalq({
 
@@ -58,15 +58,15 @@ process_statistic_data.tplyr_riskdiff <- function(x, ...) {
   }, envir=x)
 }
 
-#' Process string formatting on a tplyr_statistic object
+#' Process string formatting on a tardis_statistic object
 #'
 #' This is an internal function that is not meant for use externally, but must be exported.
 #' Use with caution.
 #'
-#' @param x A tplyr_statistic environment
+#' @param x A tardis_statistic environment
 #' @param ... Additional pass through parameters
 #'
-#' @return Formatted tplyr_statistic data
+#' @return Formatted tardis_statistic data
 #' @export
 #' @keywords internal
 process_statistic_formatting <- function(x, ...) {
@@ -75,13 +75,13 @@ process_statistic_formatting <- function(x, ...) {
 
 #' Risk difference string formatting
 #'
-#' @param x A tplyr_statistc object
+#' @param x A tardis_statistc object
 #' @param ... Pass through paramters
 #'
 #' @return Formatted risk difference data
 #' @noRd
 #' @export
-process_statistic_formatting.tplyr_riskdiff <- function(x, ...) {
+process_statistic_formatting.tardis_riskdiff <- function(x, ...) {
 
   evalq({
 
