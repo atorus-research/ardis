@@ -36,7 +36,7 @@ library(dplyr)
 mutate_all(as.character)
 mtcars2[mtcars$cyl == 6, "cyl"] <- NA
 
-tplyr_table(mtcars2, gear) \%>\%
+tardis_table(mtcars2, gear) \%>\%
   add_layer(
     group_count(cyl) \%>\%
       set_missing_count(f_str("xx ", n), Missing = NA)

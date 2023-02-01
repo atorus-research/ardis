@@ -7,12 +7,12 @@
 process_summaries(x, ...)
 }
 \arguments{
-\item{x}{a tplyr_layer object}
+\item{x}{a tardis_layer object}
 
 \item{...}{arguments passed to dispatch}
 }
 \value{
-The tplyr_layer object with a 'built_table' binding
+The tardis_layer object with a 'built_table' binding
 }
 \description{
 This is an internal method, but is exported to support S3 dispatch. Not intended for direct use by a user.

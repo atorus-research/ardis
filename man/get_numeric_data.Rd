@@ -2,12 +2,12 @@
 % Please edit documentation in R/get_numeric.R
 \name{get_numeric_data}
 \alias{get_numeric_data}
-\title{Retrieve the numeric data from a tplyr objects}
+\title{Retrieve the numeric data from a tardis objects}
 \usage{
 get_numeric_data(x, layer = NULL, where = TRUE, ...)
 }
 \arguments{
-\item{x}{A tplyr_table or tplyr_layer object}
+\item{x}{A tardis_table or tardis_layer object}
 
 \item{layer}{Layer name or index to select out specifically}
 
@@ -16,16 +16,16 @@ get_numeric_data(x, layer = NULL, where = TRUE, ...)
 \item{...}{Additional arguments to pass forward}
 }
 \value{
-Numeric data from the Tplyr layer
+Numeric data from the tardis layer
 }
 \description{
 \code{get_numeric_data} provides access to the un-formatted numeric data for
-each of the layers within a \code{tplyr_table}, with options to allow you to
+each of the layers within a \code{tardis_table}, with options to allow you to
 extract distinct layers and filter as desired.
 }
 \details{
-When used on a \code{tplyr_table} object, this method will aggregate the
-numeric data from all Tplyr layers. The data will be returned to the user in
+When used on a \code{tardis_table} object, this method will aggregate the
+numeric data from all tardis layers. The data will be returned to the user in
 a list of data frames. If the data has already been processed (i.e.
 \code{build} has been run), the numeric data is already available and will be
 returned without reprocessing. Otherwise, the numeric portion of the layer
@@ -39,7 +39,7 @@ instead of using a layer index, but a numeric index works as well.
 # Load in pipe
 library(magrittr)
 
-t <- tplyr_table(mtcars, gear) \%>\%
+t <- tardis_table(mtcars, gear) \%>\%
  add_layer(name='drat',
            group_desc(drat)
  ) \%>\%

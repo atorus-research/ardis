@@ -2,21 +2,21 @@
 % Please edit documentation in R/meta.R
 \name{get_metadata}
 \alias{get_metadata}
-\title{Get the metadata dataframe from a tplyr_table}
+\title{Get the metadata dataframe from a tardis_table}
 \usage{
 get_metadata(t)
 }
 \arguments{
-\item{t}{A Tplyr table with metadata built}
+\item{t}{A tardis table with metadata built}
 }
 \value{
-Tplyr metadata dataframe
+tardis metadata dataframe
 }
 \description{
-Pull out the metadata dataframe from a tplyr_table to work with it directly
+Pull out the metadata dataframe from a tardis_table to work with it directly
 }
 \examples{
-t <- tplyr_table(mtcars, gear) \%>\%
+t <- tardis_table(mtcars, gear) \%>\%
   add_layer(
     group_desc(wt)
   )

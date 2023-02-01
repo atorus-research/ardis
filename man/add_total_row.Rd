@@ -38,7 +38,7 @@ be updated accordingly.
 # Load in Pipe
 library(magrittr)
 
-tplyr_table(mtcars, gear) \%>\%
+tardis_table(mtcars, gear) \%>\%
   add_layer(
     group_count(cyl) \%>\%
       add_total_row(f_str("xxxx", n))

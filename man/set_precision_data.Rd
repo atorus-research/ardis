@@ -7,7 +7,7 @@
 set_precision_data(layer, prec, default = c("error", "auto"))
 }
 \arguments{
-\item{layer}{A \code{tplyr_layer} object}
+\item{layer}{A \code{tardis_layer} object}
 
 \item{prec}{A dataframe following the structure specified in the function details}
 
@@ -25,7 +25,7 @@ that the precision is specified in the provided precision dataset rather than in
 At a minimum, the precision dataset must contain the integer variables \code{max_int} and \code{max_dec}. If by variables
 are provided, those variables must be available in the layer by variables.
 
-When the table is built, by default Tplyr will error if the precision dataset is missing by variable groupings
+When the table is built, by default tardis will error if the precision dataset is missing by variable groupings
 that exist in the target dataset. This can be overriden using the \code{default} parameter. If \code{default} is set to
 "auto", any missing values will be automatically inferred from the source data.
 }
@@ -37,7 +37,7 @@ prec <- tibble::tribble(
   1,        2,        2
 )
 
-tplyr_table(mtcars, gear) \%>\%
+tardis_table(mtcars, gear) \%>\%
   add_layer(
     group_desc(wt, by = vs) \%>\%
       set_format_strings(

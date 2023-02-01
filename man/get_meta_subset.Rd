@@ -3,7 +3,7 @@
 \name{get_meta_subset}
 \alias{get_meta_subset}
 \alias{get_meta_subset.data.frame}
-\alias{get_meta_subset.tplyr_table}
+\alias{get_meta_subset.tardis_table}
 \title{Extract the subset of data based on result metadata}
 \usage{
 get_meta_subset(x, row_id, column, add_cols = vars(USUBJID), ...)
@@ -17,10 +17,10 @@ get_meta_subset(x, row_id, column, add_cols = vars(USUBJID), ...)
   ...
 )
 
-\method{get_meta_subset}{tplyr_table}(x, row_id, column, add_cols = vars(USUBJID), ...)
+\method{get_meta_subset}{tardis_table}(x, row_id, column, add_cols = vars(USUBJID), ...)
 }
 \arguments{
-\item{x}{A built Tplyr table or a dataframe}
+\item{x}{A built tardis table or a dataframe}
 
 \item{row_id}{The row_id value of the desired cell, provided as a character
 string}
@@ -31,37 +31,37 @@ string}
 
 \item{...}{additional arguments}
 
-\item{target}{A data frame to be subset (if not pulled from a Tplyr table)}
+\item{target}{A data frame to be subset (if not pulled from a tardis table)}
 }
 \value{
 A data.frame
 }
 \description{
 Given a row_id value and a result column, this function will return the
-subset of data referenced by the tplyr_meta object associated with that
+subset of data referenced by the tardis_meta object associated with that
 'cell', which provides traceability to tie a result to its source.
 }
 \details{
-If a Tplyr table is built with the \code{metadata=TRUE} option specified, then
+If a tardis table is built with the \code{metadata=TRUE} option specified, then
 metadata is assembled behind the scenes to provide traceability on each
 result cell derived. The functions \code{get_meta_result()} and
 \code{get_meta_subset()} allow you to access that metadata by using an ID provided
 in the row_id column and the column name of the result you'd like to access.
 The purpose is of the row_id variable instead of a simple row index is to
 provide a sort resistant reference of the originating column, so the output
-Tplyr table can be sorted in any order but the metadata are still easily
+tardis table can be sorted in any order but the metadata are still easily
 accessible.
 
-The \code{tplyr_meta} object provided a list with two elements - names and
+The \code{tardis_meta} object provided a list with two elements - names and
 filters. The metadata contain every column from the target data.frame of the
-Tplyr table that factored into the specified result cell, and the filters
+tardis table that factored into the specified result cell, and the filters
 contains all the necessary filters to subset to data summarized to create the
 specified result cell. \code{get_meta_subset()} additionally provides a parameter
 to specify any additional columns you would like to include in the returned
 subset data frame.
 }
 \examples{
-t <- tplyr_table(mtcars, cyl) \%>\%
+t <- tardis_table(mtcars, cyl) \%>\%
   add_layer(
     group_desc(hp)
   )

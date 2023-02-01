@@ -16,7 +16,7 @@ subsetting for the total row and thus the percentage denominators,
 pass 'TRUE' to this function.}
 }
 \value{
-The modified Tplyr layer object
+The modified tardis layer object
 }
 \description{
 By default, denominators in count layers are subset based on the layer level
@@ -26,7 +26,7 @@ subset the target dataset when calculating denominators for the layer.
 }
 \examples{
 library(magrittr)
-t10 <- tplyr_table(mtcars, gear) \%>\%
+t10 <- tardis_table(mtcars, gear) \%>\%
   add_layer(
     group_count(cyl, where = cyl != 6) \%>\%
     set_denom_where(TRUE)

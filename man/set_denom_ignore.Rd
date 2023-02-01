@@ -30,7 +30,7 @@ mtcars2 <- mtcars
 mtcars2[mtcars$cyl == 6, "cyl"] <- NA
 mtcars2[mtcars$cyl == 8, "cyl"] <- "Not Found"
 
-tplyr_table(mtcars2, gear) \%>\%
+tardis_table(mtcars2, gear) \%>\%
   add_layer(
     group_count(cyl) \%>\%
       set_missing_count(f_str("xx ", n), Missing = c(NA, "Not Found"))

@@ -12,13 +12,13 @@ set_stats_as_columns(e, stats_as_columns = TRUE)
 \item{stats_as_columns}{Boolean to set stats as columns}
 }
 \value{
-The input tplyr_layer
+The input tardis_layer
 }
 \description{
 In many cases, treatment groups are represented as columns within a table.
 But some tables call for a transposed presentation, where the treatment
 groups displayed by row, and the descriptive statistics are represented as
-columns. \code{set_stats_as_columns()} allows Tplyr to output a built table
+columns. \code{set_stats_as_columns()} allows tardis to output a built table
 using this transposed format and deviate away from the standard
 representation of treatment groups as columns.
 }
@@ -31,7 +31,7 @@ will also be respected properly.
 }
 \examples{
 
-dat <- tplyr_table(mtcars, gear) \%>\%
+dat <- tardis_table(mtcars, gear) \%>\%
   add_layer(
     group_desc(wt, by = vs) \%>\%
       set_format_strings(

@@ -10,7 +10,7 @@ get_by(layer)
 set_by(layer, by)
 }
 \arguments{
-\item{layer}{A \code{tplyr_layer} object}
+\item{layer}{A \code{tardis_layer} object}
 
 \item{by}{A string, a variable name, or a list of variable names supplied
 using \code{dplyr::vars}.}
@@ -26,7 +26,7 @@ Set or return by layer binding
 # Load in pipe
 library(magrittr)
 iris$Species2 <- iris$Species
-lay <- tplyr_table(iris, Species) \%>\%
+lay <- tardis_table(iris, Species) \%>\%
   group_count(Species) \%>\%
   set_by(vars(Species2, Sepal.Width))
 }

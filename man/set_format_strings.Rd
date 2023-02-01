@@ -8,7 +8,7 @@
 \usage{
 set_format_strings(e, ...)
 
-\method{set_format_strings}{desc_layer}(e, ..., cap = getOption("tplyr.precision_cap"))
+\method{set_format_strings}{desc_layer}(e, ..., cap = getOption("tardis.precision_cap"))
 
 \method{set_format_strings}{count_layer}(e, ...)
 }
@@ -23,22 +23,22 @@ on integer precision, and a 'dec' element for the cap on decimal precision.}
 \value{
 The layer environment with the format string binding added
 
-tplyr_layer object with formats attached
+tardis_layer object with formats attached
 
 Returns the modified layer object.
 }
 \description{
-'Tplyr' gives you extensive control over how strings are presented.
+'tardis' gives you extensive control over how strings are presented.
 \code{set_format_strings} allows you to apply these string formats to your
 layer. This behaves slightly differently between layers.
 }
 \details{
-Format strings are one of the most powerful components of 'Tplyr'.
+Format strings are one of the most powerful components of 'tardis'.
   Traditionally, converting numeric values into strings for presentation can
   consume a good deal of time. Values and decimals need to align between
   rows, rounding before trimming is sometimes forgotten - it can become a
   tedious mess that, in the grand scheme of things, is not an important part
-  of the analysis being performed. 'Tplyr' makes this process as simple as we
+  of the analysis being performed. 'tardis' makes this process as simple as we
   can, while still allowing flexibility to the user.
 
   In a count layer, you can simply provide a single \code{\link{f_str}}
@@ -77,7 +77,7 @@ Format strings are one of the most powerful components of 'Tplyr'.
 library(magrittr)
 
 # In a count layer
-tplyr_table(mtcars, gear) \%>\%
+tardis_table(mtcars, gear) \%>\%
   add_layer(
     group_count(cyl) \%>\%
       set_format_strings(f_str('xx (xx\%)', n, pct))
@@ -85,7 +85,7 @@ tplyr_table(mtcars, gear) \%>\%
   build()
 
 # In a descriptive statistics layer
-tplyr_table(mtcars, gear) \%>\%
+tardis_table(mtcars, gear) \%>\%
   add_layer(
     group_desc(mpg) \%>\%
       set_format_strings(
@@ -101,7 +101,7 @@ tplyr_table(mtcars, gear) \%>\%
   build()
 
 # In a shift layer
-tplyr_table(mtcars, am) \%>\%
+tardis_table(mtcars, am) \%>\%
   add_layer(
     group_shift(vars(row=gear, column=carb), by=cyl) \%>\%
     set_format_strings(f_str("xxx (xx.xx\%)", n, pct))

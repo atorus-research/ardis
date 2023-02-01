@@ -10,7 +10,7 @@ get_precision_by(layer)
 set_precision_by(layer, precision_by)
 }
 \arguments{
-\item{layer}{A \code{tplyr_layer} object}
+\item{layer}{A \code{tardis_layer} object}
 
 \item{precision_by}{A string, a variable name, or a list of variable names supplied
 using \code{dplyr::vars}.}
@@ -29,7 +29,7 @@ by variables
 \examples{
 # Load in pipe
 library(magrittr)
-lay <- tplyr_table(mtcars, gear) \%>\%
+lay <- tardis_table(mtcars, gear) \%>\%
   add_layer(
     group_desc(mpg, by=vars(carb, am)) \%>\%
     set_precision_by(carb)

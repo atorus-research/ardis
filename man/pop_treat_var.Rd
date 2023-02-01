@@ -10,13 +10,13 @@ pop_treat_var(table)
 set_pop_treat_var(table, pop_treat_var)
 }
 \arguments{
-\item{table}{A \code{tplyr_table} object}
+\item{table}{A \code{tardis_table} object}
 
 \item{pop_treat_var}{Variable containing treatment group assignments within the \code{pop_data} binding. Supply unquoted.}
 }
 \value{
-For \code{tplyr_pop_treat_var} the pop_treat_var binding of the
-  \code{tplyr_table} object. For \code{set_tplyr_pop_treat_var} the modified
+For \code{tardis_pop_treat_var} the pop_treat_var binding of the
+  \code{tardis_table} object. For \code{set_tardis_pop_treat_var} the modified
   object.
 }
 \description{
@@ -25,7 +25,7 @@ variable within the population dataset. \code{set_pop_treat_var} allows you
 to change this.
 }
 \examples{
-tab <- tplyr_table(iris, Species)
+tab <- tardis_table(iris, Species)
 
 pop_data(tab) <- mtcars
 set_pop_treat_var(tab, mpg)

@@ -2,20 +2,20 @@
 % Please edit documentation in R/build.R
 \name{build}
 \alias{build}
-\title{Trigger the execution of the \code{tplyr_table}}
+\title{Trigger the execution of the \code{tardis_table}}
 \usage{
 build(x, metadata = FALSE)
 }
 \arguments{
-\item{x}{A \code{tplyr_table} object}
+\item{x}{A \code{tardis_table} object}
 
 \item{metadata}{Trigger to build metadata. Defaults to FALSE}
 }
 \value{
-An executed \code{tplyr_table}
+An executed \code{tardis_table}
 }
 \description{
-The functions used to assemble a \code{tplyr_table} object and
+The functions used to assemble a \code{tardis_table} object and
 each of the layers do not trigger the processing of any data. Rather, a lazy
 execution style is used to allow you to construct your table and then
 explicitly state when the data processing should happen. \code{build}
@@ -37,7 +37,7 @@ accessible within a layer using \code{\link{get_numeric_data}}.
 
 The `metadata` option of build will trigger the construction of traceability
 metadata for the constructed data frame. Essentially, for every "result" that
-Tplyr produces, Tplyr can also generate the steps necessary to obtain the
+tardis produces, tardis can also generate the steps necessary to obtain the
 source data which produced that result from the input. For more information,
 see vignette("metadata").
 }
@@ -45,7 +45,7 @@ see vignette("metadata").
 # Load in Pipe
 library(magrittr)
 
-tplyr_table(iris, Species) \%>\%
+tardis_table(iris, Species) \%>\%
   add_layer(
     group_desc(Sepal.Length, by = "Sepal Length")
   ) \%>\%
@@ -56,5 +56,5 @@ tplyr_table(iris, Species) \%>\%
 
 }
 \seealso{
-tplyr_table, tplyr_layer, add_layer, add_layers, layer_constructors
+tardis_table, tardis_layer, add_layer, add_layers, layer_constructors
 }
