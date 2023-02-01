@@ -121,7 +121,8 @@ build.tardis_table <- function(x, layer=NULL, where=TRUE, ...) {
   } else {
     # Otherwise, pick it out and filter
     build(x$layers[[layer]]) %>%
-      filter(!!where)
+      filter(!!where) %>%
+      select(starts_with('row_label'), everything())
   }
 }
 
