@@ -128,9 +128,9 @@ NULL
 tardis_default_options <- list(
 
   # Count layer defaults
-  tardis.count_layer_default_formats =
-    list(n_counts = f_str("a (xxx.x%)", distinct_n, distinct_pct),
-         riskdiff = f_str('xx.xxx (xx.xxx, xx.xxx)', dif, low, high)
+  tardis.count_layer_default_summaries =
+    list(n_counts = list("n (%)" = vars(n, pct)),
+         riskdiff = list("Diff (low, high)" = vars(dif, low, high))
          ),
 
   # Desc layer defaults
@@ -144,7 +144,7 @@ tardis_default_options <- list(
          ),
 
   # Shift layer defaults
-  tardis.shift_layer_default_formats = list(f_str("a", n)),
+  tardis.shift_layer_default_formats = list("n" = n),
 
   # Custom summaries
   tardis.custom_summaries = NULL,

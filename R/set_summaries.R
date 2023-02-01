@@ -41,15 +41,9 @@ set_summaries  <- function(e, ...) {
 #'
 set_summaries.tardis_layer <- function(e, ...) {
 
-  # Must be named to create row labels
-  # Element must all be lists of quosures
-
   # Create the summary_vars object
   summaries <- list(...)
   summary_vars <- flatten(summaries)
-
-  # Translate names to preserve row label -> This should go in process_summaries
-  # From current process_summaries.desc_layer: row_labels <- name_translator(format_strings)
 
   env_bind(e,
            summary_grps = summaries,
@@ -66,4 +60,31 @@ set_summaries.tardis_layer <- function(e, ...) {
 #' @return Boolean
 has_summaries <- function(e) {
   all(c("summary_grps", "summary_vars") %in% ls(e))
+}
+
+#' Extract a translation vector for f_str or summary object
+#'
+#' This provides the row labels in preparation for the numeric data output
+#'
+#' @param x The format strings list or a list of summaries
+#'
+#' @return A named character vector with the flipping applied
+#' @noRd
+name_translator_numeric <- function(x) {
+
+  # This needs to be a for loop for clarity because a map
+  # function would be too unreadable and overly complex
+  out <- character(length(flatten(x)))
+  i <- 1
+  # Loop the labels
+  for (l in names(x)) {
+    # Loop the variable names
+    for (n in x[[l]]) {
+      out[i] <- l
+      names(out)[i] <- as_name(n)
+      i <- i + 1
+    }
+  }
+
+  out
 }

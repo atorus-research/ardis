@@ -1,9 +1,7 @@
 #' Add a Total row into a count summary.
 #'
 #' Adding a total row creates an additional observation in the count summary
-#' that presents the total counts (i.e. the n's that are summarized). The format
-#' of the total row will be formatted in the same way as the other count
-#' strings.
+#' that presents the total counts (i.e. the n's that are summarized).
 #'
 #' Totals are calculated using all grouping variables, including treat_var and
 #' cols from the table level. If by variables are included, the grouping of the
@@ -13,8 +11,6 @@
 #' be updated accordingly.
 #'
 #' @param e A \code{count_layer} object
-#' @param fmt An f_str object used to format the total row. If none is provided,
-#'   display is based on the layer formatting.
 #' @param count_missings Whether or not to ignore the named arguments passed in
 #'   `set_count_missing()` when calculating counts total row. This is useful if
 #'   you need to exclude/include the missing counts in your total row. Defaults
@@ -30,21 +26,18 @@
 #' tardis_table(mtcars, gear) %>%
 #'   add_layer(
 #'     group_count(cyl) %>%
-#'       add_total_row(f_str("xxxx", n))
+#'       add_total_row()
 #'    ) %>%
 #'    build()
-add_total_row <- function(e, fmt = NULL, count_missings = TRUE, sort_value = NULL) {
-  if(!is.null(fmt)) assert_inherits_class(fmt, "f_str")
+add_total_row <- function(e, count_missings = TRUE, sort_value = NULL) {
   if(!is.null(sort_value)) assert_inherits_class(sort_value, "numeric")
   if("shift_layer" %in% class(e)) {
     rlang::abort("`add_total_row` for shift layers is not yet supported")
   }
   assert_inherits_class(e, "count_layer")
 
-
   env_bind(e, include_total_row = TRUE)
   env_bind(e, count_missings = count_missings)
-  env_bind(e, total_count_format = fmt)
   env_bind(e, total_row_sort_value = sort_value)
 
   e
@@ -227,8 +220,8 @@ set_nest_count <- function(e, nest_count) {
 #'
 #'   Ordering of results is where things start to differ. Different situations
 #'   call for different methods. Descriptive statistics layers keep it simple -
-#'   the order in which you input your formats using
-#'   \code{\link{set_format_strings}} is the order in which the results will
+#'   the order in which you input your row labels using
+#'   \code{\link{set_summaries}} is the order in which the results will
 #'   appear (with an order variable added). For count layers, tardis offers three
 #'   solutions: If there is a <VAR>N version of your target variable, use that.
 #'   If not, if the target variable is a factor, use the factor orders. Finally,
@@ -428,7 +421,6 @@ set_result_order_var <- function(e, result_order_var) {
 #' Controls how missing counts are handled and displayed in the layer
 #'
 #' @param e A \code{count_layer} object
-#' @param fmt An f_str object to change the display of the missing counts
 #' @param sort_value A numeric value that will be used in the ordering column.
 #'   This should be numeric. If it is not supplied the ordering column will be
 #'   the maximum value of what appears in the table plus one.
@@ -455,20 +447,17 @@ set_result_order_var <- function(e, result_order_var) {
 #'       set_missing_count(f_str("xx ", n), Missing = NA)
 #'   ) %>%
 #'   build()
-set_missing_count <- function(e, fmt = NULL, sort_value = NULL, denom_ignore = FALSE, ...) {
+set_missing_count <- function(e, sort_value = NULL, denom_ignore = FALSE, ...) {
 
   missings <- list(...)
-  assert_that(length(missings) > 0, msg = "No missing values were specified.")
+  assert_that(length(   ) > 0, msg = "No missing values were specified.")
 
-  if(!is.null(fmt)) assert_inherits_class(fmt, "f_str")
   if(!is.null(sort_value)) assert_inherits_class(sort_value, "numeric")
   if("shift_layer" %in% class(e)) {
     rlang::abort("`set_missing_count` for shift layers is not yet supported")
   }
   assert_inherits_class(e, "count_layer")
 
-  # f_str object for formatting
-  env_bind(e, missing_count_string = fmt)
   # Named list of strings and their replacements
   env_bind(e, missing_count_list = missings)
   # All replacements without names

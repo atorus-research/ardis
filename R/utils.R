@@ -171,90 +171,6 @@ get_target_levels <- function(e, x) {
   }
 }
 
-#' Replace repeating row label variables with blanks in preparation for display.
-#'
-#' Depending on the display package being used, row label values may need to be
-#' blanked out if they are repeating. This gives the data frame supporting the
-#' table the appearance of the grouping variables being grouped together in
-#' blocks. \code{apply_row_masks} does this work by blanking out the value of
-#' any row_label variable where the current value is equal to the value
-#' before it. Note - \code{apply_row_masks} assumes that the data frame has
-#' already be sorted and therefore should only be applied once the data frame is
-#' in its final sort sequence.
-#'
-#' Additionally, \code{apply_row_masks} can add row breaks for you between each
-#' layer. Row breaks are inserted as blank rows. This relies on the "break by"
-#' variables (submitted via \code{...}) constructed in \code{build} still being
-#' attached to the dataset. An additional order variable is attached named
-#' \code{ord_break}, but the output dataset is sorted to properly insert the row
-#' breaks between layers.
-#'
-#' @param dat Data.frame / tibble to mask repeating row_labels
-#' @param row_breaks Boolean - set to TRUE to insert row breaks
-#' @param ... Variable used to determine where row-breaks should be inserted.
-#'   Breaks will be inserted when this group of variables changes values. This
-#'   is determined by dataset order, so sorting should be done prior to using
-#'   \code{apply_row_masks}. If left empty, \code{ord_layer_index} will be used.
-#'
-#' @return tibble with blanked out rows where values are repeating
-#' @export
-apply_row_masks <- function(dat, row_breaks=FALSE, ...) {
-
-  # Capture the break_by variables
-  break_by <- enquos(...)
-
-  # Get the row labels that need to be masked
-  nlist <- names(dat)[str_detect(names(dat), "row_label")]
-
-  # Iterate each variable
-  for (name in nlist){
-    dat <- dat %>%
-      # Identify if the value was repeating (ugly compensation for first row)
-      mutate(mask = ifelse(!(is.na(lag(!!sym(name)))) & !!sym(name) == lag(!!sym(name)), TRUE, FALSE),
-             # If repeating then blank out
-             !!name := ifelse(mask == TRUE, '', !!sym(name))
-      )
-  }
-  # Drop the dummied mask variable
-  dat <- dat %>% select(-mask)
-
-  # Break rows if specified
-  if (row_breaks) {
-
-    # Default to ord_layer_index
-    if (is_empty(break_by)) break_by <- quos(ord_layer_index)
-
-    # All the break by variables must be variable names
-    assert_that(all(map_chr(map(break_by, quo_get_expr), class) == "name"),
-                msg = "All parameters submitted through `...` must be variable names")
-
-    assert_that(all(map_chr(break_by, as_name) %in% names(dat)),
-                msg = paste0("If `row_breaks` is specified, variables submitted via `...` ",
-                             "must be `ord` variables included in the input data frame.\n",
-                             "Remember to sort prior to using `apply_row_masks`."))
-
-    assert_that(all(str_starts(map_chr(break_by, as_name), "ord")),
-                msg = paste0("Break-by variables submitted via `...` must be 'tardis' order variables ",
-                             "that start with `ord`"))
-
-    # Create the breaks dataframe
-    breaks <- dat %>%
-      distinct(!!!break_by) %>%
-      mutate(ord_break = 2)
-
-    # Add in a sorting variable to the data
-    dat <- dat %>%
-      mutate(ord_break = 1)
-
-    # bind and fill the NAs
-    dat <- bind_rows(dat, breaks) %>%
-      arrange(!!!break_by, ord_break) %>%
-      mutate_if(is.character, ~replace_na(., ""))
-  }
-
-  dat
-}
-
 #' Take a list of quosures and pull out things that aren't symbols
 #'
 #' @param var_list List of quosures
@@ -266,22 +182,6 @@ extract_character_from_quo <- function(var_list) {
   is_symbol_ <- map_lgl(var_list, quo_is_symbol)
 
   var_list[!is_symbol_]
-}
-
-#' Get maximum string format recursivly
-#'
-#' @param lay A layer object
-#'
-#' @return Maximum length of sub layers
-#' @noRd
-get_max_length <- function(lay) {
-  # Initalize max_ to -1
-  max_ <- -1L
-  # Get maximum length of all sub layers
-  if(length(lay$layers) > 0) max_ <- max(map_int(lay$layers, get_max_length))
-
-  # return greatest between sub layers and current layer
-  max(max_, lay$format_strings$size)
 }
 
 #' Clean variable attributes

@@ -283,26 +283,22 @@ get_pop_where <- function(obj) {
 #' Get or set the default format strings for descriptive statistics layers
 #'
 #' tardis provides you with the ability to set table-wide defaults of format
-#' strings. You may wish to reuse the same format strings across numerous
-#' layers. \code{set_desc_layer_summaries} and \code{set_count_layer_formats}
+#' strings. You may wish to reuse the same summaries across numerous
+#' layers. \code{set_desc_layer_summaries} and \code{set_count_layer_summaries}
 #' allow you to apply your desired format strings within the entire scope of the
 #' table.
 #'
-#' For descriptive statistic layers, you can also use \code{set_format_strings}
+#' For descriptive statistic layers, you can also use \code{set_summaries}
 #' and \code{set_desc_layer_summaries} together within a table, but not within the
-#' same layer. In the absence of specified format strings, first the table will
+#' same layer. In the absence of specified summaries, first the table will
 #' be checked for any available defaults, and otherwise the
 #' \code{tardis.desc_layer_default_formats} option will be used.
-#' \code{set_format_strings} will always take precedence over either. Defaults
-#' cannot be combined between \code{set_format_strings},
+#' \code{set_summaries} will always take precedence over either. Defaults
+#' cannot be combined between \code{set_summaries},
 #' \code{set_desc_layer_summaries}, and the
-#' \code{tardis.desc_layer_default_formats} because the order of presentation of
+#' \code{tardis.desc_layer_default_summaries} because the order of presentation of
 #' results is controlled by the format strings, so relying on combinations of
 #' these setting would not be intuitive.
-#'
-#' For count layers, you can override the \code{n_counts} or \code{riskdiff}
-#' format strings separately, and the narrowest scope available will be used
-#' from layer, to table, to default options.
 #'
 #' @param obj A tardis_table object
 #'
@@ -318,29 +314,25 @@ get_desc_layer_summaries <- function(obj) {s
 #' @export
 #' @rdname table_format_defaults
 set_desc_layer_summaries <- function(obj, ...) {
-  # Bind the formats into the table
+  # Bind the summaries into the table
   env_bind(obj, desc_layer_summaries = list(...))
   obj
 }
 
 #' @export
 #' @rdname table_format_defaults
-get_count_layer_formats <- function(obj) {
+get_count_layer_summaries <- function(obj) {
   # Bind the formats into the table
-  env_get(obj, 'count_layer_formats')
+  env_get(obj, 'count_layer_summaries')
 }
 
 #' @param ... formats to pass forward
 #'
 #' @export
 #' @rdname table_format_defaults
-set_count_layer_formats <- function(obj, ...) {
-  # Bind the formats into the table
-
-  if (length(list(...)) > 0) params <- count_f_str_check(...)
-  else params <- list(...)
-
-  env_bind(obj, count_layer_formats = params)
+set_count_layer_summaries <- function(obj, ...) {
+  # Bind the summaries into the table
+  env_bind(obj, count_layer_summaries = list(n_counts = ...))
   obj
 }
 

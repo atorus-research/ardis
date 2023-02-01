@@ -81,7 +81,7 @@ new_tardis_table <- function(target, treat_var, where, cols, target_name) {
     set_where(!!where) %>%
     set_pop_where(!!where) %>%
     set_desc_layer_summaries() %>%
-    set_count_layer_formats() %>%
+    set_count_layer_summaries() %>%
     set_shift_layer_formats()
 
 

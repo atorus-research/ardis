@@ -146,7 +146,7 @@ add_layers <- function(parent, ...) {
 #'   value counts. From these available summaries, the default presentation of a
 #'   descriptive statistic layer will output 'n', 'Mean (SD)', 'Median', 'Q1, Q3',
 #'   'Min, Max', and 'Missing'. You can change these summaries using
-#'   \code{\link{set_format_strings}}, and you can also add your own summaries
+#'   \code{\link{set_summaries}}, and you can also add your own summaries
 #'   using \code{\link{set_custom_summaries}}. This allows you to implement any
 #'   additional summary statistics you want presented.} \item{Shift Layers}{A
 #'   shift layer displays an endpoint's 'shift' throughout the duration of the
@@ -155,7 +155,7 @@ add_layers <- function(parent, ...) {
 #'   named symbols using \code{dplyr::vars}. Generally the baseline is passed
 #'   with the name 'row' and the shift is passed with the name 'column'. Both
 #'   counts (n) and percentages (pct) are supported and can be specified with
-#'   the \code{\link{set_format_strings}} function. To allow for flexibility
+#'   the \code{\link{set_summaries}} function. To allow for flexibility
 #'   when defining percentages, you can define the denominator using the
 #'   \code{\link{set_denoms_by}} function. This function takes variable names and
 #'   uses those to determine the denominator for the counts.} }
@@ -206,5 +206,6 @@ group_desc <- function(parent, target_var, by=vars(), where=TRUE, ...) {
 #' @family Layer Construction Functions
 #' @export
 group_shift <- function(parent, target_var, by=vars(), where=TRUE, ...) {
+  stop("Uh-oh! Shift layers aren't ready yet for tardis!", call.=FALSE)
   tardis_layer(parent, type='shift', by=enquos(by), target_var=enquos(target_var), where=enquo(where), ...)
 }

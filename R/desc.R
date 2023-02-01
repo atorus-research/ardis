@@ -7,11 +7,11 @@
 #' @noRd
 process_summaries.desc_layer <- function(x, ...) {
 
-  # If format strings weren't provided, then grab the defaults
+  # If summaries weren't provided, then grab the defaults
   if (!has_summaries(x)) {
     # Grab the defaults available at the table or option level
     params <- gather_defaults(x)
-    # Place the formats
+    # Place the summaries
     x <- do.call('set_summaries', append(x, params))
   }
 

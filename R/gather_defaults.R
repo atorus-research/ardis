@@ -42,9 +42,9 @@ gather_defaults.desc_layer <- function(x) {
 #' @noRd
 gather_defaults.count_layer <- function(x) {
   # Get the defaults set within options
-  opt_settings <- getOption('tardis.count_layer_default_formats')
+  opt_settings <- getOption('tardis.count_layer_default_summaries')
   # Get the table defaults if they're available
-  table_settings <- evalq(count_layer_formats, envir=x)
+  table_settings <- evalq(count_layer_summaries, envir=x)
 
   # Append together - table will be preferred over option when indexing
   append(table_settings, opt_settings)
