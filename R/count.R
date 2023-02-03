@@ -514,8 +514,7 @@ prepare_numeric_data <- function(x) {
 
     # Define the row labels established in set_summaries()
     # and apply them to the numeric data
-    # if ('summary_grps' %in% ls()){
-    if (FALSE) {
+    if (is_named(summary_grps)){
       row_labels <- name_translator_numeric(summary_grps)
       numeric_data <- numeric_data %>%
         rowwise() %>%
