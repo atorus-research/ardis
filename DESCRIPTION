@@ -1,5 +1,5 @@
-Package: tardis
-Title: tardis is a Table Analysis Results Data Interchange Structure
+Package: ardis
+Title: ardis is a Analysis Results Data Interchange Structure
 Version: 0.0.0.9000
 Authors@R: 
     c(
@@ -18,8 +18,8 @@ Authors@R:
     )
 Description: A traceability focused tool created to simplify the data manipulation necessary to create clinical summaries.
 License: MIT + file LICENSE
-URL: https://github.com/atorus-research/tardis
-BugReports: https://github.com/atorus-research/tardis/issues
+URL: https://github.com/atorus-research/ardis
+BugReports: https://github.com/atorus-research/ardis/issues
 Encoding: UTF-8
 Depends: R (>= 3.5.0)
 Imports:

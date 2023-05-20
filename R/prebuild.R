@@ -2,7 +2,7 @@
 
 #' Build treatment groups into tables
 #'
-#' @param table A tardis_table object to have its groups built.
+#' @param table A ardis object to have its groups built.
 #'
 #' @return The table invisibly
 #' @noRd
@@ -41,7 +41,7 @@ treatment_group_build <- function(table) {
       built_target <- built_target %>%
         filter(!!table_where)
     }, error = function(e) {
-      abort(paste0("tardis_table `where` condition `",
+      abort(paste0("ardis `where` condition `",
                    as_label(table_where),
                    "` is invalid. Filter error:\n", e))
     })

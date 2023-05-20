@@ -121,7 +121,7 @@ make_parsed_strings <- function(variables, values, negate=FALSE) {
 #' combination name
 #'
 #' @param value Specified treatment group
-#' @param layer tardis layer
+#' @param layer ardis layer
 #'
 #' @return A character vector of treatment groups
 #' @noRd
@@ -148,7 +148,7 @@ get_vars_from_filter <- function(f) {
 
 #' Extract value of outer layer text value
 #'
-#' @param layer A tardis layer object
+#' @param layer A ardis layer object
 #'
 #' @return Single element character vector
 #' @noRd
@@ -164,7 +164,7 @@ get_character_outer <- function(layer) {
 
 #' Check if a layer is unnested with character target
 #'
-#' @param layer A tardis layer object
+#' @param layer A ardis layer object
 #'
 #' @return Boolean
 #' @noRd

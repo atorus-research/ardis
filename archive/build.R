@@ -1,8 +1,8 @@
 ### Build/Render Functions
 
-#' Trigger the execution of the \code{tardis_table}
+#' Trigger the execution of the \code{ardis}
 #'
-#' @description The functions used to assemble a \code{tardis_table} object and
+#' @description The functions used to assemble a \code{ardis} object and
 #' each of the layers do not trigger the processing of any data. Rather, a lazy
 #' execution style is used to allow you to construct your table and then
 #' explicitly state when the data processing should happen. \code{build}
@@ -23,21 +23,21 @@
 #'
 #' The `metadata` option of build will trigger the construction of traceability
 #' metadata for the constructed data frame. Essentially, for every "result" that
-#' tardis produces, tardis can also generate the steps necessary to obtain the
+#' ardis produces, ardis can also generate the steps necessary to obtain the
 #' source data which produced that result from the input. For more information,
 #' see vignette("metadata").
 #'
-#' @param x A \code{tardis_table} object
+#' @param x A \code{ardis} object
 #' @param metadata  Trigger to build metadata. Defaults to FALSE
 #'
-#' @return An executed \code{tardis_table}
+#' @return An executed \code{ardis}
 #' @export
 #'
 #' @examples
 #' # Load in Pipe
 #' library(magrittr)
 #'
-#' tardis_table(iris, Species) %>%
+#' ardis(iris, Species) %>%
 #'   add_layer(
 #'     group_desc(Sepal.Length, by = "Sepal Length")
 #'   ) %>%
@@ -46,21 +46,21 @@
 #'   ) %>%
 #'   build()
 #'
-#' @seealso tardis_table, tardis_layer, add_layer, add_layers, layer_constructors
+#' @seealso ardis, ardis_layer, add_layer, add_layers, layer_constructors
 build <- function(x, metadata=FALSE) {
     UseMethod("build")
 }
 
-#' tardis_table S3 method
+#' ardis S3 method
 #' @noRd
 #' @export
-build.tardis_table <- function(x, metadata=FALSE) {
+build.ardis <- function(x, metadata=FALSE) {
 
   op <- options()
 
   tryCatch({
     # Override scipen with Typlr option
-    options('scipen' = getOption('tardis.scipen')) # Override scipen
+    options('scipen' = getOption('ardis.scipen')) # Override scipen
 
     # Table Pre build
     treatment_group_build(x)
@@ -122,10 +122,10 @@ build.tardis_table <- function(x, metadata=FALSE) {
 #' Process layers to get numeric results of layer
 #'
 #' This is an internal method, but is exported to support S3 dispatch. Not intended for direct use by a user.
-#' @param x a tardis_layer object
+#' @param x a ardis_layer object
 #' @param ... arguments passed to dispatch
 #'
-#' @return The tardis_layer object with a 'built_table' binding
+#' @return The ardis_layer object with a 'built_table' binding
 #' @export
 #' @keywords internal
 process_summaries <- function(x, ...) {
@@ -135,7 +135,7 @@ process_summaries <- function(x, ...) {
 #' Process layers to get formatted and pivoted tables.
 #'
 #' This is an internal method, but is exported to support S3 dispatch. Not intended for direct use by a user.
-#' @param x A tardis_layer object
+#' @param x A ardis_layer object
 #' @param ... arguments passed to dispatch
 #'
 #' @return The formatted_table object that is bound to the layer
@@ -153,7 +153,7 @@ prepare_format_metadata <- function(x) {
 #' Process layers to get metadata tables
 #'
 #' This is an internal method, but is exported to support S3 dispatch. Not intended for direct use by a user.
-#' @param x A tardis_layer object
+#' @param x A ardis_layer object
 #' @param ... arguments passed to dispatch
 #'
 #' @return The formatted_meta object that is bound to the layer
@@ -165,7 +165,7 @@ process_metadata <- function(x, ...) {
 
 #' Fetch table formatting info from layers
 #'
-#' @param x A tardis_table object
+#' @param x A ardis object
 #'
 #' @return The data used to format layers. Structure currently TBD
 #' @noRd

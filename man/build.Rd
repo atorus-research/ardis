@@ -2,12 +2,12 @@
 % Please edit documentation in R/build.R
 \name{build}
 \alias{build}
-\title{Retrieve the numeric data from a tardis objects}
+\title{Retrieve the numeric data from a ardis objects}
 \usage{
 build(x, layer = NULL, where = TRUE, ...)
 }
 \arguments{
-\item{x}{A tardis_table or tardis_layer object}
+\item{x}{A ardis or ardis_layer object}
 
 \item{layer}{Layer name or index to select out specifically}
 
@@ -16,16 +16,16 @@ build(x, layer = NULL, where = TRUE, ...)
 \item{...}{Additional arguments to pass forward}
 }
 \value{
-Numeric data from the tardis layer
+Numeric data from the ardis layer
 }
 \description{
 \code{build} provides access to the un-formatted numeric data for
-each of the layers within a \code{tardis_table}, with options to allow you to
+each of the layers within a \code{ardis}, with options to allow you to
 extract distinct layers and filter as desired.
 }
 \details{
-When used on a \code{tardis_table} object, this method will aggregate the
-numeric data from all tardis layers. The data will be returned to the user in
+When used on a \code{ardis} object, this method will aggregate the
+numeric data from all ardis layers. The data will be returned to the user in
 a list of data frames. If the data has already been processed (i.e.
 \code{build} has been run), the numeric data is already available and will be
 returned without reprocessing. Otherwise, the numeric portion of the layer
@@ -37,7 +37,7 @@ instead of using a layer index, but a numeric index works as well.
 }
 \examples{
 
-t <- tardis_table(mtcars, gear) \%>\%
+t <- ardis(mtcars, gear) \%>\%
  add_layer(name='drat',
            group_desc(drat)
  ) \%>\%

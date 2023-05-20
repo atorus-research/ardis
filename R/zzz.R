@@ -26,44 +26,44 @@ NULL
 #'
 #' `r lifecycle::badge("experimental")`
 #'
-#' 'tardis' is a package dedicated to simplifying the data manipulation necessary
+#' 'ardis' is a package dedicated to simplifying the data manipulation necessary
 #' to create clinical reports. Clinical data summaries can often be broken down
 #' into two factors - counting discrete variables (or counting shifts in state),
 #' and descriptive statistics around a continuous variable. Many of the reports
 #' that go into a clinical report are made up of these two scenarios. By
-#' abstracting this process away, 'tardis' allows you to rapidly build these
+#' abstracting this process away, 'ardis' allows you to rapidly build these
 #' tables without worrying about the underlying data manipulation.
 #'
-#' 'tardis' takes this process a few steps further by abstracting away most of
+#' 'ardis' takes this process a few steps further by abstracting away most of
 #' the programming that goes into proper presentation, which is where a great
-#' deal of programming time is spent. For example, 'tardis' allows you to easily
+#' deal of programming time is spent. For example, 'ardis' allows you to easily
 #' control:
 #'
 #' \describe{ \item{\strong{String formatting}}{Different reports warrant
 #' different presentation of your strings. Programming this can get tedious, as
-#' you typically want to make sure that your decimals properly align. 'tardis'
+#' you typically want to make sure that your decimals properly align. 'ardis'
 #' abstracts this process away and provides you with a simple interface to
 #' specify how you want your data presented} \item{\strong{Treatment
 #' groups}}{Need a total column? Need to group summaries of multiple treatments?
-#' 'tardis' makes it simple to add additional treatment groups into your report}
+#' 'ardis' makes it simple to add additional treatment groups into your report}
 #' \item{\strong{Denominators}}{n (\%) counts often vary based on the summary
-#' being performed. 'tardis' allows you to easily control what denominators are
+#' being performed. 'ardis' allows you to easily control what denominators are
 #' used based on a few common scenarios} \item{\strong{Sorting}}{Summarizing
-#' data is one thing, but ordering it for presentation. tardis automatically
+#' data is one thing, but ordering it for presentation. ardis automatically
 #' derives sorting variable to give you the data you need to order your table
 #' properly. This process is flexible so you can easily get what you want by
 #' leveraging your data or characteristics of R.} }
 #'
-#' Another powerful aspect of 'tardis' are the objects themselves. 'tardis' does
+#' Another powerful aspect of 'ardis' are the objects themselves. 'ardis' does
 #' more than format your data. Metadata about your table is kept under the hood,
 #' and functions allow you to access information that you need. For example,
-#' 'tardis' allows you to calculate and access the raw numeric data of
+#' 'ardis' allows you to calculate and access the raw numeric data of
 #' calculations as well, and easily pick out just the pieces of information that
 #' you need.
 #'
-#' Lastly, 'tardis' was built to be flexible, yet intuitive. A common pitfall of
+#' Lastly, 'ardis' was built to be flexible, yet intuitive. A common pitfall of
 #' building tools like this is over automation. By doing to much, you end up not
-#' doing enough. 'tardis' aims to hit the sweet spot in between. Additionally, we
+#' doing enough. 'ardis' aims to hit the sweet spot in between. Additionally, we
 #' designed our function interfaces to be clean. Modifier functions offer you
 #' flexibility when you need it, but defaults can be set to keep the code
 #' concise. This allows you to quickly assemble your table, and easily make
@@ -74,7 +74,7 @@ NULL
 #' library(magrittr)
 #'
 #' # Use just the defaults
-#' tardis_table(mtcars, gear) %>%
+#' ardis(mtcars, gear) %>%
 #'   add_layer(
 #'     group_desc(mpg, by=cyl)
 #'   ) %>%
@@ -84,7 +84,7 @@ NULL
 #'   build()
 #'
 #' # Customize and modify
-#' tardis_table(mtcars, gear) %>%
+#' ardis(mtcars, gear) %>%
 #'   add_layer(
 #'     group_desc(mpg, by=cyl) %>%
 #'       set_format_strings(
@@ -113,7 +113,7 @@ NULL
 #'   build()
 #'
 #' # A Shift Table
-#' tardis_table(mtcars, am) %>%
+#' ardis(mtcars, am) %>%
 #'   add_layer(
 #'     group_shift(vars(row=gear, column=carb), by=cyl) %>%
 #'     set_format_strings(f_str("xxx (xx.xx%)", n, pct))
@@ -121,20 +121,20 @@ NULL
 #'   build()
 #'
 #' @docType package
-#' @name tardis
+#' @name ardis
 "_PACKAGE"
 
 # Default options ----
-tardis_default_options <- list(
+ardis_default_options <- list(
 
   # Count layer defaults
-  tardis.count_layer_default_summaries =
+  ardis.count_layer_default_summaries =
     list(n_counts = list("n (%)" = vars(n, pct)),
          riskdiff = list("Diff (low, high)" = vars(dif, low, high))
          ),
 
   # Desc layer defaults
-  tardis.desc_layer_default_summaries =
+  ardis.desc_layer_default_summaries =
     list("n"        = vars(n),
          "Mean (SD)"= vars(mean, sd),
          "Median"   = vars(median),
@@ -144,19 +144,19 @@ tardis_default_options <- list(
          ),
 
   # Shift layer defaults
-  tardis.shift_layer_default_formats = list("n" = n),
+  ardis.shift_layer_default_formats = list("n" = n),
 
   # Custom summaries
-  tardis.custom_summaries = NULL,
+  ardis.custom_summaries = NULL,
 
   # Quantile algorithm setting
-  tardis.quantile_type = 7,
+  ardis.quantile_type = 7,
 
   # Rounding option default
-  tardis.IBMRounding = FALSE,
+  ardis.IBMRounding = FALSE,
 
   # Layer templates
-  tardis.layer_templates = list()
+  ardis.layer_templates = list()
 )
 
 # Carry out process on load ----
@@ -165,8 +165,8 @@ tardis_default_options <- list(
   op <- options()
 
   # Set any options that haven't been set
-  toset <- !(names(tardis_default_options) %in% names(op))
-  if (any(toset)) options(tardis_default_options[toset])
+  toset <- !(names(ardis_default_options) %in% names(op))
+  if (any(toset)) options(ardis_default_options[toset])
 
   invisible()
 }

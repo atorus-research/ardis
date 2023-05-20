@@ -15,7 +15,7 @@ group_shift(parent, target_var, by = vars(), where = TRUE, ...)
 }
 \arguments{
 \item{parent}{Required. The parent environment of the layer. This must be the
-\code{tardis_table} object that the layer is contained within.}
+\code{ardis} object that the layer is contained within.}
 
 \item{target_var}{Symbol. Required, The variable name(s) on which the summary
 is to be performed. Must be a variable within the target dataset. Enter
@@ -31,10 +31,10 @@ performing a summary.}
 \item{...}{Additional arguments to pass forward}
 }
 \value{
-An \code{tardis_layer} environment that is a child of the specified
+An \code{ardis_layer} environment that is a child of the specified
   parent. The environment contains the object as listed below.
 
-A \code{tardis_layer} object
+A \code{ardis_layer} object
 }
 \description{
 This family of functions specifies the type of summary that is
@@ -57,7 +57,7 @@ This family of functions specifies the type of summary that is
   available using the function \code{\link{set_denoms_by}} and distinct
   counts can be set using \code{\link{set_distinct_by}}} \item{Descriptive
   Statistics Layers}{Descriptive statistics layers perform summaries on
-  continuous variables. There are a number of summaries built into tardis
+  continuous variables. There are a number of summaries built into ardis
   already that you can perform, including n, mean, median, standard
   deviation, variance, min, max, inter-quartile range, Q1, Q3, and missing
   value counts. From these available summaries, the default presentation of a
@@ -81,22 +81,22 @@ This family of functions specifies the type of summary that is
 # Load in pipe
 library(magrittr)
 
-t <- tardis_table(iris, Species) \%>\%
+t <- ardis(iris, Species) \%>\%
   add_layer(
     group_desc(target_var=Sepal.Width)
   )
 
-t <- tardis_table(iris, Species) \%>\%
+t <- ardis(iris, Species) \%>\%
   add_layer(
     group_desc(target_var=Sepal.Width)
   )
 
-t <- tardis_table(mtcars, am) \%>\%
+t <- ardis(mtcars, am) \%>\%
   add_layer(
     group_shift(vars(row=gear, column=carb), by=cyl)
   )
 }
 \seealso{
-[\link{add_layer}, \link{add_layers}, \link{tardis_table}, \link{tardis_layer}]
+[\link{add_layer}, \link{add_layers}, \link{ardis}, \link{ardis_layer}]
 }
 \concept{Layer Construction Functions}

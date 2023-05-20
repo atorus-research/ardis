@@ -1,14 +1,14 @@
 ### Table Constructor
 
 
-#' Create a tardis table object
+#' Create a ardis table object
 #'
-#' The \code{tardis_table} object is the main container upon which a tardis table is constructed. tardis tables are made up of
-#' one or more layers. Each layer contains an instruction for a summary to be performed. The \code{tardis_table} object contains
+#' The \code{ardis} object is the main container upon which a ardis table is constructed. ardis tables are made up of
+#' one or more layers. Each layer contains an instruction for a summary to be performed. The \code{ardis} object contains
 #' those layers, and the general data, metadata, and logic necessary.
 #'
 #' @details
-#' When a \code{tardis_table} is created, it will contain the following bindings:
+#' When a \code{ardis} is created, it will contain the following bindings:
 #' \itemize{
 #' \item{target - The dataset upon which summaries will be performed}
 #' \item{pop_data - The data containing population information. This defaults to the target dataset}
@@ -17,11 +17,11 @@
 #' \item{treat_var - Variable used to distinguish treatment groups.}
 #' \item{header_n - Default header N values based on \code{treat_var}}
 #' \item{pop_treat_var - The treatment variable for \code{pop_data} (if different)}
-#' \item{layers - The container for individual layers of a \code{tardis_table}}
+#' \item{layers - The container for individual layers of a \code{ardis}}
 #' \item{treat_grps - Additional treatment groups to be added to the summary (i.e. Total)}
 #' }
 #'
-#' \code{tardis_table} allows you a basic interface to instantiate the object. Modifier functions are available to change
+#' \code{ardis} allows you a basic interface to instantiate the object. Modifier functions are available to change
 #' individual parameters catered to your analysis. For example, to add a total group, you can use the
 #' \code{\link{add_total_group}}.
 #'
@@ -33,44 +33,44 @@
 #' @param cols A grouping variable to summarize data by column (in addition to treat_var). Provide multiple
 #' column variables by using \code{\link[dplyr]{vars}}
 #'
-#' @return A \code{tardis_table} object
+#' @return A \code{ardis} object
 #' @export
 #'
 #' @examples
 #'
-#' tab <- tardis_table(iris, Species, where = Sepal.Length < 5.8)
+#' tab <- ardis(iris, Species, where = Sepal.Length < 5.8)
 #'
-tardis_table <- function(target, treat_var, where = TRUE, cols = vars()) {
+ardis <- function(target, treat_var, where = TRUE, cols = vars()) {
 
   if(missing(target)){
     # return a blank environment if no table information is passed. This can be
     # used as a placeholder when creating a table if the dataset is not available.
     return(structure(rlang::env(),
-                     class = c("tardis_table", "environment")))
+                     class = c("ardis", "environment")))
   }
 
   target_name <- enexpr(target)
 
-  new_tardis_table(target, enquo(treat_var), enquo(where), enquos(cols), target_name)
+  new_ardis(target, enquo(treat_var), enquo(where), enquos(cols), target_name)
 }
 
-#' Construct new tardis_table
+#' Construct new ardis
 #'
-#' @inheritParams tardis_table
+#' @inheritParams ardis
 #' @noRd
-new_tardis_table <- function(target, treat_var, where, cols, target_name) {
+new_ardis <- function(target, treat_var, where, cols, target_name) {
   cols <- unpack_vars(cols)
 
-  validate_tardis_table(target, cols)
+  validate_ardis(target, cols)
 
-  # Create table object with default bindings and class of `tardis_table`
+  # Create table object with default bindings and class of `ardis`
   table_ <- structure(rlang::env(
     target = target,
     treat_grps = list(),
     cols = cols,
     layers = structure(list(),
-                       class = c("tardis_layer_container", "list"))
-  ), class = c("tardis_table", "environment"))
+                       class = c("ardis_layer_container", "list"))
+  ), class = c("ardis", "environment"))
   attr(table_, "target_name") <- target_name
 
   table_ <- table_ %>%
@@ -89,19 +89,19 @@ new_tardis_table <- function(target, treat_var, where, cols, target_name) {
   table_
 }
 
-#' Validate tardis_table target dataset
+#' Validate ardis target dataset
 #'
 #' Most validation is done in the binding functions to reduce code duplication
 #'
-#' @param target target dataset passed from new_tardis_table
-#' @param cols cols argument passed from new_tardis_table
+#' @param target target dataset passed from new_ardis
+#' @param cols cols argument passed from new_ardis
 #'
 #' @noRd
-validate_tardis_table <- function(target, cols) {
+validate_ardis <- function(target, cols) {
 
   # table should be a data.frame
   assertthat::assert_that(inherits(target, "data.frame"),
-                          msg = paste0("'pop_data' argument passed to tardis_table must be a data.frame,",
+                          msg = paste0("'pop_data' argument passed to ardis must be a data.frame,",
                                        "\n",
                                        "instead a class of: '",
                                        class(target),

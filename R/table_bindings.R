@@ -6,24 +6,24 @@
 #' derivations from the table or change them for future use.
 #'
 #' @details
-#' The `header_n` object is created by tardis when a table is built and intended
+#' The `header_n` object is created by ardis when a table is built and intended
 #' to be used by the `add_column_headers()` function when displaying table level
 #' population totals. These methods are intended to be used for calling the
-#' population totals calculated by tardis, and to overwrite them if a user
+#' population totals calculated by ardis, and to overwrite them if a user
 #' chooses to.
 #'
 #' If you have a need to change the header Ns that appear in your table headers,
 #' say you know you are working with a subset of the data that doesn't represent
 #' the totals, you can replace the data used with `set_header_n()`.
 #'
-#' @param table A \code{tardis_table} object
+#' @param table A \code{ardis} object
 #'
-#' @return For \code{tardis_header_n} the header_n binding of the
-#'   \code{tardis_table} object. For \code{tardis_header_n<-} and
-#'   \code{set_tardis_header_n} the modified object.
+#' @return For \code{ardis_header_n} the header_n binding of the
+#'   \code{ardis} object. For \code{ardis_header_n<-} and
+#'   \code{set_ardis_header_n} the modified object.
 #'
 #' @examples
-#' tab <- tardis_table(mtcars, gear)
+#' tab <- ardis(mtcars, gear)
 #'
 #' header_n(tab) <- data.frame(
 #'   gear = c(3, 4, 5),
@@ -38,7 +38,7 @@ header_n <- function(table) {
   env_get(table, "header_n")
 }
 
-#' @param x A \code{tardis_table} object
+#' @param x A \code{ardis} object
 #' @param value A data.frame with columns with the treatment variable, column
 #'   variabes, and a variable with counts named 'n'.
 #'
@@ -75,17 +75,17 @@ set_header_n <- function(table, value) {
 #' population dataset. The population dataset defaults to the target dataset
 #' unless otherwise specified using \code{set_pop_data}.
 #'
-#' @param table A \code{tardis_table} object
+#' @param table A \code{ardis} object
 #' @param pop_data A \code{data.frame} object containing the population level
 #'   information.
 #'
-#' @return For \code{tardis_pop_data} the pop_data binding of the
-#'   \code{tardis_table} object. For \code{tardis_pop_data<-} nothing is returned,
-#'   the pop_data binding is set silently. For \code{set_tardis_pop_data} the
+#' @return For \code{ardis_pop_data} the pop_data binding of the
+#'   \code{ardis} object. For \code{ardis_pop_data<-} nothing is returned,
+#'   the pop_data binding is set silently. For \code{set_ardis_pop_data} the
 #'   modified object.
 #'
 #' @examples
-#' tab <- tardis_table(iris, Species)
+#' tab <- ardis(iris, Species)
 #'
 #' pop_data(tab) <- mtcars
 #'
@@ -95,7 +95,7 @@ pop_data <- function(table) {
   env_get(table, "pop_data")
 }
 
-#' @param x A \code{tardis_table} object
+#' @param x A \code{ardis} object
 #' @param value A data.frame with population level information
 #'
 #' @export
@@ -112,7 +112,7 @@ set_pop_data <- function(table, pop_data) {
   pop_data_name <- enexpr(pop_data)
   # table should be a data.frame
   assert_that(inherits(pop_data, "data.frame"),
-                          msg = paste0("'pop_data' argument passed to tardis_table must be a data.frame,",
+                          msg = paste0("'pop_data' argument passed to ardis must be a data.frame,",
                                        "\n",
                                        "instead a class of: '",
                                        class(pop_data),
@@ -127,14 +127,14 @@ set_pop_data <- function(table, pop_data) {
 
 #' Return or set the treatment variable binding
 #'
-#' @param table A \code{tardis_table} object to set or return treatment variable
+#' @param table A \code{ardis} object to set or return treatment variable
 #'   the table is split by.
 #'
-#' @return For \code{tardis_treat_var} the treat_var binding of the \code{tardis_table}
-#'   object. For \code{set_tardis_treat_var} the modified object.
+#' @return For \code{ardis_treat_var} the treat_var binding of the \code{ardis}
+#'   object. For \code{set_ardis_treat_var} the modified object.
 #'
 #' @examples
-#' tab <- tardis_table(mtcars, cyl)
+#' tab <- ardis(mtcars, cyl)
 #'
 #' set_treat_var(tab, gear)
 #'
@@ -169,14 +169,14 @@ set_treat_var <- function(table, treat_var) {
 #' variable within the population dataset. \code{set_pop_treat_var} allows you
 #' to change this.
 #'
-#' @param table A \code{tardis_table} object
+#' @param table A \code{ardis} object
 #'
-#' @return For \code{tardis_pop_treat_var} the pop_treat_var binding of the
-#'   \code{tardis_table} object. For \code{set_tardis_pop_treat_var} the modified
+#' @return For \code{ardis_pop_treat_var} the pop_treat_var binding of the
+#'   \code{ardis} object. For \code{set_ardis_pop_treat_var} the modified
 #'   object.
 #'
 #' @examples
-#' tab <- tardis_table(iris, Species)
+#' tab <- ardis(iris, Species)
 #'
 #' pop_data(tab) <- mtcars
 #' set_pop_treat_var(tab, mpg)
@@ -196,7 +196,7 @@ set_pop_treat_var <- function(table, pop_treat_var) {
 
   assert_that(class(quo_get_expr(pop_treat_var)) == "name",
                           as_name(quo_get_expr(pop_treat_var)) %in% names(table$pop_data),
-                          msg = paste0("pop_treat_var passed to tardis_table is not a column of pop_data"))
+                          msg = paste0("pop_treat_var passed to ardis is not a column of pop_data"))
 
   env_bind(table, pop_treat_var = pop_treat_var)
 
@@ -211,7 +211,7 @@ treat_grps <- function(table) {
 
 #' Set or return where binding for layer or table
 #'
-#' @param obj A \code{tardis_layer} or \code{tardis_table} object.
+#' @param obj A \code{ardis_layer} or \code{ardis} object.
 #'
 #' @return For \code{where}, the where binding of the supplied object.
 #'   For \code{set_where}, the modified object
@@ -223,7 +223,7 @@ treat_grps <- function(table) {
 #' library(magrittr)
 #'
 #' iris$Species2 <- iris$Species
-#' lay <- tardis_table(iris, Species) %>%
+#' lay <- ardis(iris, Species) %>%
 #'   group_count(Species) %>%
 #'   set_where(Petal.Length > 3) %>%
 #'   # Set logic for pop_data as well
@@ -235,7 +235,7 @@ get_where <- function(obj) {
 
 #' @rdname where
 #' @export
-get_where.tardis_table <- function(obj) {
+get_where.ardis <- function(obj) {
   env_get(obj, "table_where")
 }
 
@@ -250,7 +250,7 @@ set_where <- function(obj, where) {
 
 #' @rdname where
 #' @export
-set_where.tardis_table <- function(obj, where) {
+set_where.ardis <- function(obj, where) {
   where <- enquo(where)
 
   assert_that(is_logical_or_call(where),
@@ -282,7 +282,7 @@ get_pop_where <- function(obj) {
 
 #' Get or set the default format strings for descriptive statistics layers
 #'
-#' tardis provides you with the ability to set table-wide defaults of format
+#' ardis provides you with the ability to set table-wide defaults of format
 #' strings. You may wish to reuse the same summaries across numerous
 #' layers. \code{set_desc_layer_summaries} and \code{set_count_layer_summaries}
 #' allow you to apply your desired format strings within the entire scope of the
@@ -292,15 +292,15 @@ get_pop_where <- function(obj) {
 #' and \code{set_desc_layer_summaries} together within a table, but not within the
 #' same layer. In the absence of specified summaries, first the table will
 #' be checked for any available defaults, and otherwise the
-#' \code{tardis.desc_layer_default_formats} option will be used.
+#' \code{ardis.desc_layer_default_formats} option will be used.
 #' \code{set_summaries} will always take precedence over either. Defaults
 #' cannot be combined between \code{set_summaries},
 #' \code{set_desc_layer_summaries}, and the
-#' \code{tardis.desc_layer_default_summaries} because the order of presentation of
+#' \code{ardis.desc_layer_default_summaries} because the order of presentation of
 #' results is controlled by the format strings, so relying on combinations of
 #' these setting would not be intuitive.
 #'
-#' @param obj A tardis_table object
+#' @param obj A ardis object
 #'
 #' @export
 #' @rdname table_format_defaults

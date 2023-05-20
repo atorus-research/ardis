@@ -1,23 +1,23 @@
 ### Layering Interfaces
 
-#' Attach a layer to a \code{tardis_table} object
+#' Attach a layer to a \code{ardis} object
 #'
 #' @description
-#' \code{add_layer} attaches a \code{tardis_layer} to a \code{tardis_table} object. This allows
+#' \code{add_layer} attaches a \code{ardis_layer} to a \code{ardis} object. This allows
 #' for a tidy style of programming (using \code{magrittr} piping, i.e. \code{\%>\%}) with a
 #' secondary advantage - the construction of the layer object may consist of a series of piped
 #' functions itself.
 #'
-#' \code{tardis} encourages a user to view the construction of a table as a series of "layers".
+#' \code{ardis} encourages a user to view the construction of a table as a series of "layers".
 #' The construction of each of these layers are isolated and independent of one another - but
 #' each of these layers are children of the table itself. \code{add_layer} isolates the construction
 #' of an individual layer and allows the user to construct that layer and insert it back into the
 #' parent. The syntax for this is intuitive and allows for tidy piping. Simply pipe the current
 #' table object in, and write the code to construct your layer within the \code{layer} parameter.
 #'
-#' \code{add_layers} is another approach to attaching layers to a \code{tardis_table}. Instead of
+#' \code{add_layers} is another approach to attaching layers to a \code{ardis}. Instead of
 #' constructing the entire table at once, \code{add_layers} allows you to construct layers as
-#' different objects. These layers can then be attached into the \code{tardis_table} all at
+#' different objects. These layers can then be attached into the \code{ardis} all at
 #' once.
 #'
 #' \code{add_layer} and \code{add_layers} both additionally allow you to name the layers as you
@@ -26,17 +26,17 @@
 #' submitting the layer as a named argument.
 #'
 #'
-#' @param parent A \code{tardis_table} or \code{tardis_layer}/\code{tardis_subgroup_layer} object
+#' @param parent A \code{ardis} or \code{ardis_layer}/\code{ardis_subgroup_layer} object
 #' @param layer A layer construction function and associated modifier functions
 #' @param name A name to provide the layer in the table layers container
 #'
 #' @family Layer attachment
 #' @rdname layer_attachment
 #'
-#' @return A \code{tardis_table} or \code{tardis_layer}/\code{tardis_subgroup_layer} with a new layer inserted into the \code{layer}
+#' @return A \code{ardis} or \code{ardis_layer}/\code{ardis_subgroup_layer} with a new layer inserted into the \code{layer}
 #'   binding
 #'
-#' @seealso [tardis_table(), tardis_layer(), group_count(), group_desc(), group_shift()]
+#' @seealso [ardis(), ardis_layer(), group_count(), group_desc(), group_shift()]
 #'
 #' @export
 #'
@@ -45,19 +45,19 @@
 #' library(magrittr)
 #'
 #' ## Single layer
-#' t <- tardis_table(mtcars, cyl) %>%
+#' t <- ardis(mtcars, cyl) %>%
 #'   add_layer(
 #'     group_desc(target_var=mpg)
 #'   )
 #'
 #' ## Single layer with name
-#' t <- tardis_table(mtcars, cyl) %>%
+#' t <- ardis(mtcars, cyl) %>%
 #'   add_layer(name='mpg',
 #'     group_desc(target_var=mpg)
 #'   )
 #'
 #' # Using add_layers
-#' t <- tardis_table(mtcars, cyl)
+#' t <- ardis(mtcars, cyl)
 #' l1 <- group_desc(t, target_var=mpg)
 #' l2 <- group_count(t, target_var=cyl)
 #'
@@ -75,7 +75,7 @@ add_layer <- function(parent, layer, name=NULL) {
   # (i.e. if any pipes %>% then pull out the left most call and modify it)
   l <- modify_nested_call(layer, parent=parent)
 
-  # Evaluate the layer and grab `tardis_layer` or `tardis_subgroup_layer` object
+  # Evaluate the layer and grab `ardis_layer` or `ardis_subgroup_layer` object
   executed_layer <- list(eval(quo_get_expr(l)))
 
   # Attach the name
@@ -86,7 +86,7 @@ add_layer <- function(parent, layer, name=NULL) {
   parent
 }
 
-#' @param parent A \code{tardis_table} or \code{tardis_layer}/\code{tardis_subgroup_layer} object
+#' @param parent A \code{ardis} or \code{ardis_layer}/\code{ardis_subgroup_layer} object
 #' @param ... Layers to be added
 #'
 #' @export
@@ -98,7 +98,7 @@ add_layer <- function(parent, layer, name=NULL) {
 add_layers <- function(parent, ...) {
   # Parent exists
   assert_that(!missing(parent), msg = "`parent` parameter must be provided")
-  # all objects are tardis layers
+  # all objects are ardis layers
   map(list(...), assert_is_layer)
 
   # Insert the layer into the parent object
@@ -116,7 +116,7 @@ add_layers <- function(parent, ...) {
 #'   changes in states. See the "details" section below for more information.
 #'
 #' @param parent Required. The parent environment of the layer. This must be the
-#'   \code{tardis_table} object that the layer is contained within.
+#'   \code{ardis} object that the layer is contained within.
 #' @param target_var Symbol. Required, The variable name(s) on which the summary
 #'   is to be performed. Must be a variable within the target dataset. Enter
 #'   unquoted - i.e. target_var = AEBODSYS. You may also provide multiple
@@ -140,7 +140,7 @@ add_layers <- function(parent, ...) {
 #'   available using the function \code{\link{set_denoms_by}} and distinct
 #'   counts can be set using \code{\link{set_distinct_by}}} \item{Descriptive
 #'   Statistics Layers}{Descriptive statistics layers perform summaries on
-#'   continuous variables. There are a number of summaries built into tardis
+#'   continuous variables. There are a number of summaries built into ardis
 #'   already that you can perform, including n, mean, median, standard
 #'   deviation, variance, min, max, inter-quartile range, Q1, Q3, and missing
 #'   value counts. From these available summaries, the default presentation of a
@@ -160,16 +160,16 @@ add_layers <- function(parent, ...) {
 #'   \code{\link{set_denoms_by}} function. This function takes variable names and
 #'   uses those to determine the denominator for the counts.} }
 #'
-#' @return An \code{tardis_layer} environment that is a child of the specified
+#' @return An \code{ardis_layer} environment that is a child of the specified
 #'   parent. The environment contains the object as listed below.
 #'
-#' @return A \code{tardis_layer} object
+#' @return A \code{ardis_layer} object
 #'
 #' @family Layer Construction Functions
 #'
 #' @rdname layer_constructors
 #'
-#' @seealso [\link{add_layer}, \link{add_layers}, \link{tardis_table}, \link{tardis_layer}]
+#' @seealso [\link{add_layer}, \link{add_layers}, \link{ardis}, \link{ardis_layer}]
 #'
 #' @export
 #'
@@ -177,35 +177,35 @@ add_layers <- function(parent, ...) {
 #' # Load in pipe
 #' library(magrittr)
 #'
-#' t <- tardis_table(iris, Species) %>%
+#' t <- ardis(iris, Species) %>%
 #'   add_layer(
 #'     group_desc(target_var=Sepal.Width)
 #'   )
 #'
-#' t <- tardis_table(iris, Species) %>%
+#' t <- ardis(iris, Species) %>%
 #'   add_layer(
 #'     group_desc(target_var=Sepal.Width)
 #'   )
 #'
-#' t <- tardis_table(mtcars, am) %>%
+#' t <- ardis(mtcars, am) %>%
 #'   add_layer(
 #'     group_shift(vars(row=gear, column=carb), by=cyl)
 #'   )
 group_count <- function(parent, target_var, by=vars(), where=TRUE, ...) {
-  tardis_layer(parent, type='count', by=enquos(by), target_var=enquos(target_var), where=enquo(where), ...)
+  ardis_layer(parent, type='count', by=enquos(by), target_var=enquos(target_var), where=enquo(where), ...)
 }
 
 #' @rdname layer_constructors
 #' @family Layer Construction Functions
 #' @export
 group_desc <- function(parent, target_var, by=vars(), where=TRUE, ...) {
-  tardis_layer(parent, type='desc', by=enquos(by), target_var=enquos(target_var), where=enquo(where), ...)
+  ardis_layer(parent, type='desc', by=enquos(by), target_var=enquos(target_var), where=enquo(where), ...)
 }
 
 #' @rdname layer_constructors
 #' @family Layer Construction Functions
 #' @export
 group_shift <- function(parent, target_var, by=vars(), where=TRUE, ...) {
-  stop("Uh-oh! Shift layers aren't ready yet for tardis!", call.=FALSE)
-  tardis_layer(parent, type='shift', by=enquos(by), target_var=enquos(target_var), where=enquo(where), ...)
+  stop("Uh-oh! Shift layers aren't ready yet for ardis!", call.=FALSE)
+  ardis_layer(parent, type='shift', by=enquos(by), target_var=enquos(target_var), where=enquo(where), ...)
 }

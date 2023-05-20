@@ -17,14 +17,14 @@
 #'
 #' # Default has matrix of treatment group, additional columns,
 #' # and by variables sum to 1
-#' tardis_table(mtcars, am) %>%
+#' ardis(mtcars, am) %>%
 #'   add_layer(
 #'     group_shift(vars(row=gear, column=carb), by=cyl) %>%
 #'       set_format_strings(f_str("xxx (xx.xx%)", n, pct))
 #'   ) %>%
 #'   build()
 #'
-#' tardis_table(mtcars, am) %>%
+#' ardis(mtcars, am) %>%
 #'   add_layer(
 #'     group_shift(vars(row=gear, column=carb), by=cyl) %>%
 #'       set_format_strings(f_str("xxx (xx.xx%)", n, pct)) %>%
@@ -32,7 +32,7 @@
 #'   ) %>%
 #'   build()
 #'
-#' tardis_table(mtcars, am) %>%
+#' ardis(mtcars, am) %>%
 #'   add_layer(
 #'     group_shift(vars(row=gear, column=carb), by=cyl) %>%
 #'       set_format_strings(f_str("xxx (xx.xx%)", n, pct)) %>%

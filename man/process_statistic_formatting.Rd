@@ -2,17 +2,17 @@
 % Please edit documentation in R/stats.R
 \name{process_statistic_formatting}
 \alias{process_statistic_formatting}
-\title{Process string formatting on a tardis_statistic object}
+\title{Process string formatting on a ardis_statistic object}
 \usage{
 process_statistic_formatting(x, ...)
 }
 \arguments{
-\item{x}{A tardis_statistic environment}
+\item{x}{A ardis_statistic environment}
 
 \item{...}{Additional pass through parameters}
 }
 \value{
-Formatted tardis_statistic data
+Formatted ardis_statistic data
 }
 \description{
 This is an internal function that is not meant for use externally, but must be exported.

@@ -1,12 +1,12 @@
 
 #' Get statistics data
 #'
-#' Like the layer numeric data, tardis also stores the numeric data produced from
+#' Like the layer numeric data, ardis also stores the numeric data produced from
 #' statistics like risk difference. This helper function gives you access to
 #' obtain that data from the environment
 #'
-#' When used on a \code{tardis_table} object, this method will aggregate the
-#' numeric data from all tardis layers and calculate all statistics. The data
+#' When used on a \code{ardis} object, this method will aggregate the
+#' numeric data from all ardis layers and calculate all statistics. The data
 #' will be returned to the user in a list of data frames. If the data has
 #' already been processed (i.e. \code{build} has been run), the numeric data is
 #' already available and the statistic data will simply be returned. Otherwise,
@@ -20,7 +20,7 @@
 #' frames, allowing you to grab, for example, just the risk difference
 #' statistics across all layers.
 #'
-#' @param x A tardis_table or tardis_layer object
+#' @param x A ardis or ardis_layer object
 #' @param layer Layer name or index to select out specifically
 #' @param statistic Statistic name or index to select
 #' @param where Subset criteria passed to dplyr::filter
@@ -32,7 +32,7 @@
 #' @examples
 #' library(magrittr)
 #'
-#' t <- tardis_table(mtcars, gear) %>%
+#' t <- ardis(mtcars, gear) %>%
 #'   add_layer(name='drat',
 #'             group_desc(drat)
 #'   ) %>%
@@ -80,10 +80,10 @@ get_stats_data <- function(x, layer=NULL, statistic=NULL, where=TRUE, ...) {
 }
 
 
-#' Get numeric data from a tardis_table object
+#' Get numeric data from a ardis object
 #' @export
 #' @noRd
-get_stats_data.tardis_table <- function(x, layer=NULL, statistic=NULL, where=TRUE, ...) {
+get_stats_data.ardis <- function(x, layer=NULL, statistic=NULL, where=TRUE, ...) {
 
   where <- enquo(where)
 
@@ -126,10 +126,10 @@ get_stats_data.tardis_table <- function(x, layer=NULL, statistic=NULL, where=TRU
 }
 
 
-#' Get numeric data from a tardis_layer object
+#' Get numeric data from a ardis_layer object
 #' @export
 #' @noRd
-get_stats_data.tardis_layer <- function(x, layer=NULL, statistic=NULL, where=TRUE, ...) {
+get_stats_data.ardis_layer <- function(x, layer=NULL, statistic=NULL, where=TRUE, ...) {
 
   # If the numeric data doesn't exist in the layer then process it
   if (!'numeric_data' %in% ls(x)) {

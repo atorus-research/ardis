@@ -19,7 +19,7 @@ Binds a variable \code{custom_summaries} to the specified layer
 This function allows a user to define custom summaries to be performed in a
 call to \code{dplyr::summarize()}. A custom summary by the same name as a
 default summary will override the default. This allows the user to override
-the default behavior of summaries built into 'tardis', while also adding new
+the default behavior of summaries built into 'ardis', while also adding new
 desired summary functions.
 }
 \details{
@@ -47,7 +47,7 @@ between the name created in \code{set_custom_summaries} and the name used in
 #Load in pipe
 library(magrittr)
 
-tardis_table(iris, Species) \%>\%
+ardis(iris, Species) \%>\%
   add_layer(
     group_desc(Sepal.Length, by = "Sepal Length") \%>\%
       set_custom_summaries(

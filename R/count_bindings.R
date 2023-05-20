@@ -23,7 +23,7 @@
 #' # Load in Pipe
 #' library(magrittr)
 #'
-#' tardis_table(mtcars, gear) %>%
+#' ardis(mtcars, gear) %>%
 #'   add_layer(
 #'     group_count(cyl) %>%
 #'       add_total_row()
@@ -58,7 +58,7 @@ add_total_row <- function(e, count_missings = TRUE, sort_value = NULL) {
 #' # Load in pipe
 #' library(magrittr)
 #'
-#' t <- tardis_table(mtcars, gear) %>%
+#' t <- ardis(mtcars, gear) %>%
 #'   add_layer(
 #'     group_count(cyl) %>%
 #'       add_total_row() %>%
@@ -103,7 +103,7 @@ set_total_row_label <- function(e, total_row_label) {
 #' #Load in pipe
 #' library(magrittr)
 #'
-#' tardis_table(mtcars, gear) %>%
+#' ardis(mtcars, gear) %>%
 #'   add_layer(
 #'     group_count(cyl) %>%
 #'       set_distinct_by(carb)
@@ -197,37 +197,37 @@ set_nest_count <- function(e, nest_count) {
 #'   event summaries, you may wish to order the table by descending occurrence
 #'   within a particular treatment group. But in other situations, such as AEs
 #'   of special interest, or subject disposition, there may be a specific order
-#'   you wish to display values. tardis offers solutions to each of these
+#'   you wish to display values. ardis offers solutions to each of these
 #'   situations.
 #'
-#'   Instead of allowing you to specify a custom sort order, tardis instead
+#'   Instead of allowing you to specify a custom sort order, ardis instead
 #'   provides you with order variables that can be used to sort your table after
-#'   the data are summarized. tardis has a default order in which the table will
+#'   the data are summarized. ardis has a default order in which the table will
 #'   be returned, but the order variables will always persist. This allows you
 #'   to use powerful sorting functions like \code{\link[dplyr]{arrange}}
 #'   to get your desired order, and in double programming situations, helps your
 #'   validator understand the how you achieved a particular sort order and where
 #'   discrepancies may be coming from.
 #'
-#'   When creating order variables for a layer, for each 'by' variable tardis
+#'   When creating order variables for a layer, for each 'by' variable ardis
 #'   will search for a <VAR>N version of that variable (i.e. VISIT <-> VISITN,
 #'   PARAM <-> PARAMN). If available, this variable will be used for sorting. If
-#'   not available, tardis will created a new ordered factor version of that
+#'   not available, ardis will created a new ordered factor version of that
 #'   variable to use in alphanumeric sorting. This allows the user to control a
 #'   custom sorting order by leaving an existing <VAR>N variable in your dataset
 #'   if it exists, or create one based on the order in which you wish to sort -
-#'   no custom functions in tardis required.
+#'   no custom functions in ardis required.
 #'
 #'   Ordering of results is where things start to differ. Different situations
 #'   call for different methods. Descriptive statistics layers keep it simple -
 #'   the order in which you input your row labels using
 #'   \code{\link{set_summaries}} is the order in which the results will
-#'   appear (with an order variable added). For count layers, tardis offers three
+#'   appear (with an order variable added). For count layers, ardis offers three
 #'   solutions: If there is a <VAR>N version of your target variable, use that.
 #'   If not, if the target variable is a factor, use the factor orders. Finally,
 #'   you can use a specific data point from your results columns. The result
 #'   column can often have multiple data points, between the n counts, percent,
-#'   distinct n, and distinct percent. tardis allows you to choose which of these
+#'   distinct n, and distinct percent. ardis allows you to choose which of these
 #'   values will be used when creating the order columns for a specified result
 #'   column (i.e. based on the \code{treat_var} and \code{cols} arguments). See
 #'   the 'Sorting a Table' section for more information.
@@ -264,7 +264,7 @@ set_nest_count <- function(e, nest_count) {
 #'   below.
 #'
 #' @section Ordering a Count Layer: There are many ways to order a count layer
-#'   depending on the preferences of the table programmer. \code{tardis} supports
+#'   depending on the preferences of the table programmer. \code{ardis} supports
 #'   sorting by a descending amount in a column in the table, sorting by a
 #'   <VAR>N variable, and sorting by a custom order. These can be set using the
 #'   `set_order_count_method` function. \describe{ \item{Sorting by a numeric
@@ -299,7 +299,7 @@ set_nest_count <- function(e, nest_count) {
 #' library(dplyr)
 #'
 #' # Default sorting by factor
-#' t <- tardis_table(mtcars, gear) %>%
+#' t <- ardis(mtcars, gear) %>%
 #'   add_layer(
 #'     group_count(cyl)
 #'   )
@@ -307,14 +307,14 @@ set_nest_count <- function(e, nest_count) {
 #'
 #' # Sorting by <VAR>N
 #' mtcars$cylN <- mtcars$cyl
-#' t <- tardis_table(mtcars, gear) %>%
+#' t <- ardis(mtcars, gear) %>%
 #'   add_layer(
 #'     group_count(cyl) %>%
 #'       set_order_count_method("byvarn")
 #'   )
 #'
 #' # Sorting by row count
-#' t <- tardis_table(mtcars, gear) %>%
+#' t <- ardis(mtcars, gear) %>%
 #'   add_layer(
 #'     group_count(cyl) %>%
 #'       set_order_count_method("bycount") %>%
@@ -323,7 +323,7 @@ set_nest_count <- function(e, nest_count) {
 #'   )
 #'
 #' # Sorting by row count by percentages
-#' t <- tardis_table(mtcars, gear) %>%
+#' t <- ardis(mtcars, gear) %>%
 #'   add_layer(
 #'     group_count(cyl) %>%
 #'       set_order_count_method("bycount") %>%
@@ -331,7 +331,7 @@ set_nest_count <- function(e, nest_count) {
 #'   )
 #'
 #' # Sorting when you have column arguments in the table
-#' t <- tardis_table(mtcars, gear, cols = vs) %>%
+#' t <- ardis(mtcars, gear, cols = vs) %>%
 #'   add_layer(
 #'     group_count(cyl) %>%
 #'       # Uses the fourth gear group and the 0 vs group in ordering
@@ -340,7 +340,7 @@ set_nest_count <- function(e, nest_count) {
 #'
 #' # Using a custom factor to order
 #' mtcars$cyl <- factor(mtcars$cyl, c(6, 4, 8))
-#' t <- tardis_table(mtcars, gear) %>%
+#' t <- ardis(mtcars, gear) %>%
 #'   add_layer(
 #'     group_count(cyl) %>%
 #'       # This is the default but can be used to change the setting if it is
@@ -441,7 +441,7 @@ set_result_order_var <- function(e, result_order_var) {
 #' mutate_all(as.character)
 #' mtcars2[mtcars$cyl == 6, "cyl"] <- NA
 #'
-#' tardis_table(mtcars2, gear) %>%
+#' ardis(mtcars2, gear) %>%
 #'   add_layer(
 #'     group_count(cyl) %>%
 #'       set_missing_count(f_str("xx ", n), Missing = NA)
@@ -499,7 +499,7 @@ set_missing_count <- function(e, sort_value = NULL, denom_ignore = FALSE, ...) {
 #' mtcars2[mtcars$cyl == 6, "cyl"] <- NA
 #' mtcars2[mtcars$cyl == 8, "cyl"] <- "Not Found"
 #'
-#' tardis_table(mtcars2, gear) %>%
+#' ardis(mtcars2, gear) %>%
 #'   add_layer(
 #'     group_count(cyl) %>%
 #'       set_missing_count(f_str("xx ", n), Missing = c(NA, "Not Found"))
@@ -549,12 +549,12 @@ set_outer_sort_position <- function(e, outer_sort_position) {
 #'   subsetting for the total row and thus the percentage denominators,
 #'   pass 'TRUE' to this function.
 #'
-#' @return The modified tardis layer object
+#' @return The modified ardis layer object
 #' @export
 #'
 #' @examples
 #' library(magrittr)
-#' t10 <- tardis_table(mtcars, gear) %>%
+#' t10 <- ardis(mtcars, gear) %>%
 #'   add_layer(
 #'     group_count(cyl, where = cyl != 6) %>%
 #'     set_denom_where(TRUE)
@@ -616,7 +616,7 @@ set_denoms_by.count_layer <- function(e, ...) {
 #' @param e A \code{count_layer} object
 #' @param ... Character values to count int he layer
 #'
-#' @return The modified tardis layer object
+#' @return The modified ardis layer object
 #' @export
 #'
 #' @examples
@@ -624,7 +624,7 @@ set_denoms_by.count_layer <- function(e, ...) {
 #' mtcars <- mtcars %>%
 #'   mutate_all(as.character)
 #'
-#' t <- tardis_table(mtcars, gear) %>%
+#' t <- ardis(mtcars, gear) %>%
 #'   add_layer(
 #'     group_count(cyl) %>%
 #'       keep_levels("4", "8") %>%
@@ -666,13 +666,13 @@ keep_levels <- function(e, ...) {
 #' @param column If only a particular column should be used to cutoff values, it
 #'   can be supplied here as a character value.
 #'
-#' @return The modified tardis layer object
+#' @return The modified ardis layer object
 #' @export
 #' @md
 #'
 #' @examples
 #' mtcars %>%
-#' tardis_table(gear) %>%
+#' ardis(gear) %>%
 #'   add_layer(
 #'     group_count(cyl) %>%
 #'       set_numeric_threshold(10, "n") %>%

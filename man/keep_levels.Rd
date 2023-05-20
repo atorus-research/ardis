@@ -12,7 +12,7 @@ keep_levels(e, ...)
 \item{...}{Character values to count int he layer}
 }
 \value{
-The modified tardis layer object
+The modified ardis layer object
 }
 \description{
 In certain cases you only want a layer to include certain values of a factor.
@@ -26,7 +26,7 @@ library(dplyr)
 mtcars <- mtcars \%>\%
   mutate_all(as.character)
 
-t <- tardis_table(mtcars, gear) \%>\%
+t <- ardis(mtcars, gear) \%>\%
   add_layer(
     group_count(cyl) \%>\%
       keep_levels("4", "8") \%>\%

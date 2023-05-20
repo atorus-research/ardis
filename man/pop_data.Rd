@@ -13,18 +13,18 @@ pop_data(x) <- value
 set_pop_data(table, pop_data)
 }
 \arguments{
-\item{table}{A \code{tardis_table} object}
+\item{table}{A \code{ardis} object}
 
-\item{x}{A \code{tardis_table} object}
+\item{x}{A \code{ardis} object}
 
 \item{value}{A data.frame with population level information}
 
 \item{pop_data}{A data.frame with population level information}
 }
 \value{
-For \code{tardis_pop_data} the pop_data binding of the
-  \code{tardis_table} object. For \code{tardis_pop_data<-} nothing is returned,
-  the pop_data binding is set silently. For \code{set_tardis_pop_data} the
+For \code{ardis_pop_data} the pop_data binding of the
+  \code{ardis} object. For \code{ardis_pop_data<-} nothing is returned,
+  the pop_data binding is set silently. For \code{set_ardis_pop_data} the
   modified object.
 }
 \description{
@@ -35,7 +35,7 @@ population dataset. The population dataset defaults to the target dataset
 unless otherwise specified using \code{set_pop_data}.
 }
 \examples{
-tab <- tardis_table(iris, Species)
+tab <- ardis(iris, Species)
 
 pop_data(tab) <- mtcars
 
