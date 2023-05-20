@@ -3,14 +3,14 @@
 \name{add_variables}
 \alias{add_variables}
 \alias{add_filters}
-\title{Add variables to a tardis_meta object}
+\title{Add variables to a ardis_meta object}
 \usage{
 add_variables(meta, names)
 
 add_filters(meta, filters)
 }
 \arguments{
-\item{meta}{A tardis_meta object}
+\item{meta}{A ardis_meta object}
 
 \item{names}{A list of names, providing variable names of interest. Provide
 as a list of quosures using \code{rlang::quos()}}
@@ -19,14 +19,14 @@ as a list of quosures using \code{rlang::quos()}}
 as a list of quosures using `rlang::quos()`}
 }
 \value{
-tardis_meta object
+ardis_meta object
 }
 \description{
-Add additional variable names to a \code{tardis_meta()} object.
+Add additional variable names to a \code{ardis_meta()} object.
 }
 \examples{
 
-m <- tardis_meta()
+m <- ardis_meta()
 m <- add_variables(m, rlang::quos(a, b, c))
 m <- add_filters(m, rlang::quos(a==1, b==2, c==3))
 m

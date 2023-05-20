@@ -6,7 +6,7 @@
 \alias{get_layer_template}
 \alias{get_layer_templates}
 \alias{use_template}
-\title{Create, view, extract, remove, and use tardis layer templates}
+\title{Create, view, extract, remove, and use ardis layer templates}
 \usage{
 new_layer_template(name, template)
 
@@ -38,7 +38,7 @@ tables, like demographics tables, may have many layers that will all
 essentially look the same. Categorical variables will have the same count
 layer settings, and continuous variables will have the same desc layer
 settings. A template allows a user to build those settings once per layer,
-then reference the template when the tardis table is actually built.
+then reference the template when the ardis table is actually built.
 }
 \details{
 This suite of functions allows a user to create and use layer templates.
@@ -54,8 +54,8 @@ function \code{use_template()} in place of \code{group_count|desc|shift()}. If y
 to view a specific template, use \code{get_layer_template()}. If you want to view
 all templates, use \code{get_layer_templates()}. And to remove a layer template use
 \code{remove_layer_template()}. Layer templates themselves are stored in the
-option \code{tardis.layer_templates}, but a user should not access this directly
-and instead use the tardis supplied functions.
+option \code{ardis.layer_templates}, but a user should not access this directly
+and instead use the ardis supplied functions.
 
 When providing the template layer syntax, the layer must start with a layer
 constructor. These are one of the function \code{group_count()}, \code{group_desc()},
@@ -84,7 +84,7 @@ get_layer_templates()
 
 get_layer_template("example_template")
 
-tardis_table(mtcars, vs) \%>\%
+ardis(mtcars, vs) \%>\%
   add_layer(
     use_template("example_template", gear)
   ) \%>\%

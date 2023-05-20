@@ -2,39 +2,39 @@
 % Please edit documentation in R/meta.R
 \name{append_metadata}
 \alias{append_metadata}
-\title{Append the tardis table metadata dataframe}
+\title{Append the ardis table metadata dataframe}
 \usage{
 append_metadata(t, meta)
 }
 \arguments{
-\item{t}{A tardis_table object}
+\item{t}{A ardis object}
 
 \item{meta}{A dataframe fitting the specifications of the details section of
 this function}
 }
 \value{
-A tardis_table object
+A ardis object
 }
 \description{
-\code{append_metadata()} allows a user to extend the tardis metadata data frame
-with user provided data. In some tables, tardis may be able to provided most
+\code{append_metadata()} allows a user to extend the ardis metadata data frame
+with user provided data. In some tables, ardis may be able to provided most
 of the data, but a user may have to extend the table with other summaries,
-statistics, etc. This function allows the user to extend the tardis_table's
+statistics, etc. This function allows the user to extend the ardis's
 metadata with their own metadata content using custom data frames created
-using the \code{tardis_meta} object.
+using the \code{ardis_meta} object.
 }
 \details{
-As this is an advanced feature of tardis, ownership is on the user to make
+As this is an advanced feature of ardis, ownership is on the user to make
 sure the metadata data frame is assembled properly. The only restrictions
 applied by \code{append_metadata()} are that \code{meta} must have a column named
 \code{row_id}, and the values in \code{row_id} cannot be duplicates of any \code{row_id}
-value already present in the tardis metadata dataframe. \code{tardis_meta()} objects
+value already present in the ardis metadata dataframe. \code{ardis_meta()} objects
 align with constructed dataframes using the \code{row_id} and output dataset
-column name. As such, \code{tardis_meta()} objects should be inserted into a data
+column name. As such, \code{ardis_meta()} objects should be inserted into a data
 frame using a list column.
 }
 \examples{
-t <- tardis_table(mtcars, gear) \%>\%
+t <- ardis(mtcars, gear) \%>\%
   add_layer(
     group_desc(wt)
   )
@@ -44,7 +44,7 @@ t \%>\%
 
 m <- tibble::tibble(
   row_id = c('x1_1'),
-  var1_3 = list(tardis_meta(rlang::quos(a, b, c), rlang::quos(a==1, b==2, c==3)))
+  var1_3 = list(ardis_meta(rlang::quos(a, b, c), rlang::quos(a==1, b==2, c==3)))
 )
 
 append_metadata(t, m)

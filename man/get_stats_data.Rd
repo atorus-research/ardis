@@ -7,7 +7,7 @@
 get_stats_data(x, layer = NULL, statistic = NULL, where = TRUE, ...)
 }
 \arguments{
-\item{x}{A tardis_table or tardis_layer object}
+\item{x}{A ardis or ardis_layer object}
 
 \item{layer}{Layer name or index to select out specifically}
 
@@ -21,13 +21,13 @@ get_stats_data(x, layer = NULL, statistic = NULL, where = TRUE, ...)
 The statistics data of the supplied layer
 }
 \description{
-Like the layer numeric data, tardis also stores the numeric data produced from
+Like the layer numeric data, ardis also stores the numeric data produced from
 statistics like risk difference. This helper function gives you access to
 obtain that data from the environment
 }
 \details{
-When used on a \code{tardis_table} object, this method will aggregate the
-numeric data from all tardis layers and calculate all statistics. The data
+When used on a \code{ardis} object, this method will aggregate the
+numeric data from all ardis layers and calculate all statistics. The data
 will be returned to the user in a list of data frames. If the data has
 already been processed (i.e. \code{build} has been run), the numeric data is
 already available and the statistic data will simply be returned. Otherwise,
@@ -44,7 +44,7 @@ statistics across all layers.
 \examples{
 library(magrittr)
 
-t <- tardis_table(mtcars, gear) \%>\%
+t <- ardis(mtcars, gear) \%>\%
   add_layer(name='drat',
             group_desc(drat)
   ) \%>\%

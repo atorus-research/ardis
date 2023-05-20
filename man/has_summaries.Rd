@@ -2,7 +2,7 @@
 % Please edit documentation in R/set_summaries.R
 \name{has_summaries}
 \alias{has_summaries}
-\title{Check if summaries have been set on a tardis layer}
+\title{Check if summaries have been set on a ardis layer}
 \usage{
 has_summaries(e)
 }
@@ -13,5 +13,5 @@ has_summaries(e)
 Boolean
 }
 \description{
-Check if summaries have been set on a tardis layer
+Check if summaries have been set on a ardis layer
 }

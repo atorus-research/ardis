@@ -11,20 +11,20 @@
 #' @noRd
 modify_nested_call <- function(c, examine_only=FALSE, ...) {
 
-  # Get exports from tardis
-  allowable_calls = getNamespaceExports("tardis")
+  # Get exports from ardis
+  allowable_calls = getNamespaceExports("ardis")
 
-  # Only allow the user to use `tardis` functions
+  # Only allow the user to use `ardis` functions
   assert_that(
     call_name(c) %in% allowable_calls,
-    msg = "Functions called within `add_layer` must be part of `tardis`"
+    msg = "Functions called within `add_layer` must be part of `ardis`"
     )
 
   # Process the magrittr pipe
   if (call_name(c) == "%>%") {
-    # Only allow the user to use `tardis` functions on both sides of the pipe
+    # Only allow the user to use `ardis` functions on both sides of the pipe
     assert_that(all(map_chr(call_args(c), call_name) %in% allowable_calls),
-                msg="Functions called within `add_layer` must be part of `tardis`")
+                msg="Functions called within `add_layer` must be part of `ardis`")
 
     # Recursively extract the left side of the magrittr call to work your way up
     e <- call_standardise(c)
@@ -74,7 +74,7 @@ modify_nested_call <- function(c, examine_only=FALSE, ...) {
 #' @return the number of containers a layer is in
 #' @noRd
 depth_from_table <- function(layer, i){
-  if(class(env_parent(layer))[1] == "tardis_table") return(i + 1)
+  if(class(env_parent(layer))[1] == "ardis") return(i + 1)
   else {
     return(depth_from_table(env_parent(layer), i+1))
   }
@@ -84,7 +84,7 @@ depth_from_table <- function(layer, i){
 #'
 #' Intended for use in a tidyselect context. Pivots take arguments as character
 #' strings or indices. Tidyselect tools return those indices. This allows you to
-#' pass a list of quosures (which tardis carries a lot of) without explicitly
+#' pass a list of quosures (which ardis carries a lot of) without explicitly
 #' converting types
 #'
 #' @param var_list List of quosures containing variables
@@ -204,7 +204,7 @@ clean_attr <- function(dat) {
 #' Simulate IBM rounding
 #'
 #' This logic is from the github issue
-#' https://github.com/atorus-research/tardis/issues/9
+#' https://github.com/atorus-research/ardis/issues/9
 #'
 #' @param x The numeric values to round
 #' @param n The number of decimal rounding points

@@ -219,14 +219,14 @@ is_logical_or_call <- function(quo_var) {
 #'
 #' @noRd
 assert_is_layer <- function(object) {
- assert_inherits_class(object, "tardis_layer")
+ assert_inherits_class(object, "ardis_layer")
 }
 
 #' @param object Object to check if its a layer
 #'
 #' @noRd
 assert_is_table <- function(object) {
-  assert_inherits_class(object, "tardis_table")
+  assert_inherits_class(object, "ardis")
 }
 
 

@@ -1,16 +1,16 @@
 # Dispatches for print and str. These don't need UseMethods as the base
 # function will dispatch to these.
 
-#' Print tardis_table
+#' Print ardis
 #'
-#' @param x A tardis_table to display
+#' @param x A ardis to display
 #' @param ... A paranthesis passed through from print dispatch
 #'
 #' @export
 #' @noRd
-print.tardis_table <- function(x, ...) {
+print.ardis <- function(x, ...) {
   evalq({
-    cat("*** tardis_table ***\n")
+    cat("*** ardis ***\n")
     # Print str of target data.frame
     cat("Target (data.frame):\n")
     cat("\tName: ", attr(current_env(), "target_name"))
@@ -64,14 +64,14 @@ print.tardis_table <- function(x, ...) {
   invisible()
 }
 
-#' Print a tardis_layer package
+#' Print a ardis_layer package
 #'
-#' @param x A tardis_layer object to print
+#' @param x A ardis_layer object to print
 #' @param ... Arguments passed through from print dispatch.
 #'
 #' @export
 #' @noRd
-print.tardis_layer <- function(x, ..., print_env = TRUE) {
+print.ardis_layer <- function(x, ..., print_env = TRUE) {
   cat("***", class(x)[2],"***\n")
   ## Added for testing
   if(print_env) {
@@ -112,14 +112,14 @@ print.f_str <- function(x, ...) {
   str(x, ...)
 }
 
-#' A tardis_table object to str
+#' A ardis object to str
 #'
-#' @param object A tardis_table object
+#' @param object A ardis object
 #' @param ... Arguments passed from str
 #'
 #' @export
 #' @noRd
-str.tardis_table <- function(object, ...) {
+str.ardis <- function(object, ...) {
   evalq({
     cat("*** target data.frame ***\n")
     cat("Target Name: ", attr(current_env(), "target_name"), "\n")
@@ -139,15 +139,15 @@ str.tardis_table <- function(object, ...) {
   invisible(object)
 }
 
-#' Display a tardis_layer object
+#' Display a ardis_layer object
 #'
-#' @param object A tardis_layer object
+#' @param object A ardis_layer object
 #' @param ... Arguemnts passed from str
 #'
 #' @export
 #' @noRd
-str.tardis_layer <- function(object, ..., print_env = TRUE) {
-  cat("*** tardis_layer ***")
+str.ardis_layer <- function(object, ..., print_env = TRUE) {
+  cat("*** ardis_layer ***")
   if(print_env) {
     cat("\nSelf: ")
     cat("\n\tAddress: ", env_label(object))
@@ -158,7 +158,7 @@ str.tardis_layer <- function(object, ..., print_env = TRUE) {
     cat("\n\tType: ", class(env_parent(object))[1])
   }
   # Only Print target name if parent is table
-  if (class(env_parent(object))[1] == "tardis_table"){
+  if (class(env_parent(object))[1] == "ardis"){
     cat("\n\tTarget Name: ", attr(env_parent(object), "target_name"))
   }
   evalq({

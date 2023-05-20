@@ -1,6 +1,6 @@
 #' Set Summaries
 #'
-#' If tardis on only being used to summarize numeric data, then layer formatting
+#' If ardis on only being used to summarize numeric data, then layer formatting
 #' components of the settings become unnecessary. As such, a second interface is
 #' necessary to specify which summaries should actually be performed. the
 #' `set_summaries()` function provided an interface to each layer type to
@@ -17,7 +17,7 @@
 #'
 #' @examples
 #' # This is the desired API for count layers
-#' t <- tardis_table(adsl, TRT01P) %>%
+#' t <- ardis(adsl, TRT01P) %>%
 #'   add_layer(
 #'     group_desc(AGE, by = "Age (years)", where= SAFFL=="Y") %>%
 #'       set_summaries(
@@ -39,7 +39,7 @@ set_summaries  <- function(e, ...) {
 #' @export
 #' @rdname set_summaries
 #'
-set_summaries.tardis_layer <- function(e, ...) {
+set_summaries.ardis_layer <- function(e, ...) {
 
   # Create the summary_vars object
   summaries <- list(...)
@@ -53,7 +53,7 @@ set_summaries.tardis_layer <- function(e, ...) {
   e
 }
 
-#' Check if summaries have been set on a tardis layer
+#' Check if summaries have been set on a ardis layer
 #'
 #' @param e A layer environment
 #'

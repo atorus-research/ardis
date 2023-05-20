@@ -2,12 +2,12 @@
 % Please edit documentation in R/set_summaries.R
 \name{set_summaries}
 \alias{set_summaries}
-\alias{set_summaries.tardis_layer}
+\alias{set_summaries.ardis_layer}
 \title{Set Summaries}
 \usage{
 set_summaries(e, ...)
 
-\method{set_summaries}{tardis_layer}(e, ...)
+\method{set_summaries}{ardis_layer}(e, ...)
 }
 \arguments{
 \item{e}{Layer upon which summaries should be bound}
@@ -18,7 +18,7 @@ set_summaries(e, ...)
 The layer environment with the summary variables binding applied
 }
 \description{
-If tardis on only being used to summarize numeric data, then layer formatting
+If ardis on only being used to summarize numeric data, then layer formatting
 components of the settings become unnecessary. As such, a second interface is
 necessary to specify which summaries should actually be performed. the
 \code{set_summaries()} function provided an interface to each layer type to
@@ -26,7 +26,7 @@ establish the numbers that must be calculated.
 }
 \examples{
 # This is the desired API for count layers
-t <- tardis_table(adsl, TRT01P) \%>\%
+t <- ardis(adsl, TRT01P) \%>\%
   add_layer(
     group_desc(AGE, by = "Age (years)", where= SAFFL=="Y") \%>\%
       set_summaries(

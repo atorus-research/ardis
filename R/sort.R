@@ -1,15 +1,15 @@
 
 
-#' Set the sorting of rows/columns in a `tardis_table` and `tardis_layer` object
+#' Set the sorting of rows/columns in a `ardis` and `ardis_layer` object
 #'
 #' Named this way to prevent conflicts
 #'
-#' @param x A \code{data.frame} or \code{tardis_layer} object
+#' @param x A \code{data.frame} or \code{ardis_layer} object
 #' @param ... Parameters passed to disptach that are used in sorting
 #'
 #'
 #' @return An ordered data.frame if a data.frame was passed. Or nothing in the
-#'   case of a tardis_layer. These are adjusted silently and will be ordered
+#'   case of a ardis_layer. These are adjusted silently and will be ordered
 #'   when the table is output.
 #'
 #' @examples
@@ -17,19 +17,19 @@
 #'
 #'
 #' #### Sorting output of a table ####
-#' t <- tardis_table(mtcars, gear) %>%
+#' t <- ardis(mtcars, gear) %>%
 #'   add_total_group() %>%
 #'   add_layer(
 #'     group_count(cyl)
 #'   )
 #' build(t) %>%
-#'   tardis_order(4, 5, Total)
+#'   ardis_order(4, 5, Total)
 #' # This orders the column as 4, 5, Total, 3
 #' # The 3 appears at the end because it wasn't passed.
 #'
 #' @noRd
-tardis_order <- function(x, ...) {
-  UseMethod("tardis_order")
+ardis_order <- function(x, ...) {
+  UseMethod("ardis_order")
 }
 
 #' Method for data.frame
@@ -38,7 +38,7 @@ tardis_order <- function(x, ...) {
 #' for any reason.
 #'
 #' @noRd
-tardis_order.data.frame <- function(x, ...) {
+ardis_order.data.frame <- function(x, ...) {
 
   dots <- enquos(...)
 
@@ -48,7 +48,7 @@ tardis_order.data.frame <- function(x, ...) {
   assert_that(length(vars_select(x,
                                  starts_with("row_label") | starts_with("var1_") | starts_with("ord_"))) == names(x),
               msg = "All of the column headers must start with row_label, var1_, or ord_.
-              Is this output from a tardis_table object?")
+              Is this output from a ardis object?")
 
   dots_chr <- match_exact(dots)
 
@@ -136,7 +136,7 @@ add_layer_index <- function(layer_output, index) {
 
 #' Add columns for ordering the table after output
 #'
-#' @param x A \code{tardis_layer} object
+#' @param x A \code{ardis_layer} object
 #'
 #' @return Nothing, the ord_ columns are added to the environment silently
 #' @noRd
@@ -363,9 +363,9 @@ add_order_columns.shift_layer <- function(x) {
 #'
 #'
 #' @param formatted_data The formatted_data object from the layer
-#' @param target The target dataset in the tardis_table
+#' @param target The target dataset in the ardis
 #' @param i The index of the by variable i.e. the order it was passed in the
-#'   \code{tardis_layer}. This is also the column the by variable is output in
+#'   \code{ardis_layer}. This is also the column the by variable is output in
 #'   the formatted_data.
 #' @param var The by variable as a quosure
 #'
@@ -405,7 +405,7 @@ get_by_order <- function(formatted_data, target, i, var) {
 #' I'm condisering refactoring this and breaking out the logic for 'byrow', 'byvarn',
 #' and 'byfactor' into their own function
 #'
-#' @param x The tardis layer environment
+#' @param x The ardis layer environment
 #' @param formatted_col_index the column index of the target variable data.
 #'
 #' @return Returns the index the variables should be ordered in, in the cases of

@@ -3,7 +3,7 @@
 #' Format settings can be applied to a layer, to a table, or set
 #' via default options.
 #'
-#' @param x A tardis layer
+#' @param x A ardis layer
 #'
 #' @return The default format strings
 #' @noRd
@@ -20,7 +20,7 @@ gather_defaults <- function(x) {
 gather_defaults.desc_layer <- function(x) {
 
   # Get the defaults set within options
-  opt_settings <- getOption('tardis.desc_layer_default_summaries')
+  opt_settings <- getOption('ardis.desc_layer_default_summaries')
   # Get the table defaults if they're available
   table_settings <- evalq(desc_layer_summaries, envir=x)
 
@@ -42,7 +42,7 @@ gather_defaults.desc_layer <- function(x) {
 #' @noRd
 gather_defaults.count_layer <- function(x) {
   # Get the defaults set within options
-  opt_settings <- getOption('tardis.count_layer_default_summaries')
+  opt_settings <- getOption('ardis.count_layer_default_summaries')
   # Get the table defaults if they're available
   table_settings <- evalq(count_layer_summaries, envir=x)
 
@@ -58,7 +58,7 @@ gather_defaults.count_layer <- function(x) {
 #' @noRd
 gather_defaults.shift_layer <- function(x) {
   # Get the defaults set within options
-  opt_settings <- getOption('tardis.shift_layer_default_formats')
+  opt_settings <- getOption('ardis.shift_layer_default_formats')
   # Get the table defaults if they're available
   table_settings <- evalq(shift_layer_formats, envir=x)
 

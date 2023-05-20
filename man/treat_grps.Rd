@@ -13,7 +13,7 @@ add_total_group(table, group_name = "Total")
 treat_grps(table)
 }
 \arguments{
-\item{table}{A \code{tardis_table} object}
+\item{table}{A \code{ardis} object}
 
 \item{...}{A named vector where names will become the new treatment group names,
 and values will be used to construct those treatment groups}
@@ -41,10 +41,10 @@ defaults to "Total". This "Total" group is made up of all existing treatment
 groups within the population dataset.
 
 The function \code{treat_grps} allows you to see the custom treatment groups available
-in your \code{tardis_table} object
+in your \code{ardis} object
 }
 \examples{
-tab <- tardis_table(iris, Species)
+tab <- ardis(iris, Species)
 
 # A custom group
 add_treat_grps(tab, "Not Setosa" = c("versicolor", "virginica"))

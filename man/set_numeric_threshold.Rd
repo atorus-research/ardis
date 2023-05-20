@@ -19,7 +19,7 @@ to will be displayed.}
 can be supplied here as a character value.}
 }
 \value{
-The modified tardis layer object
+The modified ardis layer object
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
@@ -32,7 +32,7 @@ cutoff.
 }
 \examples{
 mtcars \%>\%
-tardis_table(gear) \%>\%
+ardis(gear) \%>\%
   add_layer(
     group_count(cyl) \%>\%
       set_numeric_threshold(10, "n") \%>\%

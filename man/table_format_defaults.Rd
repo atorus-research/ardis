@@ -22,12 +22,12 @@ get_shift_layer_formats(obj)
 set_shift_layer_formats(obj, ...)
 }
 \arguments{
-\item{obj}{A tardis_table object}
+\item{obj}{A ardis object}
 
 \item{...}{formats to pass forward}
 }
 \description{
-tardis provides you with the ability to set table-wide defaults of format
+ardis provides you with the ability to set table-wide defaults of format
 strings. You may wish to reuse the same summaries across numerous
 layers. \code{set_desc_layer_summaries} and \code{set_count_layer_summaries}
 allow you to apply your desired format strings within the entire scope of the
@@ -38,11 +38,11 @@ For descriptive statistic layers, you can also use \code{set_summaries}
 and \code{set_desc_layer_summaries} together within a table, but not within the
 same layer. In the absence of specified summaries, first the table will
 be checked for any available defaults, and otherwise the
-\code{tardis.desc_layer_default_formats} option will be used.
+\code{ardis.desc_layer_default_formats} option will be used.
 \code{set_summaries} will always take precedence over either. Defaults
 cannot be combined between \code{set_summaries},
 \code{set_desc_layer_summaries}, and the
-\code{tardis.desc_layer_default_summaries} because the order of presentation of
+\code{ardis.desc_layer_default_summaries} because the order of presentation of
 results is controlled by the format strings, so relying on combinations of
 these setting would not be intuitive.
 }

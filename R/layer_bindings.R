@@ -1,7 +1,7 @@
 
 #' Set or return treat_var binding
 #'
-#' @param layer A \code{tardis_layer} object
+#' @param layer A \code{ardis_layer} object
 #'
 #' @return For \code{treat_var}, the treatment variable binding of the layer
 #'   object. For \code{set_treat_var}, the modified layer environment.
@@ -12,7 +12,7 @@
 #' # Load in pipe
 #' library(magrittr)
 #' iris$Species2 <- iris$Species
-#' lay <- tardis_table(iris, Species) %>%
+#' lay <- ardis(iris, Species) %>%
 #'   group_count(Species) %>%
 #'   set_target_var(Species2)
 get_target_var <- function(layer) {
@@ -37,7 +37,7 @@ set_target_var <- function(layer, target_var) {
 
 #' Set or return by layer binding
 #'
-#' @param layer A \code{tardis_layer} object
+#' @param layer A \code{ardis_layer} object
 #'
 #' @return For \code{get_by}, the \code{by} binding of the supplied layer. For
 #'   \code{set_by} the modified layer environment.
@@ -48,7 +48,7 @@ set_target_var <- function(layer, target_var) {
 #' # Load in pipe
 #' library(magrittr)
 #' iris$Species2 <- iris$Species
-#' lay <- tardis_table(iris, Species) %>%
+#' lay <- ardis(iris, Species) %>%
 #'   group_count(Species) %>%
 #'   set_by(vars(Species2, Sepal.Width))
 get_by <- function(layer) {
@@ -74,13 +74,13 @@ set_by <- function(layer, by) {
 
 #' @export
 #' @rdname where
-get_where.tardis_layer <- function(obj) {
+get_where.ardis_layer <- function(obj) {
   env_get(obj, "where")
 }
 
 #' @export
 #' @rdname where
-set_where.tardis_layer <- function(obj, where) {
+set_where.ardis_layer <- function(obj, where) {
   where <- enquo(where)
 
   assert_that(is_logical_or_call(where),

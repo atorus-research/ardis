@@ -1,11 +1,11 @@
-#' Retrieve the numeric data from a tardis objects
+#' Retrieve the numeric data from a ardis objects
 #'
 #' \code{build} provides access to the un-formatted numeric data for
-#' each of the layers within a \code{tardis_table}, with options to allow you to
+#' each of the layers within a \code{ardis}, with options to allow you to
 #' extract distinct layers and filter as desired.
 #'
-#' When used on a \code{tardis_table} object, this method will aggregate the
-#' numeric data from all tardis layers. The data will be returned to the user in
+#' When used on a \code{ardis} object, this method will aggregate the
+#' numeric data from all ardis layers. The data will be returned to the user in
 #' a list of data frames. If the data has already been processed (i.e.
 #' \code{build} has been run), the numeric data is already available and will be
 #' returned without reprocessing. Otherwise, the numeric portion of the layer
@@ -15,17 +15,17 @@
 #' extracted and subset. This is most clear when layers are given text names
 #' instead of using a layer index, but a numeric index works as well.
 #'
-#' @param x A tardis_table or tardis_layer object
+#' @param x A ardis or ardis_layer object
 #' @param layer Layer name or index to select out specifically
 #' @param where Subset criteria passed to dplyr::filter
 #' @param ... Additional arguments to pass forward
 #'
-#' @return Numeric data from the tardis layer
+#' @return Numeric data from the ardis layer
 #' @export
 #'
 #' @examples
 #'
-#' t <- tardis_table(mtcars, gear) %>%
+#' t <- ardis(mtcars, gear) %>%
 #'  add_layer(name='drat',
 #'            group_desc(drat)
 #'  ) %>%
@@ -52,10 +52,10 @@ build <- function(x, layer=NULL, where=TRUE, ...) {
 }
 
 
-#' Get numeric data from a tardis_table object
+#' Get numeric data from a ardis object
 #' @export
 #' @noRd
-build.tardis_table <- function(x, layer=NULL, where=TRUE, ...) {
+build.ardis <- function(x, layer=NULL, where=TRUE, ...) {
 
   where <- enquo(where)
 
@@ -127,10 +127,10 @@ build.tardis_table <- function(x, layer=NULL, where=TRUE, ...) {
 }
 
 
-#' Get numeric data from a tardis_layer object
+#' Get numeric data from a ardis_layer object
 #' @export
 #' @noRd
-build.tardis_layer <- function(x, layer=NULL, where=TRUE, ...) {
+build.ardis_layer <- function(x, layer=NULL, where=TRUE, ...) {
 
   # If the numeric data doesn't exist in the layer then process it
   if (!'numeric_data' %in% ls(x)) {
@@ -145,10 +145,10 @@ build.tardis_layer <- function(x, layer=NULL, where=TRUE, ...) {
 #' Process layers to get numeric results of layer
 #'
 #' This is an internal method, but is exported to support S3 dispatch. Not intended for direct use by a user.
-#' @param x a tardis_layer object
+#' @param x a ardis_layer object
 #' @param ... arguments passed to dispatch
 #'
-#' @return The tardis_layer object with a 'built_table' binding
+#' @return The ardis_layer object with a 'built_table' binding
 #' @export
 #' @keywords internal
 process_summaries <- function(x, ...) {

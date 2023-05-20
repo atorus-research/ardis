@@ -7,7 +7,7 @@
 #' labeled as questioning but its replacement, group_map, is experimental
 #'
 #' @param .data A tibble that has been grouped
-#' @param header_n The header_n binding from a \code{tardis_table} object.
+#' @param header_n The header_n binding from a \code{ardis} object.
 #'
 #' @return A single numeric value from the header_n binding that is pulled
 #'  from the groups
@@ -15,7 +15,7 @@
 #' @examples
 #' library(dplyr)
 #'
-#' t <- tardis_table(mtcars, gear)
+#' t <- ardis(mtcars, gear)
 #'
 #' mtcars %>%
 #'   group_by(gear, vs) %>%
@@ -55,9 +55,9 @@ this_denom <- function(.data, header_n, treat_var) {
 
 #' Get the header_n value of a certain
 #'
-#' @param x A tardis_table or data.frame object
+#' @param x A ardis or data.frame object
 #' @param ... Parameters to filter the header_n. Should be in the order of
-#'   variables passed in the tardis_table
+#'   variables passed in the ardis
 #'
 #' @return The sum of the subset of the header_n values after filtering
 #' @noRd
@@ -65,7 +65,7 @@ this_denom <- function(.data, header_n, treat_var) {
 #' @examples
 #' library(dplyr)
 #'
-#' t <- tardis_table(mtcars, gear, cols = vars(cyl, am))
+#' t <- ardis(mtcars, gear, cols = vars(cyl, am))
 #'
 #' get_header_n_value(t, 3, 6, 0)
 #' # Returns the number of cars that have 3 gears, 6 cylinders, and auto transmission
@@ -74,7 +74,7 @@ get_header_n_value <- function(x, ...) {
 }
 
 #' @noRd
-get_header_n_value.tardis_table <- function(x, ...) {
+get_header_n_value.ardis <- function(x, ...) {
   # Arguments passed
   #dots <- enquos(...)
 

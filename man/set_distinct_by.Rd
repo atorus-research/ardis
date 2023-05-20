@@ -31,7 +31,7 @@ may be presented using \code{total} and \code{distinct_total}
 #Load in pipe
 library(magrittr)
 
-tardis_table(mtcars, gear) \%>\%
+ardis(mtcars, gear) \%>\%
   add_layer(
     group_count(cyl) \%>\%
       set_distinct_by(carb)

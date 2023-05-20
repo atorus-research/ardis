@@ -1,11 +1,11 @@
-#' Create, view, extract, remove, and use tardis layer templates
+#' Create, view, extract, remove, and use ardis layer templates
 #'
 #' There are several scenarios where a layer template may be useful. Some
 #' tables, like demographics tables, may have many layers that will all
 #' essentially look the same. Categorical variables will have the same count
 #' layer settings, and continuous variables will have the same desc layer
 #' settings. A template allows a user to build those settings once per layer,
-#' then reference the template when the tardis table is actually built.
+#' then reference the template when the ardis table is actually built.
 #'
 #' This suite of functions allows a user to create and use layer templates.
 #' Layer templates allow a user to pre-build and reuse an entire layer
@@ -20,8 +20,8 @@
 #' to view a specific template, use `get_layer_template()`. If you want to view
 #' all templates, use `get_layer_templates()`. And to remove a layer template use
 #' `remove_layer_template()`. Layer templates themselves are stored in the
-#' option `tardis.layer_templates`, but a user should not access this directly
-#' and instead use the tardis supplied functions.
+#' option `ardis.layer_templates`, but a user should not access this directly
+#' and instead use the ardis supplied functions.
 #'
 #' When providing the template layer syntax, the layer must start with a layer
 #' constructor. These are one of the function `group_count()`, `group_desc()`,
@@ -61,7 +61,7 @@
 #'
 #' get_layer_template("example_template")
 #'
-#' tardis_table(mtcars, vs) %>%
+#' ardis(mtcars, vs) %>%
 #'   add_layer(
 #'     use_template("example_template", gear)
 #'   ) %>%
@@ -88,7 +88,7 @@ new_layer_template <- function(name, template) {
   # Make sure that the template is valid
   modify_nested_call(template, examine_only = TRUE)
 
-  if (name %in% names(getOption("tardis.layer_templates"))) {
+  if (name %in% names(getOption("ardis.layer_templates"))) {
     warning(
       sprintf("A template by the name %s already exists. Template will be overwritten.", name),
       call. = FALSE
@@ -108,15 +108,15 @@ new_layer_template <- function(name, template) {
     paste0(c("{",raw_template,"}"), collapse="\n"),
     params = params,
     template_name = name,
-    class = c("tardis_layer_template")
+    class = c("ardis_layer_template")
   )
 
   add_func <- list(func)
   names(add_func) <- name
 
-  # Insert the function into the tardis namespace
+  # Insert the function into the ardis namespace
   options(
-    tardis.layer_templates = append(getOption("tardis.layer_templates"), add_func)
+    ardis.layer_templates = append(getOption("ardis.layer_templates"), add_func)
   )
 }
 
@@ -124,10 +124,10 @@ new_layer_template <- function(name, template) {
 #' @rdname layer_templates
 #' @export
 remove_layer_template <- function(name) {
-  tmps <- getOption('tardis.layer_templates')
+  tmps <- getOption('ardis.layer_templates')
 
   if (name %in% names(tmps)) {
-    options(tardis.layer_templates = tmps[names(tmps) != name])
+    options(ardis.layer_templates = tmps[names(tmps) != name])
   } else{
     warning(sprintf("No template named %s", name))
   }
@@ -137,7 +137,7 @@ remove_layer_template <- function(name) {
 #' @rdname layer_templates
 #' @export
 get_layer_template <- function(name) {
-  tmps <- getOption('tardis.layer_templates')
+  tmps <- getOption('ardis.layer_templates')
   if (!(name %in% names(tmps))) {
     stop(sprintf("Template %s does not exist", name), call.=FALSE)
   }
@@ -148,7 +148,7 @@ get_layer_template <- function(name) {
 #' @rdname layer_templates
 #' @export
 get_layer_templates <- function() {
-  getOption('tardis.layer_templates')
+  getOption('ardis.layer_templates')
 }
 
 #' @param ... Arguments passed directly into a layer constructor, matching the
@@ -184,7 +184,7 @@ use_template <- function(name, ..., add_params = NULL) {
 
   template <- get_layer_template(name)
 
-  if (!inherits(template, "tardis_layer_template")) {
+  if (!inherits(template, "ardis_layer_template")) {
     stop("Invalid template - templates must be created using `new_layer_template()`", call.=FALSE)
   }
 
@@ -267,7 +267,7 @@ make_template <- function(template, add_params_args) {
 #' Extract a parameter in a template context
 #'
 #' Beyond the group_<type> functions, templates need a method to hand parameters
-#' from use_template down to other tardis_layer modifier functions. Users supply
+#' from use_template down to other ardis_layer modifier functions. Users supply
 #' arguments to the template and no to the modifier functions themselves, so
 #' those arguments need to be passed down. Furthermore, we don't want them to
 #' have to think about quasiquotation. So the purpose of `template_param()` is
@@ -291,7 +291,7 @@ template_param <- function(param_name) {
 }
 
 #' @export
-print.tardis_layer_template <- function(x, ...) {
+print.ardis_layer_template <- function(x, ...) {
   cat(sprintf("Template name: %s\n", attr(x, 'template_name')))
   params <- attr(x, 'params')
   if (is_empty(params)) {

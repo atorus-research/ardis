@@ -13,9 +13,9 @@ header_n(x) <- value
 set_header_n(table, value)
 }
 \arguments{
-\item{table}{A \code{tardis_table} object}
+\item{table}{A \code{ardis} object}
 
-\item{x}{A \code{tardis_table} object}
+\item{x}{A \code{ardis} object}
 
 \item{value}{A data.frame with columns with the treatment variable, column
 variabes, and a variable with counts named 'n'.}
@@ -24,19 +24,19 @@ variabes, and a variable with counts named 'n'.}
 variabes, and a variable with counts named 'n'.}
 }
 \value{
-For \code{tardis_header_n} the header_n binding of the
-  \code{tardis_table} object. For \code{tardis_header_n<-} and
-  \code{set_tardis_header_n} the modified object.
+For \code{ardis_header_n} the header_n binding of the
+  \code{ardis} object. For \code{ardis_header_n<-} and
+  \code{set_ardis_header_n} the modified object.
 }
 \description{
 The `header_n()` functions can be used to automatically pull the header_n
 derivations from the table or change them for future use.
 }
 \details{
-The `header_n` object is created by tardis when a table is built and intended
+The `header_n` object is created by ardis when a table is built and intended
 to be used by the `add_column_headers()` function when displaying table level
 population totals. These methods are intended to be used for calling the
-population totals calculated by tardis, and to overwrite them if a user
+population totals calculated by ardis, and to overwrite them if a user
 chooses to.
 
 If you have a need to change the header Ns that appear in your table headers,
@@ -44,7 +44,7 @@ say you know you are working with a subset of the data that doesn't represent
 the totals, you can replace the data used with `set_header_n()`.
 }
 \examples{
-tab <- tardis_table(mtcars, gear)
+tab <- ardis(mtcars, gear)
 
 header_n(tab) <- data.frame(
   gear = c(3, 4, 5),
