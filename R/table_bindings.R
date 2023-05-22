@@ -62,7 +62,7 @@ set_header_n <- function(table, value) {
   assert_that(is.numeric(value$n),
               msg = "header_n argument must be named")
 
-  env_bind(table, header_n = value)
+  env_bind(table, header_n = value, cached_header_n = TRUE)
 
   table
 }

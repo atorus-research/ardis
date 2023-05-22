@@ -402,13 +402,19 @@ process_count_denoms <- function(x) {
         ) %>%
       ungroup()
 
-    denoms_df_dist <- built_pop_data %>%
-      filter(!!denom_where) %>%
-      group_by(!!pop_treat_var) %>%
-      summarize(
-        distinct_n = n_distinct(!!!distinct_by, !!pop_treat_var)
-      ) %>%
-      ungroup()
+    # Is this it? <-------
+    if (exists("cached_header_n")) {
+      denoms_df_dist <- header_n %>%
+        rename(distinct_n = n)
+    } else {
+      denoms_df_dist <- built_pop_data %>%
+        filter(!!denom_where) %>%
+        group_by(!!pop_treat_var) %>%
+        summarize(
+          distinct_n = n_distinct(!!!distinct_by, !!pop_treat_var)
+        ) %>%
+        ungroup()
+    }
 
     by_join <- as_name(pop_treat_var)
     names(by_join) <- as_name(treat_var)
