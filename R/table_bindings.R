@@ -19,7 +19,7 @@
 #' @param table A \code{ardis} object
 #'
 #' @return For \code{ardis_header_n} the header_n binding of the
-#'   \code{ardis} object. For \code{ardis_header_n<-} and
+#'   \code{ardis} object. For \code{header_n<-} and
 #'   \code{set_ardis_header_n} the modified object.
 #'
 #' @examples
@@ -38,31 +38,32 @@ header_n <- function(table) {
   env_get(table, "header_n")
 }
 
-#' @param x A \code{ardis} object
-#' @param value A data.frame with columns with the treatment variable, column
+#' @param table A \code{ardis} object
+#' @param x A data.frame with columns with the treatment variable, column
 #'   variabes, and a variable with counts named 'n'.
 #'
 #' @export
 #' @rdname header_n
-`header_n<-` <- function(x, value) {
-  set_header_n(x, value)
+`header_n<-` <- function(table, x) {
+  set_header_n(table, x)
 }
 
-#' @param header_n A data.frame with columns with the treatment variable, column
-#'   variabes, and a variable with counts named 'n'.
+#' @param header_treat_var The symbol name of the treatment variable in the header_n data frame. Provide unquoted
 #'
 #' @export
 #' @rdname header_n
-set_header_n <- function(table, value) {
-  assert_that(is.data.frame(value),
+set_header_n <- function(table, x, header_treat_var = NULL) {
+  header_treat_var <- enquo(header_treat_var)
+
+  assert_that(is.data.frame(x),
                           msg = "header_n argument must be numeric")
 
-  assert_that("n" %in% names(value))
+  assert_that("n" %in% names(x))
 
-  assert_that(is.numeric(value$n),
+  assert_that(is.numeric(x$n),
               msg = "header_n argument must be named")
 
-  env_bind(table, header_n = value, cached_header_n = TRUE)
+  env_bind(table, header_n = x, header_treat_var = header_treat_var, cached_header_n = TRUE)
 
   table
 }
@@ -194,9 +195,13 @@ pop_treat_var <- function(table) {
 set_pop_treat_var <- function(table, pop_treat_var) {
   pop_treat_var <- enquo(pop_treat_var)
 
-  assert_that(class(quo_get_expr(pop_treat_var)) == "name",
-                          as_name(quo_get_expr(pop_treat_var)) %in% names(table$pop_data),
-                          msg = paste0("pop_treat_var passed to ardis is not a column of pop_data"))
+  if (!exists("cached_header_n", envir=table)) {
+    assert_that(class(quo_get_expr(pop_treat_var)) == "name",
+                as_name(quo_get_expr(pop_treat_var)) %in% names(table$pop_data),
+                msg = paste0("pop_treat_var passed to ardis is not a column of pop_data. ",
+                             "Did you forget to use `set_pop_data()` or `set_header_n()` ",
+                             "before calling `set_pop_treat_var()`?"))
+  }
 
   env_bind(table, pop_treat_var = pop_treat_var)
 
