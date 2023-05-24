@@ -408,8 +408,11 @@ process_count_denoms <- function(x) {
         rename(distinct_n = n)
 
       # If there was a treatment variable remap provided, add it
-      if (!is.null(header_treat_var)) {
+      if (!quo_is_null(header_treat_var)) {
         by_join <- as_name(header_treat_var)
+      }
+      else {
+        by_join <- as_name(pop_treat_var)
       }
     } else {
       # Calculate header N's from pop data if it wasn't available
