@@ -75,6 +75,10 @@ build.ardis <- function(x, layer=NULL, where=TRUE, ...) {
   # If the pre-build wasn't executed then execute it
   if (!'built_target' %in% ls(x)) {
     treatment_group_build(x)
+  }
+
+  # If header N's haven't been supplied, then construct them
+  if (!"header_n" %in% ls(x)) {
     x <- build_header_n(x)
   }
 

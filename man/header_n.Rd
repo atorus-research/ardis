@@ -8,24 +8,21 @@
 \usage{
 header_n(table)
 
-header_n(x) <- value
+header_n(table, x) <- value
 
-set_header_n(table, value)
+set_header_n(table, x, header_treat_var = NULL)
 }
 \arguments{
 \item{table}{A \code{ardis} object}
 
-\item{x}{A \code{ardis} object}
-
-\item{value}{A data.frame with columns with the treatment variable, column
+\item{x}{A data.frame with columns with the treatment variable, column
 variabes, and a variable with counts named 'n'.}
 
-\item{header_n}{A data.frame with columns with the treatment variable, column
-variabes, and a variable with counts named 'n'.}
+\item{header_treat_var}{The symbol name of the treatment variable in the header_n data frame. Provide unquoted}
 }
 \value{
 For \code{ardis_header_n} the header_n binding of the
-  \code{ardis} object. For \code{ardis_header_n<-} and
+  \code{ardis} object. For \code{header_n<-} and
   \code{set_ardis_header_n} the modified object.
 }
 \description{

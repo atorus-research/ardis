@@ -402,15 +402,31 @@ process_count_denoms <- function(x) {
         ) %>%
       ungroup()
 
-    denoms_df_dist <- built_pop_data %>%
-      filter(!!denom_where) %>%
-      group_by(!!pop_treat_var) %>%
-      summarize(
-        distinct_n = n_distinct(!!!distinct_by, !!pop_treat_var)
-      ) %>%
-      ungroup()
+    # Use cached header N's if they're available
+    if (exists("cached_header_n")) {
+      denoms_df_dist <- header_n %>%
+        rename(distinct_n = n)
 
-    by_join <- as_name(pop_treat_var)
+      # If there was a treatment variable remap provided, add it
+      if (!quo_is_null(header_treat_var)) {
+        by_join <- as_name(header_treat_var)
+      }
+      else {
+        by_join <- as_name(pop_treat_var)
+      }
+    } else {
+      # Calculate header N's from pop data if it wasn't available
+      denoms_df_dist <- built_pop_data %>%
+        filter(!!denom_where) %>%
+        group_by(!!pop_treat_var) %>%
+        summarize(
+          distinct_n = n_distinct(!!!distinct_by, !!pop_treat_var)
+        ) %>%
+        ungroup()
+
+      by_join <- as_name(pop_treat_var)
+    }
+
     names(by_join) <- as_name(treat_var)
 
     denoms_df <- denoms_df_n %>%
